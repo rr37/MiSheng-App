@@ -16,9 +16,9 @@ function App() {
         maxWidth="sm"
         sx={{
           maxHeight: '100%',
-          border: '1px solid #000',
+          // border: '1px solid #000',
           display: 'flex',
-          backgroundColor: 'pink',
+          backgroundColor: '#fff',
           margin: 'auto',
           paddingLeft: '0',
           paddingRight: '0',
@@ -33,7 +33,7 @@ function App() {
             position: 'fixed',
             top: '0px',
             left: '0px',
-            border: '1px solid #000',
+            // border: '1px solid #000',
           }}
         >
           <MyAppBar />
@@ -41,13 +41,28 @@ function App() {
         <Box
           id="main-container"
           sx={{
+            display: 'flex',
+            alignItems: 'center',
             flex: 1,
             maxHeight: '100%',
             minHeight: '100vh',
-            paddingTop: '64px',
+            boxSizing: 'border-box',
+            paddingTop: '56px',
+            paddingBottom: '56px',
           }}
         >
-          內容
+          <Box
+            sx={{
+              border: '1px solid #000',
+              borderRadius: '20px',
+              height: 'calc(100% - 30px)',
+              width: '100%',
+              backgroundColor: '#37474F',
+              marginLeft: '20px',
+              marginRight: '20px',
+              marginBottom:'20px'
+            }}
+          ></Box>
         </Box>
         <Box
           id="TabBar"
@@ -56,7 +71,7 @@ function App() {
             position: 'fixed',
             bottom: '0px',
             left: '0px',
-            border: '1px solid #000',
+            // border: '1px solid #000',
           }}
         >
           <FixedBottomNavigation />

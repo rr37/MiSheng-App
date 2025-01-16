@@ -21,9 +21,10 @@ const MyAppBar = () => {
         width: '100%',
         maxWidth: '600px',
         margin: 'auto',
-        backgroundColor: '#f8f9fa',
+        backgroundColor: '#fff',
         color: '#777',
       }}
+      elevation={0}
     >
       <Toolbar>
         <IconButton
@@ -31,12 +32,15 @@ const MyAppBar = () => {
           color="inherit"
           onClick={handleBack}
           aria-label="back"
+          sx={{ marginLeft: '-5px', fontSize: '2em' }}
         >
-          <ArrowBackIcon />
+          <ArrowBackIcon fontSize="inherit" />
         </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          My Page
-        </Typography>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1 }}
+        ></Typography>
       </Toolbar>
     </AppBar>
   );
