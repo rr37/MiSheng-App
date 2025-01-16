@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import StorageRoundedIcon from '@mui/icons-material/StorageRounded';
+import HomeRepairServiceRoundedIcon from '@mui/icons-material/HomeRepairServiceRounded';
+import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
+import TipsAndUpdatesRoundedIcon from '@mui/icons-material/TipsAndUpdatesRounded';
+import AutoStoriesRoundedIcon from '@mui/icons-material/AutoStoriesRounded';
 
 export default function FixedBottomNavigation() {
   const [value, setValue] = useState(0);
@@ -22,10 +24,22 @@ export default function FixedBottomNavigation() {
       onChange={(event, newValue) => {
         setValue(newValue);
       }}
+      // showLabels
     >
-      <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-      <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-      <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
+      <BottomNavigationAction label="關卡" icon={<StorageRoundedIcon />} />
+      <BottomNavigationAction
+        label="道具"
+        icon={<HomeRepairServiceRoundedIcon />}
+      />
+      <BottomNavigationAction
+        label="解謎"
+        icon={<QuestionAnswerRoundedIcon />}
+      />
+      <BottomNavigationAction
+        label="提示"
+        icon={<TipsAndUpdatesRoundedIcon />}
+      />
+      <BottomNavigationAction label="故事" icon={<AutoStoriesRoundedIcon />} />
     </BottomNavigation>
   );
 }
