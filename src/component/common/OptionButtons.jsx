@@ -9,7 +9,8 @@ const OptionButtons = ({ options, onOptionClick }) => (
         variant="contained"
         size="small"
         color="inherit"
-        sx={{ width: '100%', borderRadius: '30px' }}
+        fullWidth
+        sx={{ borderRadius: '30px' }}
         onClick={() => onOptionClick(option.nextId)}
       >
         {option.title}
