@@ -3,6 +3,7 @@ import { Typography } from '@mui/material';
 import PropTypes from 'prop-types'; // 引入 PropTypes
 import { useTypewriterEffect } from '../animation/useTypewriterEffect';
 import useNextId from '../hook/useNextId';
+import ThemeColorLayer from '../component/layer/ThemeColorLayer';
 import Layer from '../component/layer/layer';
 import GradientLayer from '../component/layer/GradientLayer';
 import BackgroundLayer from '../component/layer/BackgroundLayer';
@@ -50,7 +51,7 @@ const Talk = ({ data, characterData, currentId, setCurrentId }) => {
   }
 
   return (
-    <>
+    <ThemeColorLayer>
       {/* Talk model */}
 
       {/* Background-image */}
@@ -71,13 +72,13 @@ const Talk = ({ data, characterData, currentId, setCurrentId }) => {
       {/* Quiz */}
       <Layer>
         <TalkBox
-          title={currentDialogue?.title|| currentDialogue.speaker}
+          title={currentDialogue?.title || currentDialogue.speaker}
           text={displayText}
           onNext={handleNext}
           canProceed={canProceedToNext}
         />
       </Layer>
-    </>
+    </ThemeColorLayer>
   );
 };
 

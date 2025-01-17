@@ -56,27 +56,10 @@ function App() {
               paddingBottom: '56px',
             }}
           >
-            {/* bluegray background */}
-            <Box
-              sx={{
-                // border: '1px solid #000',
-                borderRadius: '20px',
-                height: 'calc(100% - 30px)',
-                width: '100%',
-                backgroundColor: '#37474F',
-                marginLeft: '20px',
-                marginRight: '20px',
-                marginBottom: '20px',
-                overflow: 'hidden',
-                boxSizing: 'border-box',
-                position: 'relative',
-              }}
-            >
-              <GameController
-                rundownCsvFile={rundownCsv}
-                characterCsvFile={characterCsv}
-              />
-            </Box>
+            <GameController
+              rundownCsvFile={rundownCsv}
+              characterCsvFile={characterCsv}
+            />
           </Box>
           <Box
             id="TabBar"

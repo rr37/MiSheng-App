@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types'; // 引入 PropTypes
 import { useTypewriterEffect } from '../animation/useTypewriterEffect';
+import ThemeColorLayer from '../component/layer/ThemeColorLayer';
 import Layer from '../component/layer/layer';
 import GradientLayer from '../component/layer/GradientLayer';
 import BackgroundLayer from '../component/layer/BackgroundLayer';
@@ -27,7 +28,7 @@ const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
       const character = characterData.find(
         (char) => char.name === question.speaker
       );
-      setSpeaker(character|| null); // 儲存角色資訊
+      setSpeaker(character || null); // 儲存角色資訊
     } else {
       setSpeaker(null); // 沒有 speaker 時清空
     }
@@ -47,7 +48,7 @@ const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
   }
 
   return (
-    <>
+    <ThemeColorLayer>
       {/* Quiz model */}
 
       {/* Background-image */}
@@ -74,7 +75,7 @@ const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
           onOptionClick={handleOptionClick}
         />
       </Layer>
-    </>
+    </ThemeColorLayer>
   );
 };
 
