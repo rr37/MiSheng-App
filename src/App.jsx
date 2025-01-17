@@ -1,9 +1,10 @@
 import './App.css';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import FixedBottomNavigation from './component/BottomNavigation';
 import MyAppBar from './component/AppBar';
-
 function App() {
+  const userName = '柏銘';
+
   return (
     <Box
       sx={{
@@ -51,18 +52,137 @@ function App() {
             paddingBottom: '56px',
           }}
         >
+          {/* bluegray background */}
           <Box
             sx={{
-              border: '1px solid #000',
+              // border: '1px solid #000',
               borderRadius: '20px',
               height: 'calc(100% - 30px)',
               width: '100%',
               backgroundColor: '#37474F',
               marginLeft: '20px',
               marginRight: '20px',
-              marginBottom:'20px'
+              marginBottom: '20px',
+              overflow: 'hidden',
+              boxSizing: 'border-box',
+              position: 'relative',
             }}
-          ></Box>
+          >
+            {/* quiz model */}
+            {/* background-image */}
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                overflow: 'hidden',
+                // border: '1px solid #000',
+                position: 'absolute',
+                borderRadius: '20px',
+                top: 0,
+                left: 0,
+              }}
+            >
+              <img
+                src="/gameFile/sjqy/img/m1bgc.jpg"
+                style={{
+                  objectFit: 'cover',
+                  objectPosition: '35%',
+                  width: '100%',
+                  height: '100%',
+                  opacity: '0.5',
+                }}
+              ></img>
+            </Box>
+            {/* character */}
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                overflow: 'hidden',
+                // border: '1px solid #000',
+                position: 'absolute',
+                borderRadius: '20px',
+                top: 0,
+                left: 0,
+              }}
+            >
+              <img
+                src="/gameFile/sjqy/img/explorer_girl.png"
+                style={{
+                  objectFit: 'contain',
+                  objectPosition: 'center',
+                  width: '100%',
+                  height: '100%',
+                  top: '20%',
+                  position: 'relative',
+                }}
+              ></img>
+            </Box>
+            {/* gradient after text */}
+            <Box
+              sx={{
+                background: 'linear-gradient(transparent 12%, #37474F 66%)',
+                width: '100%',
+                height: '80%',
+                bottom: '0%',
+                position: 'absolute',
+                borderRadius: '0 0 20px 20px',
+              }}
+            ></Box>
+            {/* text */}
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                overflow: 'hidden',
+                // border: '1px solid #000',
+                boxSizing: 'border-box',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                borderRadius: '20px',
+              }}
+            >
+              <Box
+                sx={{
+                  margin: '7%',
+                  // border: '1px solid #000',
+                  bottom: '0',
+                  position: 'absolute',
+                }}
+              >
+                <Stack spacing={2}>
+                  <Typography variant="h5" align="left" sx={{ color: '#fff' }}>
+                    林茜如
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    align="left"
+                    sx={{ color: '#fff' }}
+                  >
+                    嗨！可愛的 {userName} ，
+                    我是茜如，事情就像是發文說的那樣，我想要找人陪我去冒險尋寶，感覺路上多一點人比較安全，你願意陪我去嗎？
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    color="inherit"
+                    sx={{ width: '100%', borderRadius: '30px' }}
+                  >
+                    好呀！要要要！
+                  </Button>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    color="inherit"
+                    sx={{ width: '100%', borderRadius: '30px' }}
+                  >
+                    這個嘛...
+                  </Button>
+                </Stack>
+              </Box>
+            </Box>
+          </Box>
         </Box>
         <Box
           id="TabBar"
