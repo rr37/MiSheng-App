@@ -68,7 +68,7 @@ const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
       {/* Quiz */}
       <Layer>
         <QuestionBox
-          speaker={currentQuestion.speaker}
+          speaker={currentQuestion?.speaker || currentQuestion.title}
           text={displayText}
           options={options}
           onOptionClick={handleOptionClick}
