@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Typography, Box } from '@mui/material';
+import { Typography} from '@mui/material';
+import ModelTestInfo from '../component/common/ModelTestInfo';
 import TalkModel from './TalkModel';
 import QuizModel from './QuizModel';
 import MissionStart from './MissionStart';
@@ -91,12 +92,10 @@ const GameController = ({ rundownCsvFile, characterCsvFile }) => {
   };
 
   return (
-    <Box>
-      <Typography variant="h5" gutterBottom>
-        Current Model: {currentRow.model}
-      </Typography>
+    <>
+      <ModelTestInfo model={currentRow.model} />
       {renderContent()}
-    </Box>
+    </>
   );
 };
 
