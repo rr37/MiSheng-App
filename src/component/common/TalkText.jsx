@@ -10,7 +10,7 @@ const TalkText = ({ text }) => (
       whiteSpace: 'pre-wrap',
       color: '#fff',
       height: '120px',
-      overflow:'scroll'
+      overflowY:'auto'
     }}
   >
     {text}

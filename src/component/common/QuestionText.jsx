@@ -5,7 +5,7 @@ const QuestionText = ({ text }) => (
   <Typography
     variant="body2"
     align="left"
-    sx={{ color: '#fff', height: '120px', overflow: 'scroll' }}
+    sx={{ color: '#fff', height: '120px', overflowY: 'auto' }}
   >
     {text}
   </Typography>
