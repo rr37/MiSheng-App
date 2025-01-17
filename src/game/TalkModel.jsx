@@ -9,15 +9,27 @@ import BackgroundLayer from '../component/layer/BackgroundLayer';
 import CharacterLayer from '../component/layer/CharacterLayer';
 import TalkBox from '../component/feature/TalkBox';
 
-const Talk = ({ data, currentId, setCurrentId }) => {
+const Talk = ({ data, characterData, currentId, setCurrentId }) => {
   const [currentDialogue, setCurrentDialogue] = useState(null);
+  const [speaker, setSpeaker] = useState(null);
 
   useEffect(() => {
-    if (data.length > 0) {
-      const dialogue = data.find((row) => row.id === currentId);
-      setCurrentDialogue(dialogue);
+    if (data.length < 0) {
+      return;
     }
-  }, [currentId, data]);
+    const dialogue = data.find((row) => row.id === currentId);
+    setCurrentDialogue(dialogue);
+
+    // 如果有 speaker，從 characterData 中找到對應的角色
+    if (dialogue?.speaker) {
+      const character = characterData.find(
+        (char) => char.name === dialogue.speaker
+      );
+      setSpeaker(character || null); // 儲存角色資訊
+    } else {
+      setSpeaker(null); // 沒有 speaker 時清空
+    }
+  }, [currentId, data, characterData]);
 
   const displayText = useTypewriterEffect(
     currentDialogue?.text || '', // Pass the dialogue text to the hook
@@ -47,9 +59,11 @@ const Talk = ({ data, currentId, setCurrentId }) => {
       </Layer>
 
       {/* Character */}
-      <Layer>
-        <CharacterLayer src="/gameFile/sjqy/img/explorer_girl.png" />
-      </Layer>
+      {speaker?.straight && (
+        <Layer>
+          <CharacterLayer src={`/gameFile/sjqy/img/${speaker?.straight}`} />
+        </Layer>
+      )}
 
       {/* Gradient after text */}
       <GradientLayer />
@@ -57,7 +71,7 @@ const Talk = ({ data, currentId, setCurrentId }) => {
       {/* Quiz */}
       <Layer>
         <TalkBox
-          title={currentDialogue.title}
+          title={currentDialogue?.title|| currentDialogue.speaker}
           text={displayText}
           onNext={handleNext}
           canProceed={canProceedToNext}
@@ -77,6 +91,14 @@ Talk.propTypes = {
       text: PropTypes.string.isRequired,
       nextId: PropTypes.string,
       img: PropTypes.string,
+    })
+  ).isRequired,
+  characterData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      avatar: PropTypes.string,
+      straight: PropTypes.string,
     })
   ).isRequired,
   currentId: PropTypes.string.isRequired,

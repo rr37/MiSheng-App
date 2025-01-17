@@ -53,9 +53,9 @@ const GameController = ({ rundownCsvFile, characterCsvFile }) => {
         return (
           <TalkModel
             data={rundownCsvData}
+            characterData={characterCsvData}
             currentId={currentId}
             setCurrentId={setCurrentId}
-            characterData={characterCsvData}
           />
         );
       case 'Quiz':
