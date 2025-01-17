@@ -21,5 +21,5 @@ const ModelTestInfo =({model})=> (
 export default ModelTestInfo;
 
 ModelTestInfo.propTypes = {
-  model: PropTypes.string.isRequired,
+  model: PropTypes.string,
 };
