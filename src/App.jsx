@@ -4,7 +4,9 @@ import FixedBottomNavigation from './component/BottomNavigation';
 import MyAppBar from './component/AppBar';
 import GameController from './game/GameController';
 import { GameProvider } from './store/game-provider';
-import csv from '../public/gameFile/sjqy/sjqy - rundown.csv';
+import rundownCsv from '../public/gameFile/sjqy/sjqy - rundown.csv';
+import characterCsv from '../public/gameFile/sjqy/sjqy - character.csv';
+
 function App() {
   return (
     <GameProvider>
@@ -70,7 +72,10 @@ function App() {
                 position: 'relative',
               }}
             >
-              <GameController csvFile={csv} />
+              <GameController
+                rundownCsvFile={rundownCsv}
+                characterCsvFile={characterCsv}
+              />
             </Box>
           </Box>
           <Box

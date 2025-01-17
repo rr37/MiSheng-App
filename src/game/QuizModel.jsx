@@ -8,8 +8,9 @@ import BackgroundLayer from '../component/layer/BackgroundLayer';
 import CharacterLayer from '../component/layer/CharacterLayer';
 import QuestionBox from '../component/feature/QuestionBox';
 
-const QuizModel = ({ data, currentId, setCurrentId }) => {
+const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [speaker, setSpeaker] = useState(null);
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
@@ -20,7 +21,17 @@ const QuizModel = ({ data, currentId, setCurrentId }) => {
     // Find options related to the current question
     const relatedOptions = data.filter((row) => row.parentId === currentId);
     setOptions(relatedOptions);
-  }, [currentId, data]);
+
+    // 如果有 speaker，從 characterData 中找到對應的角色
+    if (question?.speaker) {
+      const character = characterData.find(
+        (char) => char.name === question.speaker
+      );
+      setSpeaker(character|| null); // 儲存角色資訊
+    } else {
+      setSpeaker(null); // 沒有 speaker 時清空
+    }
+  }, [currentId, data, characterData]);
 
   const displayText = useTypewriterEffect(
     currentQuestion?.text || '', // Pass the dialogue text to the hook
@@ -45,9 +56,11 @@ const QuizModel = ({ data, currentId, setCurrentId }) => {
       </Layer>
 
       {/* Character */}
-      <Layer>
-        <CharacterLayer src="/gameFile/sjqy/img/explorer_girl.png" />
-      </Layer>
+      {speaker?.straight && (
+        <Layer>
+          <CharacterLayer src={`/gameFile/sjqy/img/${speaker?.straight}`} />
+        </Layer>
+      )}
 
       {/* Gradient after text */}
       <GradientLayer />
@@ -75,6 +88,14 @@ QuizModel.propTypes = {
       text: PropTypes.string.isRequired,
       nextId: PropTypes.string,
       img: PropTypes.string,
+    })
+  ).isRequired,
+  characterData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      avatar: PropTypes.string,
+      straight: PropTypes.string,
     })
   ).isRequired,
   currentId: PropTypes.string.isRequired,

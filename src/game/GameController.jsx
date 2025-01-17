@@ -7,33 +7,38 @@ import MissionAnswerInput from './MissionAnswerInput';
 import { loadCSVData } from './csvLoader';
 import PropTypes from 'prop-types'; // 引入 PropTypes
 
-const GameController = ({ csvFile }) => {
-  const [csvData, setCsvData] = useState(null);
+const GameController = ({ rundownCsvFile, characterCsvFile }) => {
+  const [rundownCsvData, setRundownCsvData] = useState(null);
+  const [characterCsvData, setCharacterCsvData] = useState(null);
   const [currentId, setCurrentId] = useState('1');
   const [currentRow, setCurrentRow] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const loadCsvFiles = async () => {
       try {
-        const data = await loadCSVData(csvFile);
-        setCsvData(data);
+        const [rundownData, characterData] = await Promise.all([
+          loadCSVData(rundownCsvFile),
+          loadCSVData(characterCsvFile),
+        ]);
+        setRundownCsvData(rundownData);
+        setCharacterCsvData(characterData);
       } catch (error) {
-        console.error('Error loading CSV data:', error);
+        console.error('Error loading CSV files:', error);
       }
     };
 
-    fetchData();
-  }, [csvFile]);
+    loadCsvFiles();
+  }, [rundownCsvFile, characterCsvFile]);
 
   useEffect(() => {
     // Check if csvData is valid and find the current row based on the current ID
-    if (Array.isArray(csvData)) {
-      const row = csvData.find((item) => item.id === currentId);
+    if (Array.isArray(rundownCsvData)) {
+      const row = rundownCsvData.find((item) => item.id === currentId);
       setCurrentRow(row);
     }
-  }, [currentId, csvData]);
+  }, [currentId, rundownCsvData]);
 
-  if (!csvData || !Array.isArray(csvData)) {
+  if (!rundownCsvData || !Array.isArray(rundownCsvData)) {
     return <Typography>Loading data...</Typography>;
   }
 
@@ -47,15 +52,17 @@ const GameController = ({ csvFile }) => {
       case 'Talk':
         return (
           <TalkModel
-            data={csvData}
+            data={rundownCsvData}
             currentId={currentId}
             setCurrentId={setCurrentId}
+            characterData={characterCsvData}
           />
         );
       case 'Quiz':
         return (
           <QuizModel
-            data={csvData}
+            data={rundownCsvData}
+            characterData={characterCsvData}
             currentId={currentId}
             setCurrentId={setCurrentId}
           />
@@ -63,7 +70,7 @@ const GameController = ({ csvFile }) => {
       case 'MissionStart':
         return (
           <MissionStart
-            data={csvData}
+            data={rundownCsvData}
             currentId={currentId}
             setCurrentId={setCurrentId}
           />
@@ -71,7 +78,7 @@ const GameController = ({ csvFile }) => {
       case 'MissionAnswerInput':
         return (
           <MissionAnswerInput
-            data={csvData}
+            data={rundownCsvData}
             currentId={currentId}
             setCurrentId={setCurrentId}
             currentDialogue={currentRow}
@@ -95,7 +102,8 @@ const GameController = ({ csvFile }) => {
 
 // 定義 propTypes
 GameController.propTypes = {
-  csvFile: PropTypes.string.isRequired, // csvFile 應該是必須的字串
+  rundownCsvFile: PropTypes.string.isRequired,
+  characterCsvFile: PropTypes.string.isRequired,
 };
 
 export default GameController;
