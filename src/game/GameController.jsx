@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Typography, Box } from '@mui/material';
 import Talk from './Talk';
-import Quiz from './Quiz';
+import QuizModel from './QuizModel';
 import MissionStart from './MissionStart';
 import MissionAnswerInput from './MissionAnswerInput';
 import { loadCSVData } from './csvLoader';
@@ -54,7 +54,7 @@ const GameController = ({ csvFile }) => {
         );
       case 'Quiz':
         return (
-          <Quiz
+          <QuizModel
             data={csvData}
             currentId={currentId}
             setCurrentId={setCurrentId}
