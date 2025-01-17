@@ -3,7 +3,7 @@ import { Typography} from '@mui/material';
 import ModelTestInfo from '../component/common/ModelTestInfo';
 import TalkModel from './TalkModel';
 import QuizModel from './QuizModel';
-import MissionStart from './MissionStart';
+import MissionStartModel from './MissionStartModel';
 import MissionAnswerInput from './MissionAnswerInput';
 import { loadCSVData } from './csvLoader';
 import PropTypes from 'prop-types'; // 引入 PropTypes
@@ -70,7 +70,7 @@ const GameController = ({ rundownCsvFile, characterCsvFile }) => {
         );
       case 'MissionStart':
         return (
-          <MissionStart
+          <MissionStartModel
             data={rundownCsvData}
             currentId={currentId}
             setCurrentId={setCurrentId}

@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const TalkText = ({ text }) => (
+const TalkText = ({ text, height = '120px', textShadow }) => (
   <Typography
     variant="body2"
     align="left"
@@ -9,8 +9,9 @@ const TalkText = ({ text }) => (
     sx={{
       whiteSpace: 'pre-wrap',
       color: '#fff',
-      height: '120px',
-      overflowY:'auto'
+      height: height,
+      overflowY: 'auto',
+      textShadow: textShadow,
     }}
   >
     {text}
@@ -19,6 +20,8 @@ const TalkText = ({ text }) => (
 
 TalkText.propTypes = {
   text: PropTypes.string.isRequired,
+  height:PropTypes.string,
+  textShadow: PropTypes.string,
 };
 
 export default TalkText;
