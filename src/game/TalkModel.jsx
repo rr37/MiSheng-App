@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Button, Typography, Box } from '@mui/material';
+import { Typography } from '@mui/material';
 import PropTypes from 'prop-types'; // 引入 PropTypes
 import { useTypewriterEffect } from '../animation/useTypewriterEffect';
 import useNextId from '../hook/useNextId';
+import Layer from '../component/layer/layer';
+import GradientLayer from '../component/layer/GradientLayer';
+import BackgroundLayer from '../component/layer/BackgroundLayer';
+import CharacterLayer from '../component/layer/CharacterLayer';
+import TalkBox from '../component/feature/TalkBox';
 
 const Talk = ({ data, currentId, setCurrentId }) => {
   const [currentDialogue, setCurrentDialogue] = useState(null);
@@ -33,35 +38,32 @@ const Talk = ({ data, currentId, setCurrentId }) => {
   }
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" p={2}>
-      <Typography variant="h6" gutterBottom>
-        {currentDialogue.speaker}: {currentDialogue.title}
-      </Typography>
-      <Typography
-        variant="body1"
-        gutterBottom
-        sx={{
-          whiteSpace: 'pre-wrap',
-        }}
-      >
-        {displayText}
-      </Typography>
-      {currentDialogue.img && (
-        <img
-          src={currentDialogue.img}
-          alt="scene"
-          style={{ maxWidth: '100%', height: 'auto', marginBottom: '16px' }}
+    <>
+      {/* Talk model */}
+
+      {/* Background-image */}
+      <Layer>
+        <BackgroundLayer src="/gameFile/sjqy/img/m1bgc.jpg" />
+      </Layer>
+
+      {/* Character */}
+      <Layer>
+        <CharacterLayer src="/gameFile/sjqy/img/explorer_girl.png" />
+      </Layer>
+
+      {/* Gradient after text */}
+      <GradientLayer />
+
+      {/* Quiz */}
+      <Layer>
+        <TalkBox
+          title={currentDialogue.title}
+          text={displayText}
+          onNext={handleNext}
+          canProceed={canProceedToNext}
         />
-      )}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleNext}
-        disabled={!canProceedToNext()} // 使用提取的函數判斷按鈕是否應該禁用
-      >
-        Next
-      </Button>
-    </Box>
+      </Layer>
+    </>
   );
 };
 

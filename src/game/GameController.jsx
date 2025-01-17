@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Typography, Box } from '@mui/material';
-import Talk from './Talk';
+import TalkModel from './TalkModel';
 import QuizModel from './QuizModel';
 import MissionStart from './MissionStart';
 import MissionAnswerInput from './MissionAnswerInput';
@@ -46,7 +46,7 @@ const GameController = ({ csvFile }) => {
     switch (currentRow.model) {
       case 'Talk':
         return (
-          <Talk
+          <TalkModel
             data={csvData}
             currentId={currentId}
             setCurrentId={setCurrentId}
