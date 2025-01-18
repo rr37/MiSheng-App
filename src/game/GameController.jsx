@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { GameContext } from '../store/game-context';
 import { Typography } from '@mui/material';
 import ModelTestInfo from '../component/common/ModelTestInfo';
 import TalkModel from './TalkModel';
@@ -11,7 +12,7 @@ import PropTypes from 'prop-types'; // 引入 PropTypes
 const GameController = ({ rundownCsvFile, characterCsvFile }) => {
   const [rundownCsvData, setRundownCsvData] = useState(null);
   const [characterCsvData, setCharacterCsvData] = useState(null);
-  const [currentId, setCurrentId] = useState('1');
+  const {currentId, setCurrentId} = useContext(GameContext);
   const [currentRow, setCurrentRow] = useState([]);
 
   useEffect(() => {

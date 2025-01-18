@@ -3,12 +3,20 @@ import PropTypes from 'prop-types';
 import { GameContext } from './game-context';
 
 export const GameProvider = ({ children }) => {
+  const [currentId, setCurrentId] = useState('1');
   const [missions, setMissions] = useState([]);
   const [currentMission, setCurrentMission] = useState(null);
 
   return (
     <GameContext.Provider
-      value={{ missions, setMissions, currentMission, setCurrentMission }}
+      value={{
+        currentId,
+        setCurrentId,
+        missions,
+        setMissions,
+        currentMission,
+        setCurrentMission,
+      }}
     >
       {children}
     </GameContext.Provider>
