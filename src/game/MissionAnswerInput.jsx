@@ -61,7 +61,7 @@ const MissionAnswerInput = ({
       <Typography variant="subtitle1">{currentMission.subtitle}</Typography>
       <Typography variant="body1">{currentMission.description}</Typography>
       <img
-        src={currentMission.background_img}
+        src={`/gameFile/sjqy/img/${currentMission.background_img}`}
         alt="mission background"
         style={{ maxWidth: '100%', height: 'auto', margin: '16px 0' }}
       />

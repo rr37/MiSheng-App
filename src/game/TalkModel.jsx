@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types'; // 引入 PropTypes
 import { useTypewriterEffect } from '../animation/useTypewriterEffect';
@@ -9,10 +9,12 @@ import GradientLayer from '../component/layer/GradientLayer';
 import BackgroundLayer from '../component/layer/BackgroundLayer';
 import CharacterLayer from '../component/layer/CharacterLayer';
 import TalkBox from '../component/feature/TalkBox';
+import { GameContext } from '../store/game-context';
 
 const Talk = ({ data, characterData, currentId, setCurrentId }) => {
   const [currentDialogue, setCurrentDialogue] = useState(null);
   const [speaker, setSpeaker] = useState(null);
+  const { currentMission } = useContext(GameContext);
 
   useEffect(() => {
     if (data.length < 0) {
@@ -55,9 +57,13 @@ const Talk = ({ data, characterData, currentId, setCurrentId }) => {
       {/* Talk model */}
 
       {/* Background-image */}
-      <Layer>
-        <BackgroundLayer src="/gameFile/sjqy/img/m1bgc.jpg" />
-      </Layer>
+      {currentMission?.background_img && (
+        <Layer>
+          <BackgroundLayer
+            src={`/gameFile/sjqy/img/${currentMission.background_img}`}
+          />
+        </Layer>
+      )}
 
       {/* Character */}
       {speaker?.straight && (
