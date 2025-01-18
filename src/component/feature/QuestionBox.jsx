@@ -1,4 +1,5 @@
-import { Box, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
+import BottomBox from '../common/BottomBox';
 import SpeakerText from '../common/SpeakerText';
 import QuestionText from '../common/QuestionText';
 import OptionButtons from '../common/OptionButtons';
@@ -6,21 +7,13 @@ import PropTypes from 'prop-types';
 
 const QuestionBox = ({ speaker, text, options, onOptionClick }) => {
   return (
-    <Box
-      sx={{
-        width: '100%',
-        padding: '7%',
-        boxSizing: 'border-box',
-        position: 'absolute',
-        bottom: 0,
-      }}
-    >
+    <BottomBox>
       <Stack spacing={2}>
         <SpeakerText speaker={speaker} />
         <QuestionText text={text} />
         <OptionButtons options={options} onOptionClick={onOptionClick} />
       </Stack>
-    </Box>
+    </BottomBox>
   );
 };
 

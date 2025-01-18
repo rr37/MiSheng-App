@@ -1,20 +1,12 @@
-import { Button } from '@mui/material';
+import NextButton from './NextButton';
 import PropTypes from 'prop-types';
 
 const OptionButtons = ({ options, onOptionClick }) => (
   <>
     {options.map((option) => (
-      <Button
-        key={option.id}
-        variant="contained"
-        size="small"
-        color="inherit"
-        fullWidth
-        sx={{ borderRadius: '30px' }}
-        onClick={() => onOptionClick(option.nextId)}
-      >
+      <NextButton key={option.id} onClick={() => onOptionClick(option.nextId)}>
         {option.title}
-      </Button>
+      </NextButton>
     ))}
   </>
 );

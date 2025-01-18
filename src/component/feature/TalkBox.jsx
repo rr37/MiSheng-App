@@ -1,35 +1,21 @@
-import { Box, Stack, Button } from '@mui/material';
+import { Stack } from '@mui/material';
+import BottomBox from '../common/BottomBox';
 import SpeakerText from '../common/SpeakerText';
 import TalkText from '../common/TalkText';
+import NextButton from '../common/NextButton';
 import PropTypes from 'prop-types';
 
 const TalkBox = ({ title, text, onNext, canProceed }) => {
   return (
-    <Box
-      sx={{
-        width: '100%',
-        padding: '7%',
-        boxSizing: 'border-box',
-        position: 'absolute',
-        bottom: 0,
-      }}
-    >
+    <BottomBox>
       <Stack spacing={2}>
         <SpeakerText speaker={title} />
         <TalkText text={text} />
-        <Button
-          variant="contained"
-          size="small"
-          color="inherit"
-          fullWidth
-          sx={{ borderRadius: '30px' }}
-          onClick={onNext}
-          disabled={!canProceed()}
-        >
+        <NextButton onClick={onNext} disabled={!canProceed()}>
           Next
-        </Button>
+        </NextButton>
       </Stack>
-    </Box>
+    </BottomBox>
   );
 };
 
