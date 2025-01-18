@@ -46,7 +46,12 @@ const MissionStart = ({ data, currentId, setCurrentId }) => {
         const mission = missionCsvData.find(
           (row) => row.id === currentMissionId
         );
-        setCurrentMission(mission);
+        if (mission) {
+          setCurrentMission(mission);
+          console.log(`mission 現在是這樣：${mission.id}`);
+        } else {
+          console.log('未找到符合條件的任務');
+        }
       }
     }
   }, [currentId, data, missionCsvData, setCurrentMission]);
