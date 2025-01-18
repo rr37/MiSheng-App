@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Typography} from '@mui/material';
+import { Typography } from '@mui/material';
 import ModelTestInfo from '../component/common/ModelTestInfo';
 import TalkModel from './TalkModel';
 import QuizModel from './QuizModel';
 import MissionStartModel from './MissionStartModel';
-import MissionAnswerInput from './MissionAnswerInput';
+import MissionAnswerInputModel from './MissionAnswerInputModel';
 import { loadCSVData } from './csvLoader';
 import PropTypes from 'prop-types'; // 引入 PropTypes
 
@@ -78,9 +78,8 @@ const GameController = ({ rundownCsvFile, characterCsvFile }) => {
         );
       case 'MissionAnswerInput':
         return (
-          <MissionAnswerInput
+          <MissionAnswerInputModel
             data={rundownCsvData}
-            currentId={currentId}
             setCurrentId={setCurrentId}
             currentDialogue={currentRow}
           />
