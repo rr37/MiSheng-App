@@ -1,4 +1,5 @@
 import './App.css';
+import { useState } from 'react';
 import { Box, Container } from '@mui/material';
 import FixedBottomNavigation from './component/BottomNavigation';
 import MyAppBar from './component/AppBar';
@@ -8,6 +9,31 @@ import rundownCsv from '../public/gameFile/sjqy/sjqy - rundown.csv';
 import characterCsv from '../public/gameFile/sjqy/sjqy - character.csv';
 
 function App() {
+  const [value, setValue] = useState(0);
+
+  // 根據value顯示不同的內容
+  const renderMainContainer = () => {
+    switch (value) {
+      case 0:
+        return <div>關卡頁面內容</div>;
+      case 1:
+        return <div>道具頁面內容</div>;
+      case 2:
+        return (
+          <GameController
+            rundownCsvFile={rundownCsv}
+            characterCsvFile={characterCsv}
+          />
+        );
+      case 3:
+        return <div>提示頁面內容</div>;
+      case 4:
+        return <div>故事頁面內容</div>;
+      default:
+        return <div>未知頁面內容</div>;
+    }
+  };
+
   return (
     <GameProvider>
       <Box
@@ -56,10 +82,7 @@ function App() {
               paddingBottom: '56px',
             }}
           >
-            <GameController
-              rundownCsvFile={rundownCsv}
-              characterCsvFile={characterCsv}
-            />
+            {renderMainContainer()}
           </Box>
           <Box
             id="TabBar"
@@ -71,7 +94,10 @@ function App() {
               // border: '1px solid #000',
             }}
           >
-            <FixedBottomNavigation />
+            <FixedBottomNavigation
+              value={value}
+              onChange={(event, newValue) => setValue(newValue)}
+            />
           </Box>
         </Container>
       </Box>

@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import StorageRoundedIcon from '@mui/icons-material/StorageRounded';
 import HomeRepairServiceRoundedIcon from '@mui/icons-material/HomeRepairServiceRounded';
 import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
 import TipsAndUpdatesRoundedIcon from '@mui/icons-material/TipsAndUpdatesRounded';
 import AutoStoriesRoundedIcon from '@mui/icons-material/AutoStoriesRounded';
+import PropTypes from 'prop-types';
 
-export default function FixedBottomNavigation() {
-  const [value, setValue] = useState(0);
+export default function FixedBottomNavigation({ value, onChange }) {
 
   return (
     <BottomNavigation
@@ -21,9 +20,7 @@ export default function FixedBottomNavigation() {
         boxShadow: '0 -1px 5px rgba(0, 0, 0, 0.1)', // 輕微陰影
       }}
       value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue);
-      }}
+      onChange={onChange}
       // showLabels
     >
       <BottomNavigationAction label="關卡" icon={<StorageRoundedIcon />} />
@@ -43,3 +40,8 @@ export default function FixedBottomNavigation() {
     </BottomNavigation>
   );
 }
+
+FixedBottomNavigation.propTypes = {
+  value: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired
+};
