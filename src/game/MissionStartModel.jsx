@@ -8,6 +8,8 @@ import useNextId from '../hook/useNextId';
 import FloatingLayer from '../component/layer/FloatingLayer';
 import Layer from '../component/layer/layer';
 import BackgroundLayer from '../component/layer/BackgroundLayer';
+import MissionSubtitleText from '../component/common/MissionSubtitleText';
+import MissionTitleText from '../component/common/MissionTitleText';
 import TalkText from '../component/common/TalkText';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
@@ -91,32 +93,8 @@ const MissionStart = ({ data, currentId, setCurrentId }) => {
         >
           {currentMission ? (
             <>
-              <Typography
-                align="left"
-                sx={{
-                  fontFamily: "'Noto Serif TC', serif",
-                  fontWeight: 600,
-                  fontSize: '28px',
-                  color: '#fff',
-                  marginLeft: '2px',
-                  textShadow: '0px 3px 4.2px rgba(0, 0, 0, 0.5)',
-                }}
-              >
-                {currentMission.subtitle || ''}
-              </Typography>
-              <Typography
-                gutterBottom
-                align="left"
-                sx={{
-                  fontFamily: "'Noto Serif TC', serif",
-                  fontWeight: 900,
-                  fontSize: '48px',
-                  color: '#fff',
-                  textShadow: '0px 6px 8.4px rgba(0, 0, 0, 0.5)',
-                }}
-              >
-                {currentMission.title || ''}
-              </Typography>
+              <MissionSubtitleText subtitle={currentMission.subtitle} />
+              <MissionTitleText title={currentMission.title} />
               {currentMission.description && (
                 <TalkText
                   text={currentMission.description || ''}
