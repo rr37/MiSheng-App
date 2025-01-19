@@ -1,15 +1,16 @@
 import './App.css';
 import { useState } from 'react';
 import { Box, Container } from '@mui/material';
-import FixedBottomNavigation from './component/BottomNavigation';
-import MyAppBar from './component/AppBar';
-import GameController from './game/GameController';
 import { GameProvider } from './store/game-provider';
+import MyAppBar from './component/AppBar';
+import FixedBottomNavigation from './component/BottomNavigation';
+import PropPage from './component/page/PropPage';
+import GameController from './game/GameController';
 import rundownCsv from '../public/gameFile/sjqy/sjqy - rundown.csv';
 import characterCsv from '../public/gameFile/sjqy/sjqy - character.csv';
 
 function App() {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
 
   // 根據value顯示不同的內容
   const renderMainContainer = () => {
@@ -17,7 +18,7 @@ function App() {
       case 0:
         return <div>關卡頁面內容</div>;
       case 1:
-        return <div>道具頁面內容</div>;
+        return <PropPage/>;
       case 2:
         return (
           <GameController
