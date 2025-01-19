@@ -75,7 +75,7 @@ const Talk = ({ data, characterData, currentId, setCurrentId }) => {
       {/* Gradient after text */}
       <GradientLayer />
 
-      {/* Quiz */}
+      {/* Talk */}
       <Layer>
         <TalkBox
           title={currentDialogue?.title || currentDialogue.speaker}
