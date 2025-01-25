@@ -5,6 +5,7 @@ import { GameProvider } from './store/game-provider';
 import MyAppBar from './component/AppBar';
 import FixedBottomNavigation from './component/BottomNavigation';
 import PropPage from './component/page/PropPage';
+import HintPage from './component/page/HintPage';
 import GameController from './game/GameController';
 import rundownCsv from '../public/gameFile/sjqy/sjqy - rundown.csv';
 import characterCsv from '../public/gameFile/sjqy/sjqy - character.csv';
@@ -27,7 +28,7 @@ function App() {
           />
         );
       case 3:
-        return <div>提示頁面內容</div>;
+        return <HintPage />;
       case 4:
         return <div>故事頁面內容</div>;
       default:
