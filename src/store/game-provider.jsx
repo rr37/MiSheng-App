@@ -6,6 +6,17 @@ export const GameProvider = ({ children }) => {
   const [currentId, setCurrentId] = useState('1');
   const [missions, setMissions] = useState([]);
   const [currentMission, setCurrentMission] = useState(null);
+  const [unlockedHints, setUnlockedHints] = useState({});
+
+  const unlockHint = (missionId, hintIndex) => {
+    setUnlockedHints((prev) => ({
+      ...prev,
+      [missionId]: {
+        ...prev[missionId],
+        [hintIndex]: true,
+      },
+    }));
+  };
 
   return (
     <GameContext.Provider
@@ -16,6 +27,9 @@ export const GameProvider = ({ children }) => {
         setMissions,
         currentMission,
         setCurrentMission,
+        unlockedHints,
+        setUnlockedHints,
+        unlockHint,
       }}
     >
       {children}

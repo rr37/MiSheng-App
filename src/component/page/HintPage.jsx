@@ -23,10 +23,9 @@ import LockRoundedIcon from '@mui/icons-material/LockRounded';
 import avatar from '../../../public/gameFile/sjqy/img/qianru_avatar.png';
 
 const HintPage = () => {
-  const { currentMission } = useContext(GameContext);
+  const { currentMission, unlockedHints, unlockHint } = useContext(GameContext);
   const [hintCsvData, setHintCsvData] = useState(null);
-  const [currentHints, setCurrentHints] = useState();
-  const [unlockedHints, setUnlockedHints] = useState([]); // 管理每個提示的解鎖狀態
+  const [currentHints, setCurrentHints] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false); // Dialog 的開關
   const [currentHintIndex, setCurrentHintIndex] = useState(null); // 當前選擇的提示索引
 
@@ -42,7 +41,7 @@ const HintPage = () => {
     };
 
     fetchData();
-  }, [setHintCsvData]);
+  },[]);
 
   useEffect(() => {
     if (!currentMission) {
@@ -59,12 +58,6 @@ const HintPage = () => {
     setCurrentHints(props);
   }, [currentMission, hintCsvData]);
 
-  useEffect(() => {
-    if (currentHints?.length > 0) {
-      setUnlockedHints(Array(currentHints.length).fill(false));
-    }
-  }, [currentHints]);
-
   const handleUnlockClick = (index) => {
     setCurrentHintIndex(index);
     setDialogOpen(true);
@@ -72,11 +65,7 @@ const HintPage = () => {
 
   const handleConfirmUnlock = () => {
     if (currentHintIndex !== null) {
-      setUnlockedHints((prev) =>
-        prev.map((unlocked, idx) =>
-          idx === currentHintIndex ? true : unlocked
-        )
-      );
+      unlockHint(currentMission.id, currentHintIndex);
     }
     setDialogOpen(false);
     setCurrentHintIndex(null);
@@ -127,7 +116,7 @@ const HintPage = () => {
             currentHints.map((hint, index) => (
               <Accordion
                 key={index}
-                disabled={!unlockedHints[index]}
+                disabled={!unlockedHints[currentMission?.id]?.[index]}
                 elevation={6}
                 sx={{
                   borderRadius: '4px',
@@ -136,7 +125,7 @@ const HintPage = () => {
                   },
                 }}
               >
-                {!unlockedHints[index] && (
+                {!unlockedHints[currentMission?.id]?.[index] && (
                   <Box sx={{ width: '100%' }}>
                     <Button
                       variant="contained"
