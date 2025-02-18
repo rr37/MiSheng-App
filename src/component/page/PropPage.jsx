@@ -2,42 +2,26 @@ import { useContext, useEffect, useState } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import { GameContext } from '../../store/game-context';
 import ThemeColorLayer from '../layer/ThemeColorLayer';
-import { loadCSVData } from '../../game/csvLoader';
-import propCsvFile from '../../../public/gameFile/sjqy/sjqy - prop.csv';
 
 const PropPage = () => {
-  const { currentMission } = useContext(GameContext);
-  const [propCsvData, setPropCsvCsvData] = useState(null);
+  const { missionData, propData, currentMissionId } = useContext(GameContext);
   const [currentProps, setCurrentProps] = useState();
-
-  // 讀取 missionCsvFile 資料，將資料寫進 missionCsvData
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await loadCSVData(propCsvFile);
-        setPropCsvCsvData(data);
-      } catch (error) {
-        console.error('Error loading CSV data:', error);
-      }
-    };
-
-    fetchData();
-  }, [setPropCsvCsvData]);
+  const currentMission = missionData[currentMissionId];
 
   useEffect(() => {
     if (!currentMission) {
       console.log('還沒有 currentMission！');
       return;
     }
-    if (!Array.isArray(propCsvData)) {
-      console.log('propCsvData 不是有效的數組！');
+    if (!Array.isArray(propData)) {
+      console.log('propData 不是有效的數組！');
       return;
     }
-    const props = propCsvData.filter(
+    const props = propData.filter(
       (row) => row.mission_id === currentMission.id
     );
     setCurrentProps(props);
-  }, [currentMission, propCsvData]);
+  }, [currentMission, propData]);
 
   return (
     <ThemeColorLayer bgc="#fff">
@@ -72,7 +56,7 @@ const PropPage = () => {
                 height: 'auto',
                 // border: '1px solid #000',
                 borderRadius: '10px',
-                overflow:'hidden'
+                overflow: 'hidden',
               }}
             >
               <img

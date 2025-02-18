@@ -16,47 +16,32 @@ import {
 } from '@mui/material';
 import { GameContext } from '../../store/game-context';
 import ThemeColorLayer from '../layer/ThemeColorLayer';
-import { loadCSVData } from '../../game/csvLoader';
-import hintCsvFile from '../../../public/gameFile/sjqy/sjqy - hint.csv';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LockRoundedIcon from '@mui/icons-material/LockRounded';
 import avatar from '../../../public/gameFile/sjqy/img/qianru_avatar.png';
 
 const HintPage = () => {
-  const { currentMission, unlockedHints, unlockHint } = useContext(GameContext);
-  const [hintCsvData, setHintCsvData] = useState(null);
+  const { missionData, hintData, currentMissionId, unlockedHints, unlockHint } =
+    useContext(GameContext);
   const [currentHints, setCurrentHints] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false); // Dialog 的開關
   const [currentHintIndex, setCurrentHintIndex] = useState(null); // 當前選擇的提示索引
-
-  // 讀取 missionCsvFile 資料，將資料寫進 missionCsvData
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await loadCSVData(hintCsvFile);
-        setHintCsvData(data);
-      } catch (error) {
-        console.error('Error loading CSV data:', error);
-      }
-    };
-
-    fetchData();
-  },[]);
+  const currentMission = missionData[currentMissionId];
 
   useEffect(() => {
     if (!currentMission) {
       // console.log('還沒有 currentMission！');
       return;
     }
-    if (!Array.isArray(hintCsvData)) {
-      // console.log('hintCsvData 不是有效的數組！');
+    if (!Array.isArray(hintData)) {
+      // console.log('hintData 不是有效的數組！');
       return;
     }
-    const props = hintCsvData.filter(
+    const props = hintData.filter(
       (row) => row.mission_id === currentMission.id
     );
     setCurrentHints(props);
-  }, [currentMission, hintCsvData]);
+  }, [currentMissionId, hintData]);
 
   const handleUnlockClick = (index) => {
     setCurrentHintIndex(index);

@@ -9,38 +9,70 @@ import MissionAnswerInputModel from './MissionAnswerInputModel';
 import { loadCSVData } from './csvLoader';
 import PropTypes from 'prop-types'; // 引入 PropTypes
 
-const GameController = ({ rundownCsvFile, characterCsvFile }) => {
-  const [rundownCsvData, setRundownCsvData] = useState(null);
-  const [characterCsvData, setCharacterCsvData] = useState(null);
-  const {currentId, setCurrentId} = useContext(GameContext);
+const GameController = ({
+  characterCsvFile,
+  hintCsvFile,
+  missionCsvFile,
+  propCsvFile,
+  rundownCsvFile,
+}) => {
+  const {
+    characterData,
+    setCharacterData,
+    setHintData,
+    setMissionData,
+    setPropData,
+    rundownData,
+    setRundownData,
+
+    isDataLoaded,
+    setIsDataLoaded,
+    currentId,
+    setCurrentId,
+  } = useContext(GameContext);
   const [currentRow, setCurrentRow] = useState([]);
 
+  // 讀取該遊戲所有不變的資料
   useEffect(() => {
+    if (isDataLoaded) {
+      return;
+    }
     const loadCsvFiles = async () => {
       try {
-        const [rundownData, characterData] = await Promise.all([
-          loadCSVData(rundownCsvFile),
-          loadCSVData(characterCsvFile),
-        ]);
-        setRundownCsvData(rundownData);
-        setCharacterCsvData(characterData);
+        const [characterData, hintData, missionData, propData, rundownData] =
+          await Promise.all([
+            loadCSVData(characterCsvFile),
+            loadCSVData(hintCsvFile),
+            loadCSVData(missionCsvFile),
+            loadCSVData(propCsvFile),
+            loadCSVData(rundownCsvFile),
+          ]);
+        setCharacterData(characterData);
+        setHintData(hintData);
+        setMissionData(missionData);
+        setPropData(propData);
+        setRundownData(rundownData);
+        console.log('轉換 Csv 資料');
       } catch (error) {
         console.error('Error loading CSV files:', error);
       }
+      setIsDataLoaded(true);
     };
 
     loadCsvFiles();
-  }, [rundownCsvFile, characterCsvFile]);
+  }, []);
 
   useEffect(() => {
     // Check if csvData is valid and find the current row based on the current ID
-    if (Array.isArray(rundownCsvData)) {
-      const row = rundownCsvData.find((item) => item.id === currentId);
-      setCurrentRow(row);
+    if (Array.isArray(rundownData)) {
+      const row = rundownData.find((item) => item.id === currentId);
+      if (row !== currentRow) {
+        setCurrentRow(row);
+      }
     }
-  }, [currentId, rundownCsvData]);
+  }, [currentId, rundownData, currentRow]);
 
-  if (!rundownCsvData || !Array.isArray(rundownCsvData)) {
+  if (!rundownData || !Array.isArray(rundownData)) {
     return <Typography>Loading data...</Typography>;
   }
 
@@ -54,8 +86,8 @@ const GameController = ({ rundownCsvFile, characterCsvFile }) => {
       case 'Talk':
         return (
           <TalkModel
-            data={rundownCsvData}
-            characterData={characterCsvData}
+            data={rundownData}
+            characterData={characterData}
             currentId={currentId}
             setCurrentId={setCurrentId}
           />
@@ -63,8 +95,8 @@ const GameController = ({ rundownCsvFile, characterCsvFile }) => {
       case 'Quiz':
         return (
           <QuizModel
-            data={rundownCsvData}
-            characterData={characterCsvData}
+            data={rundownData}
+            characterData={characterData}
             currentId={currentId}
             setCurrentId={setCurrentId}
           />
@@ -72,7 +104,7 @@ const GameController = ({ rundownCsvFile, characterCsvFile }) => {
       case 'MissionStart':
         return (
           <MissionStartModel
-            data={rundownCsvData}
+            data={rundownData}
             currentId={currentId}
             setCurrentId={setCurrentId}
           />
@@ -80,7 +112,7 @@ const GameController = ({ rundownCsvFile, characterCsvFile }) => {
       case 'MissionAnswerInput':
         return (
           <MissionAnswerInputModel
-            data={rundownCsvData}
+            data={rundownData}
             setCurrentId={setCurrentId}
             currentDialogue={currentRow}
           />
@@ -101,8 +133,11 @@ const GameController = ({ rundownCsvFile, characterCsvFile }) => {
 
 // 定義 propTypes
 GameController.propTypes = {
-  rundownCsvFile: PropTypes.string.isRequired,
   characterCsvFile: PropTypes.string.isRequired,
+  hintCsvFile: PropTypes.string.isRequired,
+  missionCsvFile: PropTypes.string.isRequired,
+  propCsvFile: PropTypes.string.isRequired,
+  rundownCsvFile: PropTypes.string.isRequired,
 };
 
 export default GameController;

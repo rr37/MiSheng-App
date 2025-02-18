@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { GameContext } from '../store/game-context';
 import { Typography } from '@mui/material';
 import ThemeColorLayer from '../component/layer/ThemeColorLayer';
@@ -14,14 +14,23 @@ import PropTypes from 'prop-types';
 import useNextId from '../hook/useNextId';
 
 const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
-  const { currentMission } = useContext(GameContext);
+  const { currentMissionId, missionData, updateMissionStatus } =
+    useContext(GameContext);
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState('');
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(false); // 用於控制按鈕顯示
   const [openDialog, setOpenDialog] = useState(false); // 控制彈出視窗
+  const currentMission = missionData[currentMissionId];
+
+  useEffect(() => {
+    if (currentMission.status === 'complete') {
+      setIsAnswerCorrect(true);
+    }
+  }, []);
 
   const handleAnswerSubmit = () => {
     if (userAnswer.trim() === currentMission.answer) {
+      updateMissionStatus(currentMission.id, 'complete');
       setFeedback(currentMission.success_text);
       setIsAnswerCorrect(true);
       setUserAnswer(''); // 清空輸入框內容

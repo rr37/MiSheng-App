@@ -7,8 +7,12 @@ import FixedBottomNavigation from './component/BottomNavigation';
 import PropPage from './component/page/PropPage';
 import HintPage from './component/page/HintPage';
 import GameController from './game/GameController';
-import rundownCsv from '../public/gameFile/sjqy/sjqy - rundown.csv';
-import characterCsv from '../public/gameFile/sjqy/sjqy - character.csv';
+// 遊戲檔位置
+import characterCsvFile from '../public/gameFile/sjqy/sjqy - character.csv';
+import hintCsvFile from '../public/gameFile/sjqy/sjqy - hint.csv';
+import missionCsvFile from '../public/gameFile/sjqy/sjqy - mission.csv';
+import propCsvFile from '../public/gameFile/sjqy/sjqy - prop.csv';
+import rundownCsvFile from '../public/gameFile/sjqy/sjqy - rundown.csv';
 
 function App() {
   const [value, setValue] = useState(1);
@@ -19,12 +23,15 @@ function App() {
       case 0:
         return <div>關卡頁面內容</div>;
       case 1:
-        return <PropPage/>;
+        return <PropPage />;
       case 2:
         return (
           <GameController
-            rundownCsvFile={rundownCsv}
-            characterCsvFile={characterCsv}
+            characterCsvFile={characterCsvFile}
+            hintCsvFile={hintCsvFile}
+            missionCsvFile={missionCsvFile}
+            propCsvFile={propCsvFile}
+            rundownCsvFile={rundownCsvFile}
           />
         );
       case 3:

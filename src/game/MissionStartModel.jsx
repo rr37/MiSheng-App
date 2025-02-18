@@ -1,9 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { Button, Typography, Box } from '@mui/material';
 import { GameContext } from '../store/game-context';
-import { loadCSVData } from './csvLoader';
 import PropTypes from 'prop-types';
-import missionCsvFile from '../../public/gameFile/sjqy/sjqy - mission.csv';
 import useNextId from '../hook/useNextId';
 import FloatingLayer from '../component/layer/FloatingLayer';
 import Layer from '../component/layer/layer';
@@ -15,48 +13,35 @@ import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 
 const MissionStart = ({ data, currentId, setCurrentId }) => {
   const [currentDialogue, setCurrentDialogue] = useState(null);
-  const [missionCsvData, setMissionCsvData] = useState(null);
-  const { currentMission, setCurrentMission } = useContext(GameContext);
-  const { setMissions } = useContext(GameContext);
-
-  // 讀取 missionCsvFile 資料，將資料寫進 missionCsvData
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await loadCSVData(missionCsvFile);
-        setMissionCsvData(data);
-        setMissions(data);
-      } catch (error) {
-        console.error('Error loading CSV data:', error);
-      }
-    };
-
-    fetchData();
-  }, [setMissions]);
+  const {
+    missionData,
+    currentMissionId,
+    setCurrentMissionId,
+    updateMissionStatus,
+  } = useContext(GameContext);
+  const currentMission = missionData[currentMissionId];
 
   useEffect(() => {
     if (data && data.length > 0) {
       const dialogue = data.find((row) => row.id === currentId);
       setCurrentDialogue(dialogue);
-    }
 
-    // 設定目前的 mission
-    if (data && missionCsvData && missionCsvData.length > 0) {
-      const row = data.find((row) => row.id === currentId);
-      if (row) {
-        const currentMissionId = row.missionId;
-        const mission = missionCsvData.find(
-          (row) => row.id === currentMissionId
+      // 設定目前的 mission
+      if (dialogue) {
+        const currentMissionId = dialogue.missionId;
+        const mission = missionData.find(
+          (mission) => mission.id === currentMissionId
         );
         if (mission) {
-          setCurrentMission(mission);
+          setCurrentMissionId(mission.id);
+          updateMissionStatus(mission.id);
           console.log(`mission 現在是這樣：${mission.id}`);
         } else {
           console.log('未找到符合條件的任務');
         }
       }
     }
-  }, [currentId, data, missionCsvData, setCurrentMission]);
+  }, [currentId, data]);
 
   const { getNextId, canProceedToNext } = useNextId(data, currentDialogue);
 

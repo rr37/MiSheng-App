@@ -3,8 +3,17 @@ import PropTypes from 'prop-types';
 import { GameContext } from './game-context';
 
 export const GameProvider = ({ children }) => {
+  // 只需匯入一次的遊戲資料
+  const [characterData, setCharacterData] = useState(null);
+  const [hintData, setHintData] = useState(null);
+  const [missionData, setMissionData] = useState([]);
+  const [propData, setPropData] = useState(null);
+  const [rundownData, setRundownData] = useState(null);
+
+  // 玩家資料
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [currentId, setCurrentId] = useState('1');
-  const [missions, setMissions] = useState([]);
+  const [currentMissionId, setCurrentMissionId] = useState('0');
   const [currentMission, setCurrentMission] = useState(null);
   const [unlockedHints, setUnlockedHints] = useState({});
 
@@ -18,18 +27,50 @@ export const GameProvider = ({ children }) => {
     }));
   };
 
+  // 更新任務的完成狀態
+  const updateMissionStatus = (missionId, status = 'incomplete') => {
+    setMissionData((prevMissions) => {
+      const missionExists = prevMissions.some(
+        (mission) => mission.id === missionId
+      );
+
+      if (!missionExists) {
+        return [...prevMissions, { id: missionId, status }];
+      }
+
+      return prevMissions.map((mission) =>
+        mission.id === missionId ? { ...mission, status } : mission
+      );
+    });
+  };
+
   return (
     <GameContext.Provider
       value={{
+        //只需匯入一次的資料
+        characterData,
+        setCharacterData,
+        hintData,
+        setHintData,
+        missionData,
+        setMissionData,
+        propData,
+        setPropData,
+        rundownData,
+        setRundownData,
+
+        isDataLoaded,
+        setIsDataLoaded,
         currentId,
         setCurrentId,
-        missions,
-        setMissions,
+        currentMissionId,
+        setCurrentMissionId,
         currentMission,
         setCurrentMission,
         unlockedHints,
         setUnlockedHints,
         unlockHint,
+        updateMissionStatus,
       }}
     >
       {children}
