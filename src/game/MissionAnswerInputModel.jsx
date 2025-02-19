@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import useNextId from '../hook/useNextId';
 
 const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
-  const { currentMissionId, missionData, updateMissionStatus } =
+  const { currentMissionId, missionData,playerMissionData, updateMissionStatus } =
     useContext(GameContext);
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState('');
@@ -23,7 +23,7 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
   const currentMission = missionData[currentMissionId];
 
   useEffect(() => {
-    if (currentMission.status === 'complete') {
+    if (playerMissionData[currentMissionId].status === 'complete') {
       setIsAnswerCorrect(true);
     }
   }, []);

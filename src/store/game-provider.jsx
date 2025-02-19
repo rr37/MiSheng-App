@@ -11,6 +11,7 @@ export const GameProvider = ({ children }) => {
   const [rundownData, setRundownData] = useState(null);
 
   // 玩家資料
+  const [playerMissionData, setPlayerMissionData] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [currentId, setCurrentId] = useState('1');
   const [currentMissionId, setCurrentMissionId] = useState('0');
@@ -29,7 +30,7 @@ export const GameProvider = ({ children }) => {
 
   // 更新任務的完成狀態
   const updateMissionStatus = (missionId, status = 'incomplete') => {
-    setMissionData((prevMissions) => {
+    setPlayerMissionData((prevMissions) => {
       const missionExists = prevMissions.some(
         (mission) => mission.id === missionId
       );
@@ -59,6 +60,8 @@ export const GameProvider = ({ children }) => {
         rundownData,
         setRundownData,
 
+        playerMissionData,
+        setPlayerMissionData,
         isDataLoaded,
         setIsDataLoaded,
         currentId,
