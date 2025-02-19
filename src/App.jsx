@@ -8,11 +8,11 @@ import PropPage from './component/page/PropPage';
 import HintPage from './component/page/HintPage';
 import GameController from './game/GameController';
 // 遊戲檔位置
-import characterCsvFile from '../public/gameFile/sjqy/sjqy - character.csv';
-import hintCsvFile from '../public/gameFile/sjqy/sjqy - hint.csv';
-import missionCsvFile from '../public/gameFile/sjqy/sjqy - mission.csv';
-import propCsvFile from '../public/gameFile/sjqy/sjqy - prop.csv';
-import rundownCsvFile from '../public/gameFile/sjqy/sjqy - rundown.csv';
+import characterCsvFile from '/gameFile/sjqy/sjqy - character.csv';
+import hintCsvFile from '/gameFile/sjqy/sjqy - hint.csv';
+import missionCsvFile from '/gameFile/sjqy/sjqy - mission.csv';
+import propCsvFile from '/gameFile/sjqy/sjqy - prop.csv';
+import rundownCsvFile from '/gameFile/sjqy/sjqy - rundown.csv';
 
 function App() {
   const [value, setValue] = useState(1);
