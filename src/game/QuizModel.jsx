@@ -13,6 +13,7 @@ import QuestionBox from '../component/feature/QuestionBox';
 const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [speaker, setSpeaker] = useState(null);
+  const [backgroundImg, setBackgroundImg] = useState(null);
   const [options, setOptions] = useState([]);
   const { missionData, currentMissionId } = useContext(GameContext);
   const currentMission = missionData[currentMissionId];
@@ -37,6 +38,12 @@ const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
     }
   }, [currentId, data, characterData]);
 
+  useEffect(() => {
+    setBackgroundImg(
+      currentQuestion?.background_img || currentMission?.background_img
+    );
+  }, [currentQuestion, currentMission]);
+
   const displayText = useTypewriterEffect(
     currentQuestion?.text || '', // Pass the dialogue text to the hook
     50 // Typing speed in milliseconds
@@ -55,11 +62,9 @@ const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
       {/* Quiz model */}
 
       {/* Background-image */}
-      {currentMission?.background_img && (
+      {backgroundImg && (
         <Layer>
-          <BackgroundLayer
-            src={`/gameFile/sjqy/img/${currentMission.background_img}`}
-          />
+          <BackgroundLayer src={`/gameFile/sjqy/img/${backgroundImg}`} />
         </Layer>
       )}
 

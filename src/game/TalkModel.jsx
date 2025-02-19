@@ -14,6 +14,7 @@ import { GameContext } from '../store/game-context';
 const Talk = ({ data, characterData, currentId, setCurrentId }) => {
   const [currentDialogue, setCurrentDialogue] = useState(null);
   const [speaker, setSpeaker] = useState(null);
+  const [backgroundImg, setBackgroundImg] = useState(null);
   const { missionData, currentMissionId } = useContext(GameContext);
   const currentMission = missionData[currentMissionId];
 
@@ -34,6 +35,12 @@ const Talk = ({ data, characterData, currentId, setCurrentId }) => {
       setSpeaker(null); // 沒有 speaker 時清空
     }
   }, [currentId, data, characterData]);
+
+  useEffect(() => {
+    setBackgroundImg(
+      currentDialogue?.background_img || currentMission?.background_img
+    );
+  }, [currentDialogue, currentMission]);
 
   const displayText = useTypewriterEffect(
     currentDialogue?.text || '', // Pass the dialogue text to the hook
@@ -58,11 +65,9 @@ const Talk = ({ data, characterData, currentId, setCurrentId }) => {
       {/* Talk model */}
 
       {/* Background-image */}
-      {currentMission?.background_img && (
+      {backgroundImg && (
         <Layer>
-          <BackgroundLayer
-            src={`/gameFile/sjqy/img/${currentMission.background_img}`}
-          />
+          <BackgroundLayer src={`/gameFile/sjqy/img/${backgroundImg}`} />
         </Layer>
       )}
 
