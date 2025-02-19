@@ -14,7 +14,8 @@ const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [speaker, setSpeaker] = useState(null);
   const [options, setOptions] = useState([]);
-  const { currentMission } = useContext(GameContext);
+  const { missionData, currentMissionId } = useContext(GameContext);
+  const currentMission = missionData[currentMissionId];
 
   useEffect(() => {
     // Find the current question

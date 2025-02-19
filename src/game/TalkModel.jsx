@@ -14,7 +14,8 @@ import { GameContext } from '../store/game-context';
 const Talk = ({ data, characterData, currentId, setCurrentId }) => {
   const [currentDialogue, setCurrentDialogue] = useState(null);
   const [speaker, setSpeaker] = useState(null);
-  const { currentMission } = useContext(GameContext);
+  const { missionData, currentMissionId } = useContext(GameContext);
+  const currentMission = missionData[currentMissionId];
 
   useEffect(() => {
     if (data.length < 0) {

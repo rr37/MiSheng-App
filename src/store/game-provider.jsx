@@ -15,7 +15,6 @@ export const GameProvider = ({ children }) => {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [currentId, setCurrentId] = useState('1');
   const [currentMissionId, setCurrentMissionId] = useState('0');
-  const [currentMission, setCurrentMission] = useState(null);
   const [unlockedHints, setUnlockedHints] = useState({});
 
   const unlockHint = (missionId, hintIndex) => {
@@ -68,8 +67,6 @@ export const GameProvider = ({ children }) => {
         setCurrentId,
         currentMissionId,
         setCurrentMissionId,
-        currentMission,
-        setCurrentMission,
         unlockedHints,
         setUnlockedHints,
         unlockHint,
