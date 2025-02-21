@@ -18,11 +18,16 @@ import { GameContext } from '../../store/game-context';
 import ThemeColorLayer from '../layer/ThemeColorLayer';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LockRoundedIcon from '@mui/icons-material/LockRounded';
-import avatar from '../../../public/gameFile/sjqy/img/qianru_avatar.png';
 
 const HintPage = () => {
-  const { missionData, hintData, currentMissionId, unlockedHints, unlockHint } =
-    useContext(GameContext);
+  const {
+    characterData,
+    hintData,
+    missionData,
+    currentMissionId,
+    unlockedHints,
+    unlockHint,
+  } = useContext(GameContext);
   const [currentHints, setCurrentHints] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false); // Dialog 的開關
   const [currentHintIndex, setCurrentHintIndex] = useState(null); // 當前選擇的提示索引
@@ -37,11 +42,16 @@ const HintPage = () => {
       // console.log('hintData 不是有效的數組！');
       return;
     }
-    const props = hintData.filter(
+    const filteredHints = hintData.filter(
       (row) => row.mission_id === currentMission.id
     );
-    setCurrentHints(props);
-  }, [currentMissionId, hintData]);
+    const updatedFilteredHints = filteredHints.map((hint) => {
+      const speaker = characterData.find((char) => char.name === hint.speaker);
+      return { ...hint, avatar: speaker?.avatar || '' };
+    });
+
+    setCurrentHints(updatedFilteredHints);
+  }, [currentMissionId, hintData, currentMission]);
 
   const handleUnlockClick = (index) => {
     setCurrentHintIndex(index);
@@ -132,7 +142,7 @@ const HintPage = () => {
                     <Box sx={{ display: 'flex', alignItems: 'top' }}>
                       <Avatar
                         alt={hint.speaker}
-                        src={`${avatar}`}
+                        src={`/gameFile/sjqy/img/${hint.avatar}`}
                         sx={{ mr: '8px' }}
                       />
                       <Stack spacing={1}>
