@@ -15,6 +15,7 @@ const GameController = ({
   missionCsvFile,
   propCsvFile,
   rundownCsvFile,
+  storyCsvFile
 }) => {
   const {
     characterData,
@@ -24,6 +25,7 @@ const GameController = ({
     setPropData,
     rundownData,
     setRundownData,
+    setStoryData,
 
     isDataLoaded,
     setIsDataLoaded,
@@ -39,19 +41,21 @@ const GameController = ({
     }
     const loadCsvFiles = async () => {
       try {
-        const [characterData, hintData, missionData, propData, rundownData] =
+        const [characterData, hintData, missionData, propData, rundownData, storyData] =
           await Promise.all([
             loadCSVData(characterCsvFile),
             loadCSVData(hintCsvFile),
             loadCSVData(missionCsvFile),
             loadCSVData(propCsvFile),
             loadCSVData(rundownCsvFile),
+            loadCSVData(storyCsvFile)
           ]);
         setCharacterData(characterData);
         setHintData(hintData);
         setMissionData(missionData);
         setPropData(propData);
         setRundownData(rundownData);
+        setStoryData(storyData);
         console.log('轉換 Csv 資料');
       } catch (error) {
         console.error('Error loading CSV files:', error);
@@ -138,6 +142,7 @@ GameController.propTypes = {
   missionCsvFile: PropTypes.string.isRequired,
   propCsvFile: PropTypes.string.isRequired,
   rundownCsvFile: PropTypes.string.isRequired,
+  storyCsvFile: PropTypes.string.isRequired
 };
 
 export default GameController;

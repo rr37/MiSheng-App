@@ -6,6 +6,7 @@ import MyAppBar from './component/AppBar';
 import FixedBottomNavigation from './component/BottomNavigation';
 import PropPage from './component/page/PropPage';
 import HintPage from './component/page/HintPage';
+import StoryPage from './component/page/StoryPage';
 import GameController from './game/GameController';
 // 遊戲檔位置
 import characterCsvFile from '/gameFile/sjqy/sjqy - character.csv';
@@ -13,6 +14,7 @@ import hintCsvFile from '/gameFile/sjqy/sjqy - hint.csv';
 import missionCsvFile from '/gameFile/sjqy/sjqy - mission.csv';
 import propCsvFile from '/gameFile/sjqy/sjqy - prop.csv';
 import rundownCsvFile from '/gameFile/sjqy/sjqy - rundown.csv';
+import storyCsvFile from '/gameFile/sjqy/sjqy - story.csv';
 
 function App() {
   const [value, setValue] = useState(1);
@@ -32,12 +34,13 @@ function App() {
             missionCsvFile={missionCsvFile}
             propCsvFile={propCsvFile}
             rundownCsvFile={rundownCsvFile}
+            storyCsvFile={storyCsvFile}
           />
         );
       case 3:
         return <HintPage />;
       case 4:
-        return <div>故事頁面內容</div>;
+        return <StoryPage />;
       default:
         return <div>未知頁面內容</div>;
     }

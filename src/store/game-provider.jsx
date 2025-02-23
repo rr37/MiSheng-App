@@ -9,6 +9,7 @@ export const GameProvider = ({ children }) => {
   const [missionData, setMissionData] = useState([]);
   const [propData, setPropData] = useState(null);
   const [rundownData, setRundownData] = useState(null);
+  const [storyData, setStoryData] = useState(null);
 
   // 玩家資料
   const [playerMissionData, setPlayerMissionData] = useState([]);
@@ -58,6 +59,8 @@ export const GameProvider = ({ children }) => {
         setPropData,
         rundownData,
         setRundownData,
+        storyData,
+        setStoryData,
 
         playerMissionData,
         setPlayerMissionData,
