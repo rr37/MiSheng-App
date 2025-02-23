@@ -34,7 +34,7 @@ const MissionStart = ({ data, currentId, setCurrentId }) => {
         );
         if (mission) {
           setCurrentMissionId(mission.id);
-          updateMissionStatus(mission.id);
+          updateMissionStatus(mission.id, 'solving');
           console.log(`mission 現在是這樣：${mission.id}`);
         } else {
           console.log('未找到符合條件的任務');

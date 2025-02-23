@@ -4,6 +4,7 @@ import { Box, Container } from '@mui/material';
 import { GameProvider } from './store/game-provider';
 import MyAppBar from './component/AppBar';
 import FixedBottomNavigation from './component/BottomNavigation';
+import MissionPage from './component/page/MissionPage';
 import PropPage from './component/page/PropPage';
 import HintPage from './component/page/HintPage';
 import StoryPage from './component/page/StoryPage';
@@ -23,7 +24,7 @@ function App() {
   const renderMainContainer = () => {
     switch (value) {
       case 0:
-        return <div>關卡頁面內容</div>;
+        return <MissionPage />;
       case 1:
         return <PropPage />;
       case 2:
