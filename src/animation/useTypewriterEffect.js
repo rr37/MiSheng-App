@@ -13,10 +13,8 @@ export const useTypewriterEffect = (text, speed = 50) => {
 
   // Reset the typewriter effect when the text changes
   useEffect(() => {
-    if (text) {
       setDisplayText('');
       setCharIndex(0);
-    }
   }, [text]);
 
   // Typewriter effect logic
