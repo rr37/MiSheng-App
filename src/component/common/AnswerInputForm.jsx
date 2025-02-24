@@ -2,6 +2,7 @@ import {
   Divider,
   FilledInput,
   FormControl,
+  FormHelperText,
   IconButton,
   InputLabel,
   InputAdornment,
@@ -9,7 +10,13 @@ import {
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import PropTypes from 'prop-types';
 
-const AnswerInputForm = ({ value, onChange, onClick, disabled }) => {
+const AnswerInputForm = ({
+  value,
+  onChange,
+  onClick,
+  disabled,
+  giveupCountdown,
+}) => {
   return (
     <FormControl variant="filled" fullWidth>
       <InputLabel htmlFor="mission-answer">輸入答案</InputLabel>
@@ -62,6 +69,11 @@ const AnswerInputForm = ({ value, onChange, onClick, disabled }) => {
           },
         }}
       />
+      {giveupCountdown === 0 && (
+        <FormHelperText sx={{ color: '#fff' }}>
+          如果要放棄作答，請輸入『我放棄了』!
+        </FormHelperText>
+      )}
     </FormControl>
   );
 };
@@ -71,6 +83,7 @@ AnswerInputForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  giveupCountdown: PropTypes.number
 };
 
 export default AnswerInputForm;

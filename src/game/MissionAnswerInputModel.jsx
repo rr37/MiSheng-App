@@ -9,17 +9,26 @@ import MissionTitleText from '../component/common/MissionTitleText';
 import BottomBox from '../component/common/BottomBox';
 import NextButton from '../component/common/NextButton';
 import AnswerInputForm from '../component/common/AnswerInputForm';
-import MissionDialog from '../component/common/MissionDialog';
+import MissionConfirmDialog from '../component/common/MissionConfirmDialog';
+import MissionFeedbackDialog from '../component/common/MissionFeedbackDialog';
 import PropTypes from 'prop-types';
 import useNextId from '../hook/useNextId';
 
 const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
-  const { currentMissionId, missionData,playerMissionData, updateMissionStatus } =
-    useContext(GameContext);
+  const {
+    currentMissionId,
+    missionData,
+    playerMissionData,
+    updateMissionStatus,
+  } = useContext(GameContext);
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState('');
+  const [confirmGiveUpText, setConfirmGiveUpText] = useState('確定要放棄嗎？');
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(false); // 用於控制按鈕顯示
+  const [isGiveUp, setIsGiveUp] = useState(false);
   const [openDialog, setOpenDialog] = useState(false); // 控制彈出視窗
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false); // 控制確定放棄視窗
+  const [giveupCountdown, setGiveupCountdown] = useState(5);
   const currentMission = missionData[currentMissionId];
 
   useEffect(() => {
@@ -33,17 +42,35 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
       updateMissionStatus(currentMission.id, 'complete');
       setFeedback(currentMission.success_text);
       setIsAnswerCorrect(true);
-      setUserAnswer(''); // 清空輸入框內容
+      setOpenDialog(true); // 打開彈出視窗
+    } else if (userAnswer.trim() === '我放棄了') {
+      currentMission.confirmGiveUp_text &&
+        setConfirmGiveUpText(currentMission.confirmGiveUp_text);
+      setOpenConfirmDialog(true); // 顯示確認放棄的對話框
     } else {
       setFeedback('答案錯誤，請再試一次。');
       setIsAnswerCorrect(false);
-      setUserAnswer(''); // 清空輸入框內容
+      if (giveupCountdown > 0) {
+        setGiveupCountdown(giveupCountdown - 1);
+      }
+      setOpenDialog(true); // 打開彈出視窗
     }
-    setOpenDialog(true); // 打開彈出視窗
+    setUserAnswer(''); // 清空輸入框內容
+  };
+
+  const confirmGiveUp = () => {
+    updateMissionStatus(currentMission.id, 'complete');
+    setFeedback(currentMission.giveUp_text);
+    setIsGiveUp(true);
+    setIsAnswerCorrect(true);
+    setUserAnswer('');
+    setOpenDialog(true);
+    setOpenConfirmDialog(false);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
+    setOpenConfirmDialog(false);
   };
 
   const { getNextId, canProceedToNext } = useNextId(data, currentDialogue);
@@ -87,15 +114,25 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
               onChange={(e) => setUserAnswer(e.target.value)}
               onClick={handleAnswerSubmit}
               disabled={isAnswerCorrect}
+              giveupCountdown={giveupCountdown}
             />
           )}
 
-          {/* 彈出視窗 */}
-          <MissionDialog
+          {/* feedback 彈出視窗 */}
+          <MissionFeedbackDialog
             open={openDialog}
             onClose={handleCloseDialog}
             isAnswerCorrect={isAnswerCorrect}
+            isGiveUp={isGiveUp}
             feedback={feedback}
+          />
+
+          {/* confirmGiveUp 彈出視窗 */}
+          <MissionConfirmDialog
+            open={openConfirmDialog}
+            onClose={handleCloseDialog}
+            onConfirm={confirmGiveUp}
+            conFirmText={confirmGiveUpText}
           />
         </BottomBox>
       </Layer>

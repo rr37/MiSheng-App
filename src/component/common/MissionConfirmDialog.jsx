@@ -8,14 +8,17 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const MissionDialog = ({ open, onClose, isAnswerCorrect, feedback }) => {
+const MissionConfirmDialog = ({ open, onClose, onConfirm, conFirmText }) => {
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>{isAnswerCorrect ? '恭喜！' : '提示'}</DialogTitle>
+      <DialogTitle>提示</DialogTitle>
       <DialogContent>
-        <Typography>{feedback}</Typography>
+        <Typography>{conFirmText}</Typography>
       </DialogContent>
       <DialogActions>
+        <Button onClick={onConfirm} color="error">
+          確定
+        </Button>
         <Button onClick={onClose} color="primary">
           關閉
         </Button>
@@ -24,11 +27,11 @@ const MissionDialog = ({ open, onClose, isAnswerCorrect, feedback }) => {
   );
 };
 
-MissionDialog.propTypes = {
+MissionConfirmDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  isAnswerCorrect: PropTypes.bool.isRequired,
-  feedback: PropTypes.string.isRequired,
+  onConfirm: PropTypes.func,
+  conFirmText: PropTypes.string.isRequired,
 };
 
-export default MissionDialog;
+export default MissionConfirmDialog;
