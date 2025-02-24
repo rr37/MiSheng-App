@@ -5,7 +5,7 @@ import BlockRoundedIcon from '@mui/icons-material/BlockRounded';
 import PersonPinCircleRoundedIcon from '@mui/icons-material/PersonPinCircleRounded';
 import { GameContext } from '../../store/game-context';
 import ThemeColorLayer from '../layer/ThemeColorLayer';
-import Layer from '../layer/layer';
+import Layer from '../layer/Layer';
 import BackgroundLayer from '../layer/BackgroundLayer';
 
 const MissionPage = () => {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'; // 引入 PropTypes
 import { GameContext } from '../store/game-context';
 import { useTypewriterEffect } from '../animation/useTypewriterEffect';
 import ThemeColorLayer from '../component/layer/ThemeColorLayer';
-import Layer from '../component/layer/layer';
+import Layer from '../component/layer/Layer';
 import GradientLayer from '../component/layer/GradientLayer';
 import BackgroundLayer from '../component/layer/BackgroundLayer';
 import CharacterLayer from '../component/layer/CharacterLayer';

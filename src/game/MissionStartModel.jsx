@@ -4,7 +4,7 @@ import { GameContext } from '../store/game-context';
 import PropTypes from 'prop-types';
 import useNextId from '../hook/useNextId';
 import FloatingLayer from '../component/layer/FloatingLayer';
-import Layer from '../component/layer/layer';
+import Layer from '../component/layer/Layer';
 import BackgroundLayer from '../component/layer/BackgroundLayer';
 import MissionSubtitleText from '../component/common/MissionSubtitleText';
 import MissionTitleText from '../component/common/MissionTitleText';

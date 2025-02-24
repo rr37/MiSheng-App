@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import { GameContext } from '../store/game-context';
 import { Typography } from '@mui/material';
 import ThemeColorLayer from '../component/layer/ThemeColorLayer';
-import Layer from '../component/layer/layer';
+import Layer from '../component/layer/Layer';
 import BackgroundLayer from '../component/layer/BackgroundLayer';
 import MissionSubtitleText from '../component/common/MissionSubtitleText';
 import MissionTitleText from '../component/common/MissionTitleText';
