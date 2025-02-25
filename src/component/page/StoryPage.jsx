@@ -41,6 +41,7 @@ const StoryPage = () => {
                 key={index}
                 src={`/gameFile/sjqy/img/${story.img}`}
                 alt={`Image ${index + 1}`}
+                title={story.title}
                 isFullScreen={fullScreenIndex === index}
                 showZoomButton={fullScreenIndex === null}
                 onToggle={() =>

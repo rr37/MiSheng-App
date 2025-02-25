@@ -6,6 +6,7 @@ import CloseFullscreenRoundedIcon from '@mui/icons-material/CloseFullscreenRound
 const ZoomableImage = ({
   src,
   alt,
+  title,
   isFullScreen,
   showZoomButton,
   onToggle,
@@ -19,20 +20,47 @@ const ZoomableImage = ({
           sx={{ display: 'flex', borderRadius: '10px', position: 'relative' }}
         >
           {showZoomButton && (
-            <Fab
-              size="small"
-              onClick={onToggle}
+            <Box
               sx={{
                 position: 'absolute',
+                width: '100%',
                 bottom: 10,
-                right: 10,
+                display: 'flex',
+                alignItems: 'center',
                 zIndex: 1101,
-                backgroundColor: '#fff',
-                color: '#37474F',
               }}
             >
-              <OpenInFullRoundedIcon />
-            </Fab>
+              {title && (
+                <Box
+                  sx={{
+                    backgroundColor: '#37474F',
+                    borderRadius: '0px 20px 20px 0px',
+                    fontSize: 14,
+                    fontWeight: 'regular',
+                    textAlign: 'center',
+                    letterSpacing: 0.7,
+                    color: '#fff',
+                    p: '6px',
+                    pr: '13px',
+                  }}
+                >
+                  {title}
+                </Box>
+              )}
+
+              <Fab
+                size="small"
+                onClick={onToggle}
+                sx={{
+                  backgroundColor: '#fff',
+                  color: '#37474F',
+                  right: 10,
+                  ml: 'auto',
+                }}
+              >
+                <OpenInFullRoundedIcon />
+              </Fab>
+            </Box>
           )}
           <img
             src={src}
@@ -105,6 +133,7 @@ const ZoomableImage = ({
 ZoomableImage.propTypes = {
   src: PropTypes.string.isRequired,
   alt: PropTypes.string,
+  title: PropTypes.string,
   isFullScreen: PropTypes.bool.isRequired,
   showZoomButton: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,

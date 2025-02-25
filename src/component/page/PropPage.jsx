@@ -1,11 +1,16 @@
 import { useContext, useEffect, useState } from 'react';
-import { Box, Paper, Typography } from '@mui/material';
 import { GameContext } from '../../store/game-context';
 import ThemeColorLayer from '../layer/ThemeColorLayer';
+import PageContainer from '../common/PageContainer';
+import PageTitleText from '../common/PageTitleText';
+import ContentList from '../common/ContentList';
+import ZoomableImage from '../common/zoomableImage';
 
 const PropPage = () => {
   const { missionData, propData, currentMissionId } = useContext(GameContext);
   const [currentProps, setCurrentProps] = useState();
+  const [fullScreenIndex, setFullScreenIndex] = useState(null); // 控制哪張圖全螢幕
+
   const currentMission = missionData[currentMissionId];
 
   useEffect(() => {
@@ -25,54 +30,30 @@ const PropPage = () => {
 
   return (
     <ThemeColorLayer bgc="#fff">
-      <Box
-        sx={{
-          width: '100%',
-          padding: '7%',
-          boxSizing: 'border-box',
-          position: 'absolute',
-          top: 0,
-        }}
-      >
-        <Typography
-          gutterBottom
-          align="left"
-          sx={{
-            fontFamily: "'Noto Serif TC', serif",
-            fontWeight: 900,
-            fontSize: '48px',
-            color: '#37474F',
-          }}
-        >
-          道具
-        </Typography>
+      <PageContainer>
+        <PageTitleText title="道具" />
+
         {Array.isArray(currentProps) && currentProps.length > 0 ? (
-          currentProps.map((prop, index) => (
-            <Paper
-              key={index}
-              elevation={12}
-              sx={{
-                display: 'flex',
-                height: 'auto',
-                // border: '1px solid #000',
-                borderRadius: '10px',
-                overflow: 'hidden',
-              }}
-            >
-              <img
+          <ContentList
+            items={currentProps}
+            renderItem={(prop, index) => (
+              <ZoomableImage
+                key={index}
                 src={`/gameFile/sjqy/img/${prop.img}`}
                 alt={`Image ${index + 1}`}
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                }}
+                title={prop.title}
+                isFullScreen={fullScreenIndex === index}
+                showZoomButton={fullScreenIndex === null}
+                onToggle={() =>
+                  setFullScreenIndex(fullScreenIndex === index ? null : index)
+                }
               />
-            </Paper>
-          ))
+            )}
+          />
         ) : (
           <p>No props available</p>
         )}
-      </Box>
+      </PageContainer>
     </ThemeColorLayer>
   );
 };
