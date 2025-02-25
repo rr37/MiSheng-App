@@ -4,7 +4,7 @@ import ThemeColorLayer from '../layer/ThemeColorLayer';
 import PageContainer from '../common/PageContainer';
 import PageTitleText from '../common/PageTitleText';
 import ContentList from '../common/ContentList';
-import ZoomableImage from '../common/zoomableImage';
+import ZoomableImage from '../common/ZoomableImage';
 
 const StoryPage = () => {
   const { missionData, storyData, currentMissionId } = useContext(GameContext);
