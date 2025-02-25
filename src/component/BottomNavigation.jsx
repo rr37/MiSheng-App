@@ -21,7 +21,7 @@ export default function FixedBottomNavigation({ value, onChange }) {
       }}
       value={value}
       onChange={onChange}
-      // showLabels
+      showLabels
     >
       <BottomNavigationAction label="關卡" icon={<StorageRoundedIcon />} />
       <BottomNavigationAction
