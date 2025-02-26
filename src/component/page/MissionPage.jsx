@@ -1,10 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
-import { Box, Paper, Stack, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import BlockRoundedIcon from '@mui/icons-material/BlockRounded';
 import PersonPinCircleRoundedIcon from '@mui/icons-material/PersonPinCircleRounded';
 import { GameContext } from '../../store/game-context';
 import ThemeColorLayer from '../layer/ThemeColorLayer';
+import PageContainer from '../common/PageContainer';
+import PageTitleText from '../common/PageTitleText';
+import ContentList from '../common/ContentList';
 import Layer from '../layer/Layer';
 import BackgroundLayer from '../layer/BackgroundLayer';
 
@@ -36,42 +39,12 @@ const MissionPage = () => {
 
   return (
     <ThemeColorLayer bgc="#fff">
-      <Box
-        sx={{
-          width: '100%',
-          height: '85vh',
-          padding: '7%',
-          boxSizing: 'border-box',
-          position: 'absolute',
-          top: 0,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Typography
-          gutterBottom
-          align="left"
-          sx={{
-            fontFamily: "'Noto Serif TC', serif",
-            fontWeight: 900,
-            fontSize: '48px',
-            color: '#37474F',
-          }}
-        >
-          關卡
-        </Typography>
-        <Stack
-          spacing={2}
-          sx={{
-            overflowY: 'auto',
-            maxHeight: '100%',
-            flex: '1',
-            p: '8%',
-            m: '-8%',
-          }}
-        >
-          {Array.isArray(displayMissions) && displayMissions.length > 0 ? (
-            displayMissions.map((mission, index) => (
+      <PageContainer>
+        <PageTitleText title="關卡" />
+        {Array.isArray(displayMissions) && displayMissions.length > 0 ? (
+          <ContentList
+            items={displayMissions}
+            renderItem={(mission, index) => (
               <Paper
                 key={index}
                 elevation={10}
@@ -158,12 +131,12 @@ const MissionPage = () => {
                   </Box>
                 </Layer>
               </Paper>
-            ))
-          ) : (
-            <p>No missions available</p>
-          )}
-        </Stack>
-      </Box>
+            )}
+          />
+        ) : (
+          <p>No missions available</p>
+        )}
+      </PageContainer>
     </ThemeColorLayer>
   );
 };
