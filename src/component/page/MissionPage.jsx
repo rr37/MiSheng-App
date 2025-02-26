@@ -28,6 +28,7 @@ const MissionPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedMissionIndex, setSelectedMissionIndex] = useState(null);
   const [selectedMissionTitle, setSelectedMissionTitle] = useState(null);
+  const [pressTimer, setPressTimer] = useState(null);
 
   const currentMission = missionData[currentMissionId];
 
@@ -72,9 +73,25 @@ const MissionPage = () => {
     setDialogOpen(false);
   };
 
-
   const handleCancel = () => {
     setDialogOpen(false);
+  };
+
+  const handleLongPressStart = (e, index, title) => {
+    // 設定計時器，5 秒後開啟對話框
+    const timer = setTimeout(() => {
+      handleSwitchMissionClick(index, title);
+    }, 5000);
+
+    setPressTimer(timer);
+  };
+
+  const handleLongPressEnd = () => {
+    // 取消計時器
+    if (pressTimer) {
+      clearTimeout(pressTimer);
+      setPressTimer(null);
+    }
   };
 
   return (
@@ -87,7 +104,16 @@ const MissionPage = () => {
             renderItem={(mission, index) => (
               <Paper
                 key={index}
-                elevation={mission.id !== currentMissionId ? 8 : 0}
+                onMouseDown={(e) =>
+                  handleLongPressStart(
+                    e,
+                    index,
+                    mission.subtitle || mission.title
+                  )
+                }
+                onMouseUp={handleLongPressEnd}
+                onMouseLeave={handleLongPressEnd}
+                elevation={!mission.status ? 0 : 8}
                 sx={{
                   display: 'flex',
                   borderRadius: '20px',
@@ -168,6 +194,7 @@ const MissionPage = () => {
                 {/* Switch mission button */}
                 <Layer>
                   <Button
+                    disabled={!mission.status && true}
                     onClick={() =>
                       handleSwitchMissionClick(
                         index,
