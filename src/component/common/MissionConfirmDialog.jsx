@@ -8,12 +8,18 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const MissionConfirmDialog = ({ open, onClose, onConfirm, conFirmText }) => {
+const MissionConfirmDialog = ({
+  open,
+  onClose,
+  onConfirm,
+  title,
+  confirmText,
+}) => {
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>提示</DialogTitle>
+      <DialogTitle>{title || '提示'}</DialogTitle>
       <DialogContent>
-        <Typography>{conFirmText}</Typography>
+        <Typography>{confirmText}</Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={onConfirm} color="error">
@@ -31,7 +37,8 @@ MissionConfirmDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func,
-  conFirmText: PropTypes.string.isRequired,
+  title:PropTypes.string,
+  confirmText: PropTypes.string.isRequired,
 };
 
 export default MissionConfirmDialog;

@@ -132,7 +132,7 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
             open={openConfirmDialog}
             onClose={handleCloseDialog}
             onConfirm={confirmGiveUp}
-            conFirmText={confirmGiveUpText}
+            confirmText={confirmGiveUpText}
           />
         </BottomBox>
       </Layer>
