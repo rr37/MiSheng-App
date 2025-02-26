@@ -6,16 +6,15 @@ import {
   Avatar,
   Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Stack,
   Typography,
 } from '@mui/material';
 import { GameContext } from '../../store/game-context';
 import ThemeColorLayer from '../layer/ThemeColorLayer';
+import PageContainer from '../common/PageContainer';
+import PageTitleText from '../common/PageTitleText';
+import ContentList from '../common/ContentList';
+import MissionConfirmDialog from '../common/MissionConfirmDialog';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LockRoundedIcon from '@mui/icons-material/LockRounded';
 
@@ -31,6 +30,8 @@ const HintPage = () => {
   const [currentHints, setCurrentHints] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false); // Dialog 的開關
   const [currentHintIndex, setCurrentHintIndex] = useState(null); // 當前選擇的提示索引
+  const [expandedHints, setExpandedHints] = useState([]);
+
   const currentMission = missionData[currentMissionId];
 
   useEffect(() => {
@@ -53,6 +54,12 @@ const HintPage = () => {
     setCurrentHints(updatedFilteredHints);
   }, [currentMissionId, hintData, currentMission]);
 
+  const handleExpand = (index) => {
+    setExpandedHints((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
+
   const handleUnlockClick = (index) => {
     setCurrentHintIndex(index);
     setDialogOpen(true);
@@ -61,6 +68,9 @@ const HintPage = () => {
   const handleConfirmUnlock = () => {
     if (currentHintIndex !== null) {
       unlockHint(currentMission.id, currentHintIndex);
+      setTimeout(() => {
+        handleExpand(currentHintIndex);
+      }, 100); // 略微延遲確保狀態更新,確保在解鎖後才展開
     }
     setDialogOpen(false);
     setCurrentHintIndex(null);
@@ -73,46 +83,18 @@ const HintPage = () => {
 
   return (
     <ThemeColorLayer bgc="#fff">
-      <Box
-        sx={{
-          width: '100%',
-          height: '85vh',
-          p: '7%',
-          boxSizing: 'border-box',
-          position: 'absolute',
-          top: 0,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Typography
-          gutterBottom
-          align="left"
-          sx={{
-            fontFamily: "'Noto Serif TC', serif",
-            fontWeight: 900,
-            fontSize: '48px',
-            color: '#37474F',
-          }}
-        >
-          提示
-        </Typography>
-        <Stack
-          spacing={2}
-          sx={{
-            overflowY: 'auto',
-            maxHeight: '100%',
-            flex: '1',
-            p: '5%',
-            m: '-5%',
-          }}
-        >
-          {Array.isArray(currentHints) && currentHints.length > 0 ? (
-            currentHints.map((hint, index) => (
+      <PageContainer>
+        <PageTitleText title="提示" />
+        {Array.isArray(currentHints) && currentHints.length > 0 ? (
+          <ContentList
+            items={currentHints}
+            renderItem={(hint, index) => (
               <Accordion
                 key={index}
                 disabled={!unlockedHints[currentMission?.id]?.[index]}
                 elevation={6}
+                expanded={expandedHints.includes(index)}
+                onChange={() => handleExpand(index)}
                 sx={{
                   borderRadius: '4px',
                   '&:before': {
@@ -189,29 +171,20 @@ const HintPage = () => {
                   )}
                 </AccordionDetails>
               </Accordion>
-            ))
-          ) : (
-            <p>No hints available</p>
-          )}
-        </Stack>
-      </Box>
+            )}
+          />
+        ) : (
+          <p>No hints available</p>
+        )}
+      </PageContainer>
       {/* 解鎖確認 Dialog */}
-      <Dialog open={dialogOpen} onClose={handleCancel}>
-        <DialogTitle>確認解鎖</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            確定要解鎖提示 {currentHintIndex + 1} 嗎？
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancel} color="secondary">
-            取消
-          </Button>
-          <Button onClick={handleConfirmUnlock} color="primary">
-            確定
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <MissionConfirmDialog
+        open={dialogOpen}
+        onClose={handleCancel}
+        onConfirm={handleConfirmUnlock}
+        title={'確認解鎖'}
+        confirmText={`確定要解鎖提示 ${currentHintIndex + 1} 嗎？`}
+      />
     </ThemeColorLayer>
   );
 };
