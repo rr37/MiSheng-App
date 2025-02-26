@@ -31,17 +31,28 @@ export const GameProvider = ({ children }) => {
   // 更新任務的完成狀態
   const updateMissionStatus = (missionId, status = 'incomplete') => {
     setPlayerMissionData((prevMissions) => {
-      const missionExists = prevMissions.some(
-        (mission) => mission.id === missionId
-      );
+      let missionExists = false; // 記錄是否 mission 存在
 
-      if (!missionExists) {
-        return [...prevMissions, { id: missionId, status }];
-      }
+      const updatedMissions = prevMissions.map((mission) => {
+        if (mission.id === missionId) {
+          missionExists = true; // 找到目標 mission
 
-      return prevMissions.map((mission) =>
-        mission.id === missionId ? { ...mission, status } : mission
-      );
+          // 如果已經是 complete，不做更動
+          if (mission.status === 'complete') {
+            return mission;
+          }
+
+          // 否則，更新 status
+          return { ...mission, status };
+        }
+        return mission;
+      });
+
+      // 如果 mission 存在，回傳更新後的陣列
+      if (missionExists) return updatedMissions;
+
+      // 否則，新增新 mission
+      return [...prevMissions, { id: missionId, status }];
     });
   };
 
