@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { Avatar, Box, Stack, Typography } from '@mui/material';
+import ZoomableImage from './zoomableImage';
 import PropTypes from 'prop-types';
 
 const HintContent = ({ hint, index }) => {
   const { speaker, avatar, text, img } = hint;
   const hasSpeaker = Boolean(speaker);
+  const [fullScreenIndex, setFullScreenIndex] = useState(null);
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'top' }}>
@@ -30,13 +33,16 @@ const HintContent = ({ hint, index }) => {
         )}
         <Typography align="left">{text}</Typography>
         {img && (
-          <img
+          <ZoomableImage
+            key={index}
             src={`/gameFile/sjqy/img/${img}`}
             alt={`Image ${index + 1}`}
-            style={{
-              width: '100%',
-              height: 'auto',
-            }}
+            elevation={0}
+            isFullScreen={fullScreenIndex === index}
+            showZoomButton={fullScreenIndex === null}
+            onToggle={() =>
+              setFullScreenIndex(fullScreenIndex === index ? null : index)
+            }
           />
         )}
       </Stack>

@@ -7,6 +7,7 @@ const ZoomableImage = ({
   src,
   alt,
   title,
+  elevation = 10,
   isFullScreen,
   showZoomButton,
   onToggle,
@@ -16,7 +17,7 @@ const ZoomableImage = ({
       {/* 當圖片沒有放大時，顯示在 Paper 內 */}
       {!isFullScreen && (
         <Paper
-          elevation={10}
+          elevation={elevation}
           sx={{ display: 'flex', borderRadius: '10px', position: 'relative' }}
         >
           {showZoomButton && (
@@ -134,6 +135,7 @@ ZoomableImage.propTypes = {
   src: PropTypes.string.isRequired,
   alt: PropTypes.string,
   title: PropTypes.string,
+  elevation: PropTypes.number,
   isFullScreen: PropTypes.bool.isRequired,
   showZoomButton: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
