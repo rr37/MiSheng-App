@@ -9,7 +9,7 @@ import MissionTitleText from '../component/common/MissionTitleText';
 import BottomBox from '../component/common/BottomBox';
 import NextButton from '../component/common/NextButton';
 import AnswerInputForm from '../component/common/AnswerInputForm';
-import MissionConfirmDialog from '../component/common/MissionConfirmDialog';
+import ConfirmDialog from '../component/common/ConfirmDialog';
 import MissionFeedbackDialog from '../component/common/MissionFeedbackDialog';
 import PropTypes from 'prop-types';
 import useNextId from '../hook/useNextId';
@@ -128,7 +128,7 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
           />
 
           {/* confirmGiveUp 彈出視窗 */}
-          <MissionConfirmDialog
+          <ConfirmDialog
             open={openConfirmDialog}
             onClose={handleCloseDialog}
             onConfirm={confirmGiveUp}

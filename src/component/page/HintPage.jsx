@@ -5,7 +5,7 @@ import PageContainer from '../common/PageContainer';
 import PageTitleText from '../common/PageTitleText';
 import ContentList from '../common/ContentList';
 import HintAccordion from '../common/HintAccordion';
-import MissionConfirmDialog from '../common/MissionConfirmDialog';
+import ConfirmDialog from '../common/ConfirmDialog';
 
 const HintPage = () => {
   const {
@@ -93,9 +93,9 @@ const HintPage = () => {
           <p>No hints available</p>
         )}
       </PageContainer>
-      
+
       {/* 解鎖確認 Dialog */}
-      <MissionConfirmDialog
+      <ConfirmDialog
         open={dialogOpen}
         onClose={handleCancel}
         onConfirm={handleConfirmUnlock}
