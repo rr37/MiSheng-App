@@ -8,7 +8,7 @@ import ZoomableImage from '../common/ZoomableImage';
 
 const PropPage = () => {
   const { missionData, propData, currentMissionId } = useContext(GameContext);
-  const [currentProps, setCurrentProps] = useState();
+  const [currentProps, setCurrentProps] = useState([]);
   const [fullScreenIndex, setFullScreenIndex] = useState(null); // 控制哪張圖全螢幕
 
   const currentMission = missionData[currentMissionId];
