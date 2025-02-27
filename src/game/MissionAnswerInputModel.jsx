@@ -32,7 +32,10 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
   const currentMission = missionData[currentMissionId];
 
   useEffect(() => {
-    if (playerMissionData[currentMissionId].status === 'complete') {
+    const currentMissionStatus = playerMissionData.find(
+      (data) => data.id === String(currentMissionId)
+    );
+    if (currentMissionStatus === 'complete') {
       setIsAnswerCorrect(true);
     }
   }, []);
