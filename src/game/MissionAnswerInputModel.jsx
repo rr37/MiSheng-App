@@ -17,7 +17,9 @@ import useNextId from '../hook/useNextId';
 const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
   const {
     currentMissionId,
+    setCurrentMissionId,
     missionData,
+    rundownData,
     playerMissionData,
     updateMissionStatus,
   } = useContext(GameContext);
@@ -29,22 +31,33 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
   const [openDialog, setOpenDialog] = useState(false); // 控制彈出視窗
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false); // 控制確定放棄視窗
   const [giveupCountdown, setGiveupCountdown] = useState(5);
-  const currentMission = missionData[currentMissionId];
+  const [currentMission, setCurrentMission] = useState(null);
   const [answerArray, setAnswerArray] = useState([]);
 
   useEffect(() => {
-    const currentMissionStatus = playerMissionData.find(
-      (data) => data.id === String(currentMissionId)
-    );
-    if (currentMissionStatus === 'complete') {
-      setIsAnswerCorrect(true);
+    if (currentMissionId && missionData[currentMissionId]) {
+      setCurrentMission(missionData[currentMissionId]);
     }
-  }, [currentMissionId, playerMissionData]);
+  }, [currentMissionId]);
 
   useEffect(() => {
-    const answerArray = currentMission.answer.split(/\r?\n/);
-    setAnswerArray(answerArray);
-  }, [currentMissionId, currentMission]);
+    if (currentMission) {
+      const answerArray = currentMission.answer.split(/\r?\n/);
+      setAnswerArray(answerArray);
+    }
+  }, [currentMission]);
+
+  useEffect(() => {
+    const currentPlayerMission = playerMissionData.find(
+      (data) => data.id === String(currentMissionId)
+    );
+    const status = currentPlayerMission?.status;
+    if (status === 'complete') {
+      setIsAnswerCorrect(true);
+    } else {
+      setIsAnswerCorrect(false);
+    }
+  }, [currentMission, currentMissionId, playerMissionData]);
 
   const handleAnswerSubmit = () => {
     const isCorrect = answerArray.some(
@@ -91,6 +104,11 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
     const nextId = getNextId();
     if (nextId) {
       setCurrentId(nextId); // 如果有下一個 ID，設置為它
+      const nextRow = rundownData.find((row) => row.id === nextId);
+      if (nextRow?.missionId) {
+        setCurrentMissionId(nextRow.missionId);
+        updateMissionStatus(nextRow.missionId, 'solving');
+      }
     }
   };
 
