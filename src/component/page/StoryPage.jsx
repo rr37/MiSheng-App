@@ -32,27 +32,23 @@ const StoryPage = () => {
     <ThemeColorLayer bgc="#fff">
       <PageContainer>
         <PageTitleText title="故事" />
-
-        {Array.isArray(currentStories) && currentStories.length > 0 ? (
-          <ContentList
-            items={currentStories}
-            renderItem={(story, index) => (
-              <ZoomableImage
-                key={index}
-                src={`/gameFile/sjqy/img/${story.img}`}
-                alt={`Image ${index + 1}`}
-                title={story.title}
-                isFullScreen={fullScreenIndex === index}
-                showZoomButton={fullScreenIndex === null}
-                onToggle={() =>
-                  setFullScreenIndex(fullScreenIndex === index ? null : index)
-                }
-              />
-            )}
-          />
-        ) : (
-          <p>No stories available</p>
-        )}
+        <ContentList
+          items={currentStories}
+          renderItem={(story, index) => (
+            <ZoomableImage
+              key={index}
+              src={`/gameFile/sjqy/img/${story.img}`}
+              alt={`Image ${index + 1}`}
+              title={story.title}
+              isFullScreen={fullScreenIndex === index}
+              showZoomButton={fullScreenIndex === null}
+              onToggle={() =>
+                setFullScreenIndex(fullScreenIndex === index ? null : index)
+              }
+            />
+          )}
+          emptyText="No stories available"
+        />
       </PageContainer>
     </ThemeColorLayer>
   );

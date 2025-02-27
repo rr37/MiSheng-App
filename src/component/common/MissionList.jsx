@@ -24,7 +24,7 @@ const MissionList = ({
           }
         />
       )}
-      emptyText={'No missions available'}
+      emptyText="No missions available"
     />
   );
 };

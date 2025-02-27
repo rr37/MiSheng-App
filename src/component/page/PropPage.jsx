@@ -32,27 +32,23 @@ const PropPage = () => {
     <ThemeColorLayer bgc="#fff">
       <PageContainer>
         <PageTitleText title="道具" />
-
-        {Array.isArray(currentProps) && currentProps.length > 0 ? (
-          <ContentList
-            items={currentProps}
-            renderItem={(prop, index) => (
-              <ZoomableImage
-                key={index}
-                src={`/gameFile/sjqy/img/${prop.img}`}
-                alt={`Image ${index + 1}`}
-                title={prop.title}
-                isFullScreen={fullScreenIndex === index}
-                showZoomButton={fullScreenIndex === null}
-                onToggle={() =>
-                  setFullScreenIndex(fullScreenIndex === index ? null : index)
-                }
-              />
-            )}
-          />
-        ) : (
-          <p>No props available</p>
-        )}
+        <ContentList
+          items={currentProps}
+          renderItem={(prop, index) => (
+            <ZoomableImage
+              key={index}
+              src={`/gameFile/sjqy/img/${prop.img}`}
+              alt={`Image ${index + 1}`}
+              title={prop.title}
+              isFullScreen={fullScreenIndex === index}
+              showZoomButton={fullScreenIndex === null}
+              onToggle={() =>
+                setFullScreenIndex(fullScreenIndex === index ? null : index)
+              }
+            />
+          )}
+          emptyText="No props available"
+        />
       </PageContainer>
     </ThemeColorLayer>
   );

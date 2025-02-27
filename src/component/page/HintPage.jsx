@@ -74,24 +74,21 @@ const HintPage = () => {
     <ThemeColorLayer bgc="#fff">
       <PageContainer>
         <PageTitleText title="提示" />
-        {Array.isArray(currentHints) && currentHints.length > 0 ? (
-          <ContentList
-            items={currentHints}
-            renderItem={(hint, index) => (
-              <HintAccordion
-                key={index}
-                index={index}
-                hint={hint}
-                isUnlocked={!!unlockedHints[currentMission?.id]?.[index]}
-                isExpanded={expandedHints.includes(index)}
-                onExpand={handleExpand}
-                onUnlock={handleUnlockClick}
-              />
-            )}
-          />
-        ) : (
-          <p>No hints available</p>
-        )}
+        <ContentList
+          items={currentHints}
+          renderItem={(hint, index) => (
+            <HintAccordion
+              key={index}
+              index={index}
+              hint={hint}
+              isUnlocked={!!unlockedHints[currentMission?.id]?.[index]}
+              isExpanded={expandedHints.includes(index)}
+              onExpand={handleExpand}
+              onUnlock={handleUnlockClick}
+            />
+          )}
+          emptyText="No hints available"
+        />
       </PageContainer>
 
       {/* 解鎖確認 Dialog */}
