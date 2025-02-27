@@ -30,6 +30,7 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false); // 控制確定放棄視窗
   const [giveupCountdown, setGiveupCountdown] = useState(5);
   const currentMission = missionData[currentMissionId];
+  const [answerArray, setAnswerArray] = useState([]);
 
   useEffect(() => {
     const currentMissionStatus = playerMissionData.find(
@@ -38,10 +39,18 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
     if (currentMissionStatus === 'complete') {
       setIsAnswerCorrect(true);
     }
-  }, []);
+  }, [currentMissionId, playerMissionData]);
+
+  useEffect(() => {
+    const answerArray = currentMission.answer.split(/\r?\n/);
+    setAnswerArray(answerArray);
+  }, [currentMissionId, currentMission]);
 
   const handleAnswerSubmit = () => {
-    if (userAnswer.trim() === currentMission.answer) {
+    const isCorrect = answerArray.some(
+      (answer) => answer.trim() === userAnswer.trim()
+    );
+    if (isCorrect) {
       updateMissionStatus(currentMission.id, 'complete');
       setFeedback(currentMission.success_text);
       setIsAnswerCorrect(true);
