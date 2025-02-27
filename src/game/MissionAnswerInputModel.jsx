@@ -33,6 +33,7 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
   const [giveupCountdown, setGiveupCountdown] = useState(5);
   const [currentMission, setCurrentMission] = useState(null);
   const [answerArray, setAnswerArray] = useState([]);
+  const [similarAnswers, setSimilarAnswers] = useState([]);
 
   useEffect(() => {
     if (currentMissionId && missionData[currentMissionId]) {
@@ -44,6 +45,19 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
     if (currentMission) {
       const answerArray = currentMission.answer.split(/\r?\n/);
       setAnswerArray(answerArray);
+
+      const similarAnswers = Object.fromEntries(
+        (currentMission.similarAnswer || '')
+          .split(/\n/)
+          .map((line) => {
+            const parts = line.split('>>>');
+            return parts.length === 2
+              ? [parts[0].trim(), parts[1].trim()]
+              : null;
+          })
+          .filter(Boolean)
+      );
+      setSimilarAnswers(similarAnswers);
     }
   }, [currentMission]);
 
@@ -59,15 +73,32 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
     }
   }, [currentMission, currentMissionId, playerMissionData]);
 
+  function toHalfWidth(str) {
+    return str.replace(/[\uFF01-\uFF5E]/g, (ch) =>
+      String.fromCharCode(ch.charCodeAt(0) - 0xfee0)
+    );
+  }
+
+  // 比對答案前的標準化函式： 全形轉半形 & 去除空白 & 大寫變小寫
+  const normalize = (str) => toHalfWidth(str).replace(/\s+/g, '').toLowerCase();
+
   const handleAnswerSubmit = () => {
     const isCorrect = answerArray.some(
-      (answer) => answer.trim() === userAnswer.trim()
+      (answer) => normalize(answer) === normalize(userAnswer)
     );
+
+    const similarKey = Object.keys(similarAnswers).find(
+      (simiAnswer) => normalize(simiAnswer) === normalize(userAnswer)
+    );
+
     if (isCorrect) {
       updateMissionStatus(currentMission.id, 'complete');
       setFeedback(currentMission.success_text);
       setIsAnswerCorrect(true);
       setOpenDialog(true); // 打開彈出視窗
+    } else if (similarKey) {
+      setFeedback(similarAnswers[similarKey]);
+      setOpenDialog(true);
     } else if (userAnswer.trim() === '我放棄了') {
       currentMission.confirmGiveUp_text &&
         setConfirmGiveUpText(currentMission.confirmGiveUp_text);
