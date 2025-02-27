@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Avatar, Box, Stack, Typography } from '@mui/material';
-import ZoomableImage from './zoomableImage';
+import ZoomableImage from './ZoomableImage';
 import PropTypes from 'prop-types';
 
 const HintContent = ({ hint, index }) => {
