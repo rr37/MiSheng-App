@@ -16,7 +16,7 @@ const MissionPage = () => {
     setCurrentMissionId,
     updateMissionStatus,
   } = useContext(GameContext);
-  const [displayMissions, setDisplayMissions] = useState();
+  const [displayMissions, setDisplayMissions] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedMissionId, setSelectedMissionId] = useState(null);
   const [selectedMissionTitle, setSelectedMissionTitle] = useState(null);

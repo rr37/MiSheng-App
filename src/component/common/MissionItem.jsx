@@ -125,7 +125,7 @@ const MissionItem = ({
 
 MissionItem.propTypes = {
   mission: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     title: PropTypes.string,
     subtitle: PropTypes.string,
     status: PropTypes.oneOf(['solving', 'complete', 'incomplete', '']),

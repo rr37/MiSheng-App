@@ -32,14 +32,14 @@ const MissionList = ({
 MissionList.propTypes = {
   missions: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
       title: PropTypes.string,
       subtitle: PropTypes.string,
       status: PropTypes.oneOf(['solving', 'complete', 'incomplete', '']),
       background_img: PropTypes.string,
     })
-  ).isRequired,
-  currentMissionId: PropTypes.number.isRequired,
+  ),
+  currentMissionId: PropTypes.string.isRequired,
   onLongPressStart: PropTypes.func.isRequired,
   onLongPressEnd: PropTypes.func.isRequired,
   onMissionSelect: PropTypes.func.isRequired,
