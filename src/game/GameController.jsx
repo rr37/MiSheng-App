@@ -6,6 +6,7 @@ import TalkModel from './TalkModel';
 import QuizModel from './QuizModel';
 import MissionStartModel from './MissionStartModel';
 import MissionAnswerInputModel from './MissionAnswerInputModel';
+import ImgModel from './ImgModel';
 import { loadCSVData } from './csvLoader';
 import PropTypes from 'prop-types'; // 引入 PropTypes
 
@@ -15,7 +16,7 @@ const GameController = ({
   missionCsvFile,
   propCsvFile,
   rundownCsvFile,
-  storyCsvFile
+  storyCsvFile,
 }) => {
   const {
     characterData,
@@ -41,15 +42,21 @@ const GameController = ({
     }
     const loadCsvFiles = async () => {
       try {
-        const [characterData, hintData, missionData, propData, rundownData, storyData] =
-          await Promise.all([
-            loadCSVData(characterCsvFile),
-            loadCSVData(hintCsvFile),
-            loadCSVData(missionCsvFile),
-            loadCSVData(propCsvFile),
-            loadCSVData(rundownCsvFile),
-            loadCSVData(storyCsvFile)
-          ]);
+        const [
+          characterData,
+          hintData,
+          missionData,
+          propData,
+          rundownData,
+          storyData,
+        ] = await Promise.all([
+          loadCSVData(characterCsvFile),
+          loadCSVData(hintCsvFile),
+          loadCSVData(missionCsvFile),
+          loadCSVData(propCsvFile),
+          loadCSVData(rundownCsvFile),
+          loadCSVData(storyCsvFile),
+        ]);
         setCharacterData(characterData);
         setHintData(hintData);
         setMissionData(missionData);
@@ -121,6 +128,8 @@ const GameController = ({
             currentDialogue={currentRow}
           />
         );
+      case 'Img':
+        return <ImgModel currentRow={currentRow} />;
       // Add more cases for other models as needed
       default:
         return <Typography>Unknown model type: {currentRow.model}</Typography>;
@@ -142,7 +151,7 @@ GameController.propTypes = {
   missionCsvFile: PropTypes.string.isRequired,
   propCsvFile: PropTypes.string.isRequired,
   rundownCsvFile: PropTypes.string.isRequired,
-  storyCsvFile: PropTypes.string.isRequired
+  storyCsvFile: PropTypes.string.isRequired,
 };
 
 export default GameController;

@@ -8,6 +8,8 @@ const ZoomableImage = ({
   alt,
   title,
   elevation = 10,
+  borderRadius = '10px',
+  zoomInFab = 'right',
   isFullScreen,
   showZoomButton,
   onToggle,
@@ -18,7 +20,11 @@ const ZoomableImage = ({
       {!isFullScreen && (
         <Paper
           elevation={elevation}
-          sx={{ display: 'flex', borderRadius: '10px', position: 'relative' }}
+          sx={{
+            display: 'flex',
+            borderRadius: { borderRadius },
+            position: 'relative',
+          }}
         >
           {showZoomButton && (
             <Box
@@ -48,19 +54,35 @@ const ZoomableImage = ({
                   {title}
                 </Box>
               )}
-
-              <Fab
-                size="small"
-                onClick={onToggle}
-                sx={{
-                  backgroundColor: '#fff',
-                  color: '#37474F',
-                  right: 10,
-                  ml: 'auto',
-                }}
-              >
-                <OpenInFullRoundedIcon />
-              </Fab>
+              {zoomInFab === 'right' && (
+                <Fab
+                  size="small"
+                  onClick={onToggle}
+                  sx={{
+                    backgroundColor: '#fff',
+                    color: '#37474F',
+                    right: 10,
+                    ml: 'auto',
+                  }}
+                >
+                  <OpenInFullRoundedIcon />
+                </Fab>
+              )}
+              {zoomInFab === 'center' && (
+                <Fab
+                  size="medium"
+                  onClick={onToggle}
+                  sx={{
+                    backgroundColor: '#fff',
+                    color: '#37474F',
+                    m: 'auto',
+                    top: 10,
+                    transform: 'translateY(50%)',
+                  }}
+                >
+                  <OpenInFullRoundedIcon />
+                </Fab>
+              )}
             </Box>
           )}
           <img
@@ -136,6 +158,8 @@ ZoomableImage.propTypes = {
   alt: PropTypes.string,
   title: PropTypes.string,
   elevation: PropTypes.number,
+  borderRadius: PropTypes.string,
+  zoomInFab: PropTypes.string,
   isFullScreen: PropTypes.bool.isRequired,
   showZoomButton: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
