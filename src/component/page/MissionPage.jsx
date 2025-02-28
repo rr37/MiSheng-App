@@ -66,6 +66,7 @@ const MissionPage = () => {
   };
 
   const handleLongPressStart = (e, missionId, title) => {
+    e.preventDefault(); // 防止 touch 產生點擊事件
     const timer = setTimeout(() => handleMissionSelect(missionId, title), 5000);
     setPressTimer(timer);
   };
@@ -87,6 +88,9 @@ const MissionPage = () => {
           onLongPressStart={handleLongPressStart}
           onLongPressEnd={handleLongPressEnd}
           onMissionSelect={handleMissionSelect}
+          onTouchStart={handleLongPressStart}
+          onTouchEnd={handleLongPressEnd}
+          onTouchCancel={handleLongPressEnd}
         />
       </PageContainer>
 
