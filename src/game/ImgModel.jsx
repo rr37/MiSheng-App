@@ -36,9 +36,11 @@ const Img = ({ currentRow, onNext, canProceed }) => {
         />
       )}
 
-      <NextButton onClick={onNext} disabled={!canProceed}>
-        Next
-      </NextButton>
+      {canProceed && (
+        <NextButton onClick={onNext} disabled={!canProceed}>
+          Next
+        </NextButton>
+      )}
     </Box>
   );
 };
