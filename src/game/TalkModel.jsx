@@ -11,43 +11,47 @@ import CharacterLayer from '../component/layer/CharacterLayer';
 import TalkBox from '../component/feature/TalkBox';
 import { GameContext } from '../store/game-context';
 
-const Talk = ({ data, characterData, currentId, setCurrentId }) => {
-  const [currentDialogue, setCurrentDialogue] = useState(null);
+const Talk = ({ currentRow }) => {
   const [speaker, setSpeaker] = useState(null);
   const [backgroundImg, setBackgroundImg] = useState(null);
-  const { missionData, currentMissionId } = useContext(GameContext);
+  const {
+    characterData,
+    missionData,
+    rundownData,
+    currentMissionId,
+    currentId,
+    setCurrentId,
+  } = useContext(GameContext);
   const currentMission = missionData[currentMissionId];
 
   useEffect(() => {
-    if (data.length < 0) {
+    if (rundownData.length < 0) {
       return;
     }
-    const dialogue = data.find((row) => row.id === currentId);
-    setCurrentDialogue(dialogue);
 
     // 如果有 speaker，從 characterData 中找到對應的角色
-    if (dialogue?.speaker) {
+    if (currentRow?.speaker) {
       const character = characterData.find(
-        (char) => char.name === dialogue.speaker
+        (char) => char.name === currentRow.speaker
       );
       setSpeaker(character || null); // 儲存角色資訊
     } else {
       setSpeaker(null); // 沒有 speaker 時清空
     }
-  }, [currentId, data, characterData]);
+  }, [currentId]);
 
   useEffect(() => {
     setBackgroundImg(
-      currentDialogue?.background_img || currentMission?.background_img
+      currentRow?.background_img || currentMission?.background_img
     );
-  }, [currentDialogue, currentMission]);
+  }, [currentRow, currentMission]);
 
   const displayText = useTypewriterEffect(
-    currentDialogue?.text || '', // Pass the dialogue text to the hook
+    currentRow?.text || '', // Pass the dialogue text to the hook
     50 // Typing speed in milliseconds
   );
 
-  const { getNextId, canProceedToNext } = useNextId(data, currentDialogue);
+  const { getNextId, canProceedToNext } = useNextId(rundownData, currentRow);
 
   const handleNext = () => {
     const nextId = getNextId();
@@ -56,7 +60,7 @@ const Talk = ({ data, characterData, currentId, setCurrentId }) => {
     }
   };
 
-  if (!currentDialogue) {
+  if (!currentRow) {
     return <Typography>Loading...</Typography>;
   }
 
@@ -84,7 +88,7 @@ const Talk = ({ data, characterData, currentId, setCurrentId }) => {
       {/* Talk */}
       <Layer>
         <TalkBox
-          title={currentDialogue?.title || currentDialogue.speaker}
+          title={currentRow?.title || currentRow.speaker}
           text={displayText}
           onNext={handleNext}
           canProceed={canProceedToNext}
@@ -96,26 +100,7 @@ const Talk = ({ data, characterData, currentId, setCurrentId }) => {
 
 // 定義 propTypes
 Talk.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      speaker: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      nextId: PropTypes.string,
-      img: PropTypes.string,
-    })
-  ).isRequired,
-  characterData: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      avatar: PropTypes.string,
-      straight: PropTypes.string,
-    })
-  ).isRequired,
-  currentId: PropTypes.string.isRequired,
-  setCurrentId: PropTypes.func.isRequired,
+  currentRow: PropTypes.object,
 };
 
 export default Talk;

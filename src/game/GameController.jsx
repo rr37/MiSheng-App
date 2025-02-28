@@ -19,9 +19,9 @@ const GameController = ({
   storyCsvFile,
 }) => {
   const {
-    characterData,
     setCharacterData,
     setHintData,
+    missionData,
     setMissionData,
     setPropData,
     rundownData,
@@ -31,7 +31,8 @@ const GameController = ({
     isDataLoaded,
     setIsDataLoaded,
     currentId,
-    setCurrentId,
+    setCurrentMissionId,
+    updateMissionStatus,
   } = useContext(GameContext);
   const [currentRow, setCurrentRow] = useState([]);
 
@@ -74,14 +75,29 @@ const GameController = ({
   }, []);
 
   useEffect(() => {
-    // Check if csvData is valid and find the current row based on the current ID
-    if (Array.isArray(rundownData)) {
-      const row = rundownData.find((item) => item.id === currentId);
-      if (row !== currentRow) {
-        setCurrentRow(row);
+    if (!Array.isArray(rundownData)) return;
+
+    // 找到 currentRow
+    const row = rundownData.find((item) => item.id === currentId);
+    if (row !== currentRow) {
+      setCurrentRow(row);
+    }
+
+    // 設定目前的 mission
+    if (row) {
+      const currentMissionId = row.missionId;
+      const mission = missionData.find(
+        (mission) => mission.id === currentMissionId
+      );
+      if (mission) {
+        setCurrentMissionId(mission.id);
+        updateMissionStatus(mission.id, 'solving');
+      } else {
+        console.log('這頁沒有 missionId');
       }
     }
-  }, [currentId, rundownData, currentRow]);
+  }, [currentId, rundownData, missionData, currentRow]);
+
 
   if (!rundownData || !Array.isArray(rundownData)) {
     return <Typography>Loading data...</Typography>;
@@ -95,39 +111,13 @@ const GameController = ({
   const renderContent = () => {
     switch (currentRow.model) {
       case 'Talk':
-        return (
-          <TalkModel
-            data={rundownData}
-            characterData={characterData}
-            currentId={currentId}
-            setCurrentId={setCurrentId}
-          />
-        );
+        return <TalkModel currentRow={currentRow} />;
       case 'Quiz':
-        return (
-          <QuizModel
-            data={rundownData}
-            characterData={characterData}
-            currentId={currentId}
-            setCurrentId={setCurrentId}
-          />
-        );
+        return <QuizModel currentRow={currentRow} />;
       case 'MissionStart':
-        return (
-          <MissionStartModel
-            data={rundownData}
-            currentId={currentId}
-            setCurrentId={setCurrentId}
-          />
-        );
+        return <MissionStartModel currentRow={currentRow} />;
       case 'MissionAnswerInput':
-        return (
-          <MissionAnswerInputModel
-            data={rundownData}
-            setCurrentId={setCurrentId}
-            currentDialogue={currentRow}
-          />
-        );
+        return <MissionAnswerInputModel currentRow={currentRow} />;
       case 'Img':
         return <ImgModel currentRow={currentRow} />;
       // Add more cases for other models as needed

@@ -14,10 +14,11 @@ import MissionFeedbackDialog from '../component/common/MissionFeedbackDialog';
 import PropTypes from 'prop-types';
 import useNextId from '../hook/useNextId';
 
-const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
+const MissionAnswerInputModel = ({ currentRow }) => {
   const {
     currentMissionId,
     setCurrentMissionId,
+    setCurrentId,
     missionData,
     rundownData,
     playerMissionData,
@@ -129,7 +130,7 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
     setOpenConfirmDialog(false);
   };
 
-  const { getNextId, canProceedToNext } = useNextId(data, currentDialogue);
+  const { getNextId, canProceedToNext } = useNextId(rundownData, currentRow);
 
   const handleNext = () => {
     const nextId = getNextId();
@@ -203,19 +204,7 @@ const MissionAnswerInputModel = ({ data, setCurrentId, currentDialogue }) => {
 
 // 定義 propTypes
 MissionAnswerInputModel.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      speaker: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      nextId: PropTypes.string,
-      img: PropTypes.string,
-      missionId: PropTypes.string,
-    })
-  ).isRequired,
-  setCurrentId: PropTypes.func.isRequired,
-  currentDialogue: PropTypes.object.isRequired,
+  currentRow: PropTypes.object,
 };
 
 export default MissionAnswerInputModel;

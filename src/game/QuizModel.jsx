@@ -10,42 +10,46 @@ import BackgroundLayer from '../component/layer/BackgroundLayer';
 import CharacterLayer from '../component/layer/CharacterLayer';
 import QuestionBox from '../component/feature/QuestionBox';
 
-const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
-  const [currentQuestion, setCurrentQuestion] = useState(null);
+const QuizModel = ({ currentRow }) => {
+  const {
+    characterData,
+    missionData,
+    rundownData,
+    currentMissionId,
+    currentId,
+    setCurrentId,
+  } = useContext(GameContext);
   const [speaker, setSpeaker] = useState(null);
   const [backgroundImg, setBackgroundImg] = useState(null);
   const [options, setOptions] = useState([]);
-  const { missionData, currentMissionId } = useContext(GameContext);
   const currentMission = missionData[currentMissionId];
 
   useEffect(() => {
-    // Find the current question
-    const question = data.find((row) => row.id === currentId);
-    setCurrentQuestion(question);
-
     // Find options related to the current question
-    const relatedOptions = data.filter((row) => row.parentId === currentId);
+    const relatedOptions = rundownData.filter(
+      (row) => row.parentId === currentId
+    );
     setOptions(relatedOptions);
 
     // 如果有 speaker，從 characterData 中找到對應的角色
-    if (question?.speaker) {
+    if (currentRow?.speaker) {
       const character = characterData.find(
-        (char) => char.name === question.speaker
+        (char) => char.name === currentRow.speaker
       );
       setSpeaker(character || null); // 儲存角色資訊
     } else {
       setSpeaker(null); // 沒有 speaker 時清空
     }
-  }, [currentId, data, characterData]);
+  }, [currentId]);
 
   useEffect(() => {
     setBackgroundImg(
-      currentQuestion?.background_img || currentMission?.background_img
+      currentRow?.background_img || currentMission?.background_img
     );
-  }, [currentQuestion, currentMission]);
+  }, [currentRow, currentMission]);
 
   const displayText = useTypewriterEffect(
-    currentQuestion?.text || '', // Pass the dialogue text to the hook
+    currentRow?.text || '', // Pass the dialogue text to the hook
     50 // Typing speed in milliseconds
   );
 
@@ -53,7 +57,7 @@ const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
     setCurrentId(nextId);
   };
 
-  if (!currentQuestion) {
+  if (!currentRow) {
     return <Typography>Quiz Loading...</Typography>;
   }
 
@@ -81,7 +85,7 @@ const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
       {/* Quiz */}
       <Layer>
         <QuestionBox
-          speaker={currentQuestion?.speaker || currentQuestion.title}
+          speaker={currentRow?.speaker || currentRow.title}
           text={displayText}
           options={options}
           onOptionClick={handleOptionClick}
@@ -93,26 +97,7 @@ const QuizModel = ({ data, characterData, currentId, setCurrentId }) => {
 
 // 定義 propTypes
 QuizModel.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      speaker: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      nextId: PropTypes.string,
-      img: PropTypes.string,
-    })
-  ).isRequired,
-  characterData: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      avatar: PropTypes.string,
-      straight: PropTypes.string,
-    })
-  ).isRequired,
-  currentId: PropTypes.string.isRequired,
-  setCurrentId: PropTypes.func.isRequired,
+  currentRow: PropTypes.object,
 };
 
 export default QuizModel;
