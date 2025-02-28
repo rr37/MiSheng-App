@@ -167,10 +167,7 @@ const MissionAnswerInputModel = ({ currentRow }) => {
         <BottomBox>
           <MissionSubtitleText subtitle={currentMission.subtitle} />
           <MissionTitleText title={currentMission.title} />
-
-          {isAnswerCorrect && canProceedToNext ? (
-            <NextButton onClick={handleNext}>Next</NextButton>
-          ) : (
+          {!isAnswerCorrect ? (
             <AnswerInputForm
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
@@ -178,6 +175,10 @@ const MissionAnswerInputModel = ({ currentRow }) => {
               disabled={isAnswerCorrect}
               giveupCountdown={giveupCountdown}
             />
+          ) : (
+            canProceedToNext() && (
+              <NextButton onClick={handleNext}>Next</NextButton>
+            )
           )}
 
           {/* feedback 彈出視窗 */}

@@ -11,9 +11,7 @@ const TalkBox = ({ title, text, onNext, canProceed }) => {
       <Stack spacing={2}>
         <SpeakerText speaker={title} />
         <TalkText text={text} />
-        <NextButton onClick={onNext} disabled={!canProceed()}>
-          Next
-        </NextButton>
+        {canProceed && <NextButton onClick={onNext}>Next</NextButton>}
       </Stack>
     </BottomBox>
   );

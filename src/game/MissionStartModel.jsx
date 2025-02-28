@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { GameContext } from '../store/game-context';
 import PropTypes from 'prop-types';
 import useNextId from '../hook/useNextId';
@@ -9,16 +9,12 @@ import BackgroundLayer from '../component/layer/BackgroundLayer';
 import MissionSubtitleText from '../component/common/MissionSubtitleText';
 import MissionTitleText from '../component/common/MissionTitleText';
 import TalkText from '../component/common/TalkText';
-import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import AssistantDirectionRoundedIcon from '@mui/icons-material/AssistantDirectionRounded';
+import EndIconButton from '../component/common/EndIconButton';
 
 const MissionStart = ({ currentRow }) => {
-  const {
-    missionData,
-    rundownData,
-    currentMissionId,
-    setCurrentId,
-  } = useContext(GameContext);
+  const { missionData, rundownData, currentMissionId, setCurrentId } =
+    useContext(GameContext);
   const currentMission = missionData[currentMissionId];
 
   const { getNextId, canProceedToNext } = useNextId(rundownData, currentRow);
@@ -74,35 +70,16 @@ const MissionStart = ({ currentRow }) => {
 
           <Stack direction="row" spacing={2} sx={{ mt: '10px' }}>
             {currentMission.navigation && (
-              <Button
-                variant="contained"
-                size="medium"
-                color="inherit"
+              <EndIconButton
                 href={currentMission.navigation}
-                target="_blank"
-                sx={{
-                  borderRadius: '30px',
-                  width: 'fit-content',
-                }}
                 endIcon={<AssistantDirectionRoundedIcon />}
               >
                 導航
-              </Button>
+              </EndIconButton>
             )}
-            <Button
-              variant="contained"
-              size="medium"
-              color="inherit"
-              sx={{
-                borderRadius: '30px',
-                width: 'fit-content',
-              }}
-              onClick={handleNext}
-              disabled={!canProceedToNext()}
-              endIcon={<ArrowForwardRoundedIcon />}
-            >
-              開始遊戲
-            </Button>
+            {canProceedToNext() && (
+              <EndIconButton onClick={handleNext}>開始遊戲</EndIconButton>
+            )}
           </Stack>
         </Box>
       </Layer>

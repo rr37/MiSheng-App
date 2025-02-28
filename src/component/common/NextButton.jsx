@@ -10,7 +10,7 @@ const NextButton = ({ onClick, disabled, children }) => {
       fullWidth
       sx={{ borderRadius: '30px' }}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || false}
     >
       {children}
     </Button>
