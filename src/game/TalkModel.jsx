@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from 'react';
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types'; // 引入 PropTypes
 import { useTypewriterEffect } from '../animation/useTypewriterEffect';
-import useNextId from '../hook/useNextId';
 import ThemeColorLayer from '../component/layer/ThemeColorLayer';
 import Layer from '../component/layer/Layer';
 import GradientLayer from '../component/layer/GradientLayer';
@@ -11,7 +10,7 @@ import CharacterLayer from '../component/layer/CharacterLayer';
 import TalkBox from '../component/feature/TalkBox';
 import { GameContext } from '../store/game-context';
 
-const Talk = ({ currentRow }) => {
+const Talk = ({ currentRow, onNext, canProceed }) => {
   const [speaker, setSpeaker] = useState(null);
   const [backgroundImg, setBackgroundImg] = useState(null);
   const {
@@ -20,7 +19,6 @@ const Talk = ({ currentRow }) => {
     rundownData,
     currentMissionId,
     currentId,
-    setCurrentId,
   } = useContext(GameContext);
   const currentMission = missionData[currentMissionId];
 
@@ -50,15 +48,6 @@ const Talk = ({ currentRow }) => {
     currentRow?.text || '', // Pass the dialogue text to the hook
     50 // Typing speed in milliseconds
   );
-
-  const { getNextId, canProceedToNext } = useNextId(rundownData, currentRow);
-
-  const handleNext = () => {
-    const nextId = getNextId();
-    if (nextId) {
-      setCurrentId(nextId); // 如果有下一個 ID，設置為它
-    }
-  };
 
   if (!currentRow) {
     return <Typography>Loading...</Typography>;
@@ -90,8 +79,8 @@ const Talk = ({ currentRow }) => {
         <TalkBox
           title={currentRow?.title || currentRow.speaker}
           text={displayText}
-          onNext={handleNext}
-          canProceed={canProceedToNext}
+          onNext={onNext}
+          canProceed={canProceed}
         />
       </Layer>
     </ThemeColorLayer>
@@ -100,7 +89,9 @@ const Talk = ({ currentRow }) => {
 
 // 定義 propTypes
 Talk.propTypes = {
-  currentRow: PropTypes.object,
+  currentRow: PropTypes.object.isRequired,
+  onNext: PropTypes.func.isRequired,
+  canProceed: PropTypes.bool.isRequired,
 };
 
 export default Talk;

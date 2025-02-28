@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { GameContext } from '../store/game-context';
 import PropTypes from 'prop-types';
-import useNextId from '../hook/useNextId';
 import FloatingLayer from '../component/layer/FloatingLayer';
 import Layer from '../component/layer/Layer';
 import BackgroundLayer from '../component/layer/BackgroundLayer';
@@ -12,19 +11,9 @@ import TalkText from '../component/common/TalkText';
 import AssistantDirectionRoundedIcon from '@mui/icons-material/AssistantDirectionRounded';
 import EndIconButton from '../component/common/EndIconButton';
 
-const MissionStart = ({ currentRow }) => {
-  const { missionData, rundownData, currentMissionId, setCurrentId } =
-    useContext(GameContext);
+const MissionStart = ({ onNext, canProceed }) => {
+  const { missionData, currentMissionId } = useContext(GameContext);
   const currentMission = missionData[currentMissionId];
-
-  const { getNextId, canProceedToNext } = useNextId(rundownData, currentRow);
-
-  const handleNext = () => {
-    const nextId = getNextId();
-    if (nextId) {
-      setCurrentId(nextId); // 如果有下一個 ID，設置為它
-    }
-  };
 
   return (
     <FloatingLayer>
@@ -77,8 +66,8 @@ const MissionStart = ({ currentRow }) => {
                 導航
               </EndIconButton>
             )}
-            {canProceedToNext() && (
-              <EndIconButton onClick={handleNext}>開始遊戲</EndIconButton>
+            {canProceed && (
+              <EndIconButton onClick={onNext}>開始遊戲</EndIconButton>
             )}
           </Stack>
         </Box>
@@ -89,7 +78,8 @@ const MissionStart = ({ currentRow }) => {
 
 // 定義 propTypes
 MissionStart.propTypes = {
-  currentRow: PropTypes.object,
+  onNext: PropTypes.func.isRequired,
+  canProceed: PropTypes.bool.isRequired,
 };
 
 export default MissionStart;

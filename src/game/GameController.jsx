@@ -8,6 +8,7 @@ import MissionStartModel from './MissionStartModel';
 import MissionAnswerInputModel from './MissionAnswerInputModel';
 import ImgModel from './ImgModel';
 import { loadCSVData } from './csvLoader';
+import useNextId from '../hook/useNextId';
 import PropTypes from 'prop-types'; // 引入 PropTypes
 
 const GameController = ({
@@ -31,10 +32,12 @@ const GameController = ({
     isDataLoaded,
     setIsDataLoaded,
     currentId,
+    setCurrentId,
     setCurrentMissionId,
     updateMissionStatus,
   } = useContext(GameContext);
   const [currentRow, setCurrentRow] = useState([]);
+  const { getNextId, canProceedToNext } = useNextId(rundownData, currentRow);
 
   // 讀取該遊戲所有不變的資料
   useEffect(() => {
@@ -96,8 +99,14 @@ const GameController = ({
         console.log('這頁沒有 missionId');
       }
     }
-  }, [currentId, rundownData, missionData, currentRow]);
+  }, [currentId, rundownData, missionData]);
 
+  const handleNext = () => {
+    const nextId = getNextId();
+    if (nextId) {
+      setCurrentId(nextId); // 設定下一個 ID
+    }
+  };
 
   if (!rundownData || !Array.isArray(rundownData)) {
     return <Typography>Loading data...</Typography>;
@@ -107,23 +116,26 @@ const GameController = ({
     return <Typography>Loading...</Typography>;
   }
 
+  const modelComponents = {
+    Talk: TalkModel,
+    Quiz: QuizModel,
+    MissionStart: MissionStartModel,
+    MissionAnswerInput: MissionAnswerInputModel,
+    Img: ImgModel,
+  };
+
   // Render content based on the model type
   const renderContent = () => {
-    switch (currentRow.model) {
-      case 'Talk':
-        return <TalkModel currentRow={currentRow} />;
-      case 'Quiz':
-        return <QuizModel currentRow={currentRow} />;
-      case 'MissionStart':
-        return <MissionStartModel currentRow={currentRow} />;
-      case 'MissionAnswerInput':
-        return <MissionAnswerInputModel currentRow={currentRow} />;
-      case 'Img':
-        return <ImgModel currentRow={currentRow} />;
-      // Add more cases for other models as needed
-      default:
-        return <Typography>Unknown model type: {currentRow.model}</Typography>;
-    }
+    const ModelComponent = modelComponents[currentRow.model];
+    return ModelComponent ? (
+      <ModelComponent
+        currentRow={currentRow}
+        onNext={handleNext}
+        canProceed={canProceedToNext()}
+      />
+    ) : (
+      <Typography>Unknown model type: {currentRow.model}</Typography>
+    );
   };
 
   return (

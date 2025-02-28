@@ -12,15 +12,11 @@ import AnswerInputForm from '../component/common/AnswerInputForm';
 import ConfirmDialog from '../component/common/ConfirmDialog';
 import MissionFeedbackDialog from '../component/common/MissionFeedbackDialog';
 import PropTypes from 'prop-types';
-import useNextId from '../hook/useNextId';
 
-const MissionAnswerInputModel = ({ currentRow }) => {
+const MissionAnswerInputModel = ({ onNext, canProceed }) => {
   const {
     currentMissionId,
-    setCurrentMissionId,
-    setCurrentId,
     missionData,
-    rundownData,
     playerMissionData,
     updateMissionStatus,
   } = useContext(GameContext);
@@ -130,20 +126,6 @@ const MissionAnswerInputModel = ({ currentRow }) => {
     setOpenConfirmDialog(false);
   };
 
-  const { getNextId, canProceedToNext } = useNextId(rundownData, currentRow);
-
-  const handleNext = () => {
-    const nextId = getNextId();
-    if (nextId) {
-      setCurrentId(nextId); // 如果有下一個 ID，設置為它
-      const nextRow = rundownData.find((row) => row.id === nextId);
-      if (nextRow?.missionId) {
-        setCurrentMissionId(nextRow.missionId);
-        updateMissionStatus(nextRow.missionId, 'solving');
-      }
-    }
-  };
-
   if (!currentMission) {
     return <Typography>未選擇任務。</Typography>;
   }
@@ -176,9 +158,7 @@ const MissionAnswerInputModel = ({ currentRow }) => {
               giveupCountdown={giveupCountdown}
             />
           ) : (
-            canProceedToNext() && (
-              <NextButton onClick={handleNext}>Next</NextButton>
-            )
+            canProceed && <NextButton onClick={onNext}>Next</NextButton>
           )}
 
           {/* feedback 彈出視窗 */}
@@ -205,7 +185,8 @@ const MissionAnswerInputModel = ({ currentRow }) => {
 
 // 定義 propTypes
 MissionAnswerInputModel.propTypes = {
-  currentRow: PropTypes.object,
+  onNext: PropTypes.func.isRequired,
+  canProceed: PropTypes.bool.isRequired,
 };
 
 export default MissionAnswerInputModel;

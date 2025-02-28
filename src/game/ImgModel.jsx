@@ -1,23 +1,11 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Box } from '@mui/material';
-import { GameContext } from '../store/game-context';
 import PropTypes from 'prop-types';
-import useNextId from '../hook/useNextId';
 import ZoomableImage from '../component/common/ZoomableImage';
 import NextButton from '../component/common/NextButton';
 
-const Img = ({ currentRow }) => {
-  const { rundownData, setCurrentId } = useContext(GameContext);
+const Img = ({ currentRow, onNext, canProceed }) => {
   const [fullScreenIndex, setFullScreenIndex] = useState(null);
-
-  const { getNextId, canProceedToNext } = useNextId(rundownData, currentRow);
-
-  const handleNext = () => {
-    const nextId = getNextId();
-    if (nextId) {
-      setCurrentId(nextId); // 如果有下一個 ID，設置為它
-    }
-  };
 
   return (
     <Box
@@ -48,7 +36,7 @@ const Img = ({ currentRow }) => {
         />
       )}
 
-      <NextButton onClick={handleNext} disabled={!canProceedToNext()}>
+      <NextButton onClick={onNext} disabled={!canProceed}>
         Next
       </NextButton>
     </Box>
@@ -57,7 +45,9 @@ const Img = ({ currentRow }) => {
 
 // 定義 propTypes
 Img.propTypes = {
-  currentRow: PropTypes.object,
+  currentRow: PropTypes.object.isRequired,
+  onNext: PropTypes.func.isRequired,
+  canProceed: PropTypes.bool.isRequired,
 };
 
 export default Img;

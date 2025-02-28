@@ -21,7 +21,7 @@ TalkBox.propTypes = {
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   onNext: PropTypes.func.isRequired,
-  canProceed: PropTypes.func.isRequired,
+  canProceed: PropTypes.bool.isRequired,
 };
 
 export default TalkBox;
