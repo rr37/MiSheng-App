@@ -16,7 +16,7 @@ const ContentList = ({
         maxHeight: '100%',
         flex: 1,
         p: '8%',
-        pb: '20%',
+        pb: '13%',
         m: '-8%',
         mt: '-3%',
         ...sx, // 允許外部覆寫樣式

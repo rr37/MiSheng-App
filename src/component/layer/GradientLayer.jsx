@@ -9,7 +9,6 @@ function GradientLayer() {
         height: '80%',
         bottom: '0%',
         position: 'absolute',
-        borderRadius: '0 0 20px 20px',
       }}
     ></Box>
   );

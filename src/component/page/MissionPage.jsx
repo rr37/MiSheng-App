@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
 import { GameContext } from '../../store/game-context';
-import ThemeColorLayer from '../layer/ThemeColorLayer';
 import PageContainer from '../common/PageContainer';
 import PageTitleText from '../common/PageTitleText';
 import MissionList from '../common/MissionList';
@@ -79,20 +78,18 @@ const MissionPage = () => {
   };
 
   return (
-    <ThemeColorLayer bgc="#fff">
-      <PageContainer>
-        <PageTitleText title="關卡" />
-        <MissionList
-          missions={displayMissions}
-          currentMissionId={currentMissionId}
-          onLongPressStart={handleLongPressStart}
-          onLongPressEnd={handleLongPressEnd}
-          onMissionSelect={handleMissionSelect}
-          onTouchStart={handleLongPressStart}
-          onTouchEnd={handleLongPressEnd}
-          onTouchCancel={handleLongPressEnd}
-        />
-      </PageContainer>
+    <PageContainer>
+      <PageTitleText title="關卡" />
+      <MissionList
+        missions={displayMissions}
+        currentMissionId={currentMissionId}
+        onLongPressStart={handleLongPressStart}
+        onLongPressEnd={handleLongPressEnd}
+        onMissionSelect={handleMissionSelect}
+        onTouchStart={handleLongPressStart}
+        onTouchEnd={handleLongPressEnd}
+        onTouchCancel={handleLongPressEnd}
+      />
 
       {/* 跳關確認 Dialog */}
       <ConfirmDialog
@@ -102,7 +99,7 @@ const MissionPage = () => {
         title={`確定要移動到${selectedMissionTitle}嗎？`}
         confirmText={`移動不會影響答題狀態喔～`}
       />
-    </ThemeColorLayer>
+    </PageContainer>
   );
 };
 

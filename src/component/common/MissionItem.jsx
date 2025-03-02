@@ -27,6 +27,7 @@ const MissionItem = ({
         display: 'flex',
         borderRadius: '20px',
         position: 'relative',
+        overflow:'hidden',
         height: '70px',
         minHeight: '70px',
       }}

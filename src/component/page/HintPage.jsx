@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
 import { GameContext } from '../../store/game-context';
-import ThemeColorLayer from '../layer/ThemeColorLayer';
 import PageContainer from '../common/PageContainer';
 import PageTitleText from '../common/PageTitleText';
 import ContentList from '../common/ContentList';
@@ -71,25 +70,23 @@ const HintPage = () => {
   };
 
   return (
-    <ThemeColorLayer bgc="#fff">
-      <PageContainer>
-        <PageTitleText title="提示" />
-        <ContentList
-          items={currentHints}
-          renderItem={(hint, index) => (
-            <HintAccordion
-              key={index}
-              index={index}
-              hint={hint}
-              isUnlocked={!!unlockedHints[currentMission?.id]?.[index]}
-              isExpanded={expandedHints.includes(index)}
-              onExpand={handleExpand}
-              onUnlock={handleUnlockClick}
-            />
-          )}
-          emptyText="No hints available"
-        />
-      </PageContainer>
+    <PageContainer>
+      <PageTitleText title="提示" />
+      <ContentList
+        items={currentHints}
+        renderItem={(hint, index) => (
+          <HintAccordion
+            key={index}
+            index={index}
+            hint={hint}
+            isUnlocked={!!unlockedHints[currentMission?.id]?.[index]}
+            isExpanded={expandedHints.includes(index)}
+            onExpand={handleExpand}
+            onUnlock={handleUnlockClick}
+          />
+        )}
+        emptyText="No hints available"
+      />
 
       {/* 解鎖確認 Dialog */}
       <ConfirmDialog
@@ -99,7 +96,7 @@ const HintPage = () => {
         title={'確認解鎖'}
         confirmText={`確定要解鎖提示 ${currentHintIndex + 1} 嗎？`}
       />
-    </ThemeColorLayer>
+    </PageContainer>
   );
 };
 

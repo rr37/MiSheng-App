@@ -7,11 +7,9 @@ function FloatingLayer(props) {
       elevation={12}
       sx={{
         borderRadius: '20px',
-        height: 'calc(60% + 100px)',
-        width: '100%',
-        marginLeft: '40px',
-        marginRight: '40px',
-        marginBottom: '20px',
+        height: 'calc(60dvh + 100px)',
+        width: '76%',
+        m: 'auto',
         overflow: 'hidden',
         boxSizing: 'border-box',
         position: 'relative',

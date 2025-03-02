@@ -6,14 +6,13 @@ const PageContainer = ({ children }) => {
     <Box
       sx={{
         width: '100%',
-        height: '85vh',
-        minHeight: '65vh',
-        padding: '7%',
+        height: '100%',
         boxSizing: 'border-box',
-        position: 'absolute',
-        top: 0,
+        p: '12%',
+        pb: 0,
         display: 'flex',
         flexDirection: 'column',
+        overflow: 'hidden',
       }}
     >
       {children}

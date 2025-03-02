@@ -7,7 +7,6 @@ import AutoStoriesRoundedIcon from '@mui/icons-material/AutoStoriesRounded';
 import PropTypes from 'prop-types';
 
 export default function FixedBottomNavigation({ value, onChange }) {
-
   return (
     <BottomNavigation
       sx={{
@@ -43,5 +42,5 @@ export default function FixedBottomNavigation({ value, onChange }) {
 
 FixedBottomNavigation.propTypes = {
   value: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };

@@ -1,14 +1,14 @@
-html, body {
-  overflow-x: hidden;
+html,
+body {
+  overflow: hidden;
 }
 
 body {
   display: flex;
   place-items: center;
-  min-height: 100vh;
   margin: 0;
 }
 
-html{ 
+html {
   background: #363636;
 }

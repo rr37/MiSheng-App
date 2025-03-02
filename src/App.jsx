@@ -2,7 +2,6 @@ import './App.css';
 import { useState } from 'react';
 import { Box, Container } from '@mui/material';
 import { GameProvider } from './store/game-provider';
-import MyAppBar from './component/AppBar';
 import FixedBottomNavigation from './component/BottomNavigation';
 import MissionPage from './component/page/MissionPage';
 import PropPage from './component/page/PropPage';
@@ -18,7 +17,7 @@ import rundownCsvFile from '/gameFile/sjqy/sjqy - rundown.csv';
 import storyCsvFile from '/gameFile/sjqy/sjqy - story.csv';
 
 function App() {
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(2);
 
   // 根據value顯示不同的內容
   const renderMainContainer = () => {
@@ -51,60 +50,51 @@ function App() {
     <GameProvider>
       <Box
         sx={{
-          minHeight: '100vh',
-          flexDirection: 'column',
-          maxHeight: '100%',
+          height: '100dvh',
+          // backgroundColor: '#000',
         }}
       >
         <Container
           maxWidth="sm"
           sx={{
-            maxHeight: '100%',
-            // border: '1px solid #000',
-            display: 'flex',
-            backgroundColor: '#fff',
-            margin: 'auto',
-            paddingLeft: '0',
-            paddingRight: '0',
-            minHeight: '100%',
+            height: 'calc(100dvh - 56px)',
+            backgroundColor: '#eee',
             width: '100%',
           }}
         >
           <Box
-            id="navbar"
-            sx={{
-              width: '100%',
-              position: 'fixed',
-              top: '0px',
-              left: '0px',
-              // border: '1px solid #000',
-            }}
-          >
-            <MyAppBar />
-          </Box>
-          <Box
             id="main-container"
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              flex: 1,
-              maxHeight: '100%',
-              minHeight: '100vh',
-              boxSizing: 'border-box',
-              paddingTop: '56px',
-              paddingBottom: '56px',
+              position: 'fixed',
+              width: '100%',
+              height: 'calc(100dvh - 56px)',
+              zIndex: 550,
+              top: 0,
+              left: 0,
             }}
           >
-            {renderMainContainer()}
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                maxWidth: '600px',
+                boxSizing: 'border-box',
+                margin: 'auto',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              {renderMainContainer()}
+            </Box>
           </Box>
+
           <Box
             id="TabBar"
             sx={{
               width: '100%',
               position: 'fixed',
-              bottom: '0px',
-              left: '0px',
-              // border: '1px solid #000',
+              bottom: 0,
+              left: 0,
             }}
           >
             <FixedBottomNavigation

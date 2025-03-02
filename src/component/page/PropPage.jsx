@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
 import { GameContext } from '../../store/game-context';
-import ThemeColorLayer from '../layer/ThemeColorLayer';
 import PageContainer from '../common/PageContainer';
 import PageTitleText from '../common/PageTitleText';
 import ContentList from '../common/ContentList';
@@ -29,28 +28,26 @@ const PropPage = () => {
   }, [currentMission, propData]);
 
   return (
-    <ThemeColorLayer bgc="#fff">
-      <PageContainer>
-        <PageTitleText title="道具" />
-        <ContentList
-          items={currentProps}
-          renderItem={(prop, index) => (
-            <ZoomableImage
-              key={index}
-              src={`/gameFile/sjqy/img/${prop.img}`}
-              alt={`Image ${index + 1}`}
-              title={prop.title}
-              isFullScreen={fullScreenIndex === index}
-              showZoomButton={fullScreenIndex === null}
-              onToggle={() =>
-                setFullScreenIndex(fullScreenIndex === index ? null : index)
-              }
-            />
-          )}
-          emptyText="No props available"
-        />
-      </PageContainer>
-    </ThemeColorLayer>
+    <PageContainer>
+      <PageTitleText title="道具" />
+      <ContentList
+        items={currentProps}
+        renderItem={(prop, index) => (
+          <ZoomableImage
+            key={index}
+            src={`/gameFile/sjqy/img/${prop.img}`}
+            alt={`Image ${index + 1}`}
+            title={prop.title}
+            isFullScreen={fullScreenIndex === index}
+            showZoomButton={fullScreenIndex === null}
+            onToggle={() =>
+              setFullScreenIndex(fullScreenIndex === index ? null : index)
+            }
+          />
+        )}
+        emptyText="No props available"
+      />
+    </PageContainer>
   );
 };
 

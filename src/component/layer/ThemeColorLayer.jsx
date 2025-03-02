@@ -5,14 +5,9 @@ function ThemeColorLayer({ children, bgc = '#37474F' }) {
   return (
     <Box
       sx={{
-        // border: '1px solid #000',
-        borderRadius: '20px',
-        height: 'calc(100% - 30px)',
+        height: '100%',
         width: '100%',
         backgroundColor: bgc,
-        marginLeft: '20px',
-        marginRight: '20px',
-        marginBottom: '20px',
         overflow: 'hidden',
         boxSizing: 'border-box',
         position: 'relative',
