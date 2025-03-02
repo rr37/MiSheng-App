@@ -24,6 +24,8 @@ const ZoomableImage = ({
             display: 'flex',
             borderRadius: { borderRadius },
             position: 'relative',
+            // ImgModel 選項
+            height: zoomInFab === 'center' ? '86%' : null,
           }}
         >
           {showZoomButton && (
@@ -90,7 +92,6 @@ const ZoomableImage = ({
             alt={alt}
             style={{
               width: '100%',
-              height: 'auto',
               objectFit: 'scale-down',
               borderRadius: 'inherit',
             }}
@@ -121,14 +122,16 @@ const ZoomableImage = ({
             src={src}
             alt={alt}
             style={{
-              width: '90%',
-              height: 'auto',
+              width: '100%',
+              maxWidth: '600px',
+              maxHeight: '100%',
               position: 'fixed',
               top: '50%',
               left: '50%',
+              margin: 0,
               transform: 'translate(-50%, -50%)',
+              objectFit: 'scale-down',
               zIndex: 1101, // 確保圖片在最上層
-              borderRadius: '10px',
             }}
           />
 

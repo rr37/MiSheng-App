@@ -11,15 +11,16 @@ const Img = ({ currentRow, onNext, canProceed }) => {
     <Box
       sx={{
         borderRadius: '20px',
-        height: 'calc(100% - 30px)',
-        width: 'calc(100% - 80px)',
+        height: 'calc(60dvh + 100px)',
+        width: '76%',
         m: 'auto',
         boxSizing: 'border-box',
         position: 'relative',
         // border: '1px solid red',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-evenly',
+        justifyContent:'space-between',
+        alignItems: 'center',
       }}
     >
       {currentRow?.background_img && (
