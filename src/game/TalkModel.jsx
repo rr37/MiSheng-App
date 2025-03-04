@@ -13,21 +13,19 @@ import { GameContext } from '../store/game-context';
 const Talk = ({ currentRow, onNext, canProceed }) => {
   const [speaker, setSpeaker] = useState(null);
   const [backgroundImg, setBackgroundImg] = useState(null);
-  const {
-    characterData,
-    missionData,
-    rundownData,
-    currentMissionId,
-    currentId,
-  } = useContext(GameContext);
+  const { characterData, missionData, rundownData, currentMissionId } =
+    useContext(GameContext);
   const currentMission = missionData[currentMissionId];
   const textContainerRef = useRef(null);
   const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const [showFullTextIcon, setShowFullTextIcon] = useState(false);
 
   useEffect(() => {
     if (rundownData.length < 0) {
       return;
     }
+
+    setShowFullTextIcon(currentRow.text?.length > 130);
 
     // 如果有 speaker，從 characterData 中找到對應的角色
     if (currentRow?.speaker) {
@@ -38,7 +36,7 @@ const Talk = ({ currentRow, onNext, canProceed }) => {
     } else {
       setSpeaker(null); // 沒有 speaker 時清空
     }
-  }, [currentId]);
+  }, [currentRow]);
 
   useEffect(() => {
     setBackgroundImg(
@@ -110,9 +108,11 @@ const Talk = ({ currentRow, onNext, canProceed }) => {
         <TalkBox
           title={currentRow?.title || currentRow.speaker}
           text={displayText}
+          fullText={currentRow?.text}
           textContainerRef={textContainerRef}
           onNext={onNext}
           canProceed={canProceed}
+          showIcon={showFullTextIcon}
         />
       </Layer>
     </ThemeColorLayer>
