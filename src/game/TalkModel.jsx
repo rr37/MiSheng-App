@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types'; // 引入 PropTypes
 import { useTypewriterEffect } from '../animation/useTypewriterEffect';
@@ -21,6 +21,8 @@ const Talk = ({ currentRow, onNext, canProceed }) => {
     currentId,
   } = useContext(GameContext);
   const currentMission = missionData[currentMissionId];
+  const textContainerRef = useRef(null);
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
 
   useEffect(() => {
     if (rundownData.length < 0) {
@@ -48,6 +50,35 @@ const Talk = ({ currentRow, onNext, canProceed }) => {
     currentRow?.text || '', // Pass the dialogue text to the hook
     50 // Typing speed in milliseconds
   );
+
+  // 監聽滾動行為
+  useEffect(() => {
+    const container = textContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const isAtBottom =
+        container.scrollTop + container.clientHeight >=
+        container.scrollHeight - 5;
+
+      if (!isAtBottom) {
+        setIsUserScrolling(true); // 只有當使用者沒滾到底時，才視為手動滾動
+      }
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // 當文字更新時，自動滾動到底部（如果使用者沒有手動滾動）
+  useEffect(() => {
+    const container = textContainerRef.current;
+    if (!container || isUserScrolling) return; // 如果使用者正在手動滾動，就不執行
+
+    container.scrollTop = container.scrollHeight;
+  }, [displayText]);
 
   if (!currentRow) {
     return <Typography>Loading...</Typography>;
@@ -79,6 +110,7 @@ const Talk = ({ currentRow, onNext, canProceed }) => {
         <TalkBox
           title={currentRow?.title || currentRow.speaker}
           text={displayText}
+          textContainerRef={textContainerRef}
           onNext={onNext}
           canProceed={canProceed}
         />

@@ -1,11 +1,13 @@
+import { forwardRef } from 'react';
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const TalkText = ({ text, height = '120px', textShadow }) => (
+const TalkText = forwardRef(({ text, height = '120px', textShadow }, ref) => (
   <Typography
     variant="body2"
     align="left"
     gutterBottom
+    ref={ref}
     sx={{
       whiteSpace: 'pre-wrap',
       color: '#fff',
@@ -16,11 +18,13 @@ const TalkText = ({ text, height = '120px', textShadow }) => (
   >
     {text}
   </Typography>
-);
+));
+
+TalkText.displayName = 'TalkText';
 
 TalkText.propTypes = {
   text: PropTypes.string.isRequired,
-  height:PropTypes.string,
+  height: PropTypes.string,
   textShadow: PropTypes.string,
 };
 
