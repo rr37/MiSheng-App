@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { GameContext } from '../../store/game-context';
 import PageContainer from '../common/PageContainer';
 import PageTitleText from '../common/PageTitleText';
@@ -19,7 +19,8 @@ const MissionPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedMissionId, setSelectedMissionId] = useState(null);
   const [selectedMissionTitle, setSelectedMissionTitle] = useState(null);
-  const [pressTimer, setPressTimer] = useState(null);
+  const clickCountRef = useRef(0);
+  const clickTimerRef = useRef(null);
 
   const currentMission = missionData[currentMissionId];
 
@@ -64,17 +65,19 @@ const MissionPage = () => {
     setDialogOpen(false);
   };
 
-  const handleLongPressStart = (e, missionId, title) => {
-    e.preventDefault(); // 防止 touch 產生點擊事件
-    const timer = setTimeout(() => handleMissionSelect(missionId, title), 5000);
-    setPressTimer(timer);
-  };
+  const handleMultiClick = (index, title) => () => {
+    clickCountRef.current += 1;
 
-  const handleLongPressEnd = () => {
-    if (pressTimer) {
-      clearTimeout(pressTimer);
-      setPressTimer(null);
+    if (clickCountRef.current === 10) {
+      handleMissionSelect(index, title);
+      clickCountRef.current = 0;
     }
+
+    // 設置計時器，2 秒內沒點擊就重置
+    clearTimeout(clickTimerRef.current);
+    clickTimerRef.current = setTimeout(() => {
+      clickCountRef.current = 0;
+    }, 2000);
   };
 
   return (
@@ -83,12 +86,8 @@ const MissionPage = () => {
       <MissionList
         missions={displayMissions}
         currentMissionId={currentMissionId}
-        onLongPressStart={handleLongPressStart}
-        onLongPressEnd={handleLongPressEnd}
         onMissionSelect={handleMissionSelect}
-        onTouchStart={handleLongPressStart}
-        onTouchEnd={handleLongPressEnd}
-        onTouchCancel={handleLongPressEnd}
+        onMultiClick={handleMultiClick}
       />
 
       {/* 跳關確認 Dialog */}

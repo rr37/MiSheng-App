@@ -8,29 +8,19 @@ import Layer from '../layer/Layer';
 import BackgroundLayer from '../layer/BackgroundLayer';
 import PropTypes from 'prop-types';
 
-const MissionItem = ({
-  mission,
-  isActive,
-  onLongPressStart,
-  onLongPressEnd,
-  onSelect,
-}) => {
+const MissionItem = ({ mission, isActive, onSelect, onMultiClick }) => {
   return (
     <Paper
-      onMouseDown={(e) =>
-        onLongPressStart(e, mission.id, mission.subtitle || mission.title)
-      }
-      onMouseUp={onLongPressEnd}
-      onMouseLeave={onLongPressEnd}
       elevation={mission.status ? 8 : 0}
       sx={{
         display: 'flex',
         borderRadius: '20px',
         position: 'relative',
-        overflow:'hidden',
+        overflow: 'hidden',
         height: '70px',
         minHeight: '70px',
       }}
+      onClick={onMultiClick(mission.id, mission.subtitle || mission.title)}
     >
       {/* Background */}
       <Layer>
@@ -133,9 +123,8 @@ MissionItem.propTypes = {
     background_img: PropTypes.string,
   }).isRequired,
   isActive: PropTypes.bool.isRequired,
-  onLongPressStart: PropTypes.func.isRequired,
-  onLongPressEnd: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
+  onMultiClick: PropTypes.func,
 };
 
 export default MissionItem;

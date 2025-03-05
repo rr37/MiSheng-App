@@ -5,9 +5,8 @@ import PropTypes from 'prop-types';
 const MissionList = ({
   missions,
   currentMissionId,
-  onLongPressStart,
-  onLongPressEnd,
   onMissionSelect,
+  onMultiClick,
 }) => {
   return (
     <ContentList
@@ -17,11 +16,10 @@ const MissionList = ({
           key={mission.id}
           mission={mission}
           isActive={mission.id === currentMissionId}
-          onLongPressStart={onLongPressStart}
-          onLongPressEnd={onLongPressEnd}
           onSelect={() =>
             onMissionSelect(mission.id, mission.subtitle || mission.title)
           }
+          onMultiClick={onMultiClick}
         />
       )}
       emptyText="No missions available"
@@ -40,9 +38,8 @@ MissionList.propTypes = {
     })
   ),
   currentMissionId: PropTypes.string.isRequired,
-  onLongPressStart: PropTypes.func.isRequired,
-  onLongPressEnd: PropTypes.func.isRequired,
   onMissionSelect: PropTypes.func.isRequired,
+  onMultiClick: PropTypes.func,
 };
 
 export default MissionList;
