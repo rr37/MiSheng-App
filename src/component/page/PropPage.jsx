@@ -4,6 +4,7 @@ import PageContainer from '../common/PageContainer';
 import PageTitleText from '../common/PageTitleText';
 import ContentList from '../common/ContentList';
 import ZoomableImage from '../common/ZoomableImage';
+import Wheel from '../common/Wheel';
 
 const PropPage = () => {
   const { missionData, propData, currentMissionId } = useContext(GameContext);
@@ -32,19 +33,31 @@ const PropPage = () => {
       <PageTitleText title="道具" />
       <ContentList
         items={currentProps}
-        renderItem={(prop, index) => (
-          <ZoomableImage
-            key={index}
-            src={`/gameFile/sjqy/img/${prop.img}`}
-            alt={`Image ${index + 1}`}
-            title={prop.title}
-            isFullScreen={fullScreenIndex === index}
-            showZoomButton={fullScreenIndex === null}
-            onToggle={() =>
-              setFullScreenIndex(fullScreenIndex === index ? null : index)
-            }
-          />
-        )}
+        renderItem={(prop, index) =>
+          prop.type === 'Img' ? (
+            <ZoomableImage
+              key={index}
+              src={`/gameFile/sjqy/img/${prop.img}`}
+              alt={`Image ${index + 1}`}
+              title={prop.title}
+              isFullScreen={fullScreenIndex === index}
+              showZoomButton={fullScreenIndex === null}
+              onToggle={() =>
+                setFullScreenIndex(fullScreenIndex === index ? null : index)
+              }
+            />
+          ) : prop.type === 'Wheel' ? (
+            <Wheel
+              key={index}
+              prop={prop}
+              isFullScreen={fullScreenIndex === index}
+              showZoomButton={fullScreenIndex === null}
+              onToggle={() =>
+                setFullScreenIndex(fullScreenIndex === index ? null : index)
+              }
+            />
+          ) : null
+        }
         emptyText="No props available"
       />
     </PageContainer>
