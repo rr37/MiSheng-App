@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const NextButton = ({ onClick, disabled, children }) => {
+const NextButton = ({ onClick, disabled, children, href = null }) => {
   return (
     <Button
       variant="contained"
@@ -9,7 +9,9 @@ const NextButton = ({ onClick, disabled, children }) => {
       color="inherit"
       fullWidth
       sx={{ borderRadius: '30px' }}
-      onClick={onClick}
+      href={href}
+      target={href ? '_blank' : undefined}
+      onClick={href ? undefined : onClick}
       disabled={disabled || false}
     >
       {children}
@@ -18,9 +20,10 @@ const NextButton = ({ onClick, disabled, children }) => {
 };
 
 NextButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   disabled: PropTypes.bool,
   children: PropTypes.node.isRequired,
+  href:PropTypes.string,
 };
 
 export default NextButton;

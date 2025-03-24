@@ -54,6 +54,9 @@ const QuizModel = ({ currentRow }) => {
   );
 
   const handleOptionClick = (nextId) => {
+    if (!nextId) {
+      return;
+    }
     setCurrentId(nextId);
   };
 

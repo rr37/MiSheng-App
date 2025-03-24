@@ -3,11 +3,17 @@ import PropTypes from 'prop-types';
 
 const OptionButtons = ({ options, onOptionClick }) => (
   <>
-    {options.map((option) => (
-      <NextButton key={option.id} onClick={() => onOptionClick(option.nextId)}>
-        {option.title}
-      </NextButton>
-    ))}
+    {options.map((option) => {
+      return (
+        <NextButton
+          key={option.id}
+          href={option.url}
+          onClick={!option.url ? () => onOptionClick(option.nextId) : undefined}
+        >
+          {option.title}
+        </NextButton>
+      );
+    })}
   </>
 );
 
