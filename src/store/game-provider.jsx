@@ -74,6 +74,19 @@ export const GameProvider = ({ children }) => {
     );
   }, [unlockedHints]);
 
+  const clearGameData = (gameId) => {
+    if (!gameId) {
+      return;
+    }
+    localStorage.removeItem(`${gameId}_playerMissionData`);
+    localStorage.removeItem(`${gameId}_currentId`);
+    localStorage.removeItem(`${gameId}_currentMissionId`);
+    localStorage.removeItem(`${gameId}_unlockedHints`);
+
+    // 重新整理瀏覽器
+    window.location.reload();
+  };
+
   // 更新提示的開啟狀態
   const unlockHint = (missionId, hintIndex) => {
     setUnlockedHints((prev) => ({
@@ -144,6 +157,9 @@ export const GameProvider = ({ children }) => {
         setUnlockedHints,
         unlockHint,
         updateMissionStatus,
+
+        gameId,
+        clearGameData,
       }}
     >
       {children}
