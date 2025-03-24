@@ -6,6 +6,7 @@ import TalkModel from './TalkModel';
 import QuizModel from './QuizModel';
 import MissionStartModel from './MissionStartModel';
 import MissionAnswerInputModel from './MissionAnswerInputModel';
+import CustomValueInputModel from './CustomValueInputModel';
 import ImgModel from './ImgModel';
 import { loadCSVData } from './csvLoader';
 import useNextId from '../hook/useNextId';
@@ -127,6 +128,7 @@ const GameController = ({
     MissionStart: MissionStartModel,
     MissionAnswerInput: MissionAnswerInputModel,
     Img: ImgModel,
+    CustomValueInput: CustomValueInputModel,
   };
 
   // Render content based on the model type

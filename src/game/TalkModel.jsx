@@ -13,8 +13,13 @@ import { GameContext } from '../store/game-context';
 const Talk = ({ currentRow, onNext, canProceed }) => {
   const [speaker, setSpeaker] = useState(null);
   const [backgroundImg, setBackgroundImg] = useState(null);
-  const { characterData, missionData, rundownData, currentMissionId } =
-    useContext(GameContext);
+  const {
+    characterData,
+    missionData,
+    rundownData,
+    currentMissionId,
+    customPairs,
+  } = useContext(GameContext);
   const currentMission = missionData[currentMissionId];
   const textContainerRef = useRef(null);
   const [isUserScrolling, setIsUserScrolling] = useState(false);
@@ -44,8 +49,15 @@ const Talk = ({ currentRow, onNext, canProceed }) => {
     );
   }, [currentRow, currentMission]);
 
+  const processedText = (currentRow?.text || '').replace(
+    /\{\{(.*?)\}\}/g,
+    (match, key) => {
+      return customPairs[key] ?? match; // 如果 customPairs[key] 存在，則替換，否則保持原樣
+    }
+  );
+
   const displayText = useTypewriterEffect(
-    currentRow?.text || '', // Pass the dialogue text to the hook
+    processedText || '', // Pass the dialogue text to the hook
     50 // Typing speed in milliseconds
   );
 

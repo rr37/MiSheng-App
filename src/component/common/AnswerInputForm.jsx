@@ -15,7 +15,7 @@ const AnswerInputForm = ({
   onChange,
   onClick,
   disabled,
-  giveupCountdown,
+  giveupCountdown = null,
 }) => {
   return (
     <FormControl variant="filled" fullWidth>
@@ -83,7 +83,7 @@ AnswerInputForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  giveupCountdown: PropTypes.number
+  giveupCountdown: PropTypes.number,
 };
 
 export default AnswerInputForm;

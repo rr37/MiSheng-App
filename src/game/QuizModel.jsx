@@ -18,6 +18,7 @@ const QuizModel = ({ currentRow }) => {
     currentMissionId,
     currentId,
     setCurrentId,
+    customPairs,
   } = useContext(GameContext);
   const [speaker, setSpeaker] = useState(null);
   const [backgroundImg, setBackgroundImg] = useState(null);
@@ -48,8 +49,15 @@ const QuizModel = ({ currentRow }) => {
     );
   }, [currentRow, currentMission]);
 
+  const processedText = (currentRow?.text || '').replace(
+    /\{\{(.*?)\}\}/g,
+    (match, key) => {
+      return customPairs[key] ?? match; // 如果 customPair[key] 存在，則替換，否則保持原樣
+    }
+  );
+
   const displayText = useTypewriterEffect(
-    currentRow?.text || '', // Pass the dialogue text to the hook
+    processedText || '', // Pass the dialogue text to the hook
     50 // Typing speed in milliseconds
   );
 

@@ -21,7 +21,6 @@ export const GameProvider = ({ children }) => {
       return;
     }
     setGameId(configData[0].id);
-    console.log(gameId);
   }, [configData, gameId]);
 
   const getStorageKey = (key) => (gameId ? `${gameId}_${key}` : null);
@@ -30,6 +29,7 @@ export const GameProvider = ({ children }) => {
   const [currentId, setCurrentId] = useState('1');
   const [currentMissionId, setCurrentMissionId] = useState('0');
   const [unlockedHints, setUnlockedHints] = useState({});
+  const [customPairs, setCustomPairs] = useState({});
 
   // 當 gameId 設定完成後，從 localStorage 載入數據
   useEffect(() => {
@@ -44,6 +44,9 @@ export const GameProvider = ({ children }) => {
     );
     setUnlockedHints(
       JSON.parse(localStorage.getItem(getStorageKey('unlockedHints'))) || {}
+    );
+    setCustomPairs(
+      JSON.parse(localStorage.getItem(getStorageKey('customPairs'))) || {}
     );
   }, [gameId]);
 
@@ -74,6 +77,14 @@ export const GameProvider = ({ children }) => {
     );
   }, [unlockedHints]);
 
+  useEffect(() => {
+    if (!gameId) return;
+    localStorage.setItem(
+      getStorageKey('customPairs'),
+      JSON.stringify(customPairs)
+    );
+  }, [customPairs]);
+
   const clearGameData = (gameId) => {
     if (!gameId) {
       return;
@@ -82,6 +93,7 @@ export const GameProvider = ({ children }) => {
     localStorage.removeItem(`${gameId}_currentId`);
     localStorage.removeItem(`${gameId}_currentMissionId`);
     localStorage.removeItem(`${gameId}_unlockedHints`);
+    localStorage.removeItem(`${gameId}_customPairs`);
 
     // 重新整理瀏覽器
     window.location.reload();
@@ -126,6 +138,14 @@ export const GameProvider = ({ children }) => {
     });
   };
 
+  // 更新自定義鍵值對
+  const updateCustomPairs = (customKey, customValue) => {
+    setCustomPairs((prevPairs) => ({
+      ...prevPairs,
+      [customKey]: customValue,
+    }));
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -157,6 +177,8 @@ export const GameProvider = ({ children }) => {
         setUnlockedHints,
         unlockHint,
         updateMissionStatus,
+        customPairs,
+        updateCustomPairs,
 
         gameId,
         clearGameData,
