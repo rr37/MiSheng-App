@@ -86,6 +86,7 @@ const CustomValueInputModel = ({ currentRow, onNext, canProceed }) => {
     setIsSubmit(true);
     setOpenConfirmDialog(false);
     setUserAnswer('');
+    onNext();
   };
 
   return (
