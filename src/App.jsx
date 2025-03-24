@@ -15,6 +15,7 @@ import missionCsvFile from '/gameFile/sjqy/sjqy - mission.csv';
 import propCsvFile from '/gameFile/sjqy/sjqy - prop.csv';
 import rundownCsvFile from '/gameFile/sjqy/sjqy - rundown.csv';
 import storyCsvFile from '/gameFile/sjqy/sjqy - story.csv';
+import configCsvFile from '/gameFile/sjqy/sjqy - config.csv';
 
 function App() {
   const [value, setValue] = useState(2);
@@ -35,6 +36,7 @@ function App() {
             propCsvFile={propCsvFile}
             rundownCsvFile={rundownCsvFile}
             storyCsvFile={storyCsvFile}
+            configCsvFile={configCsvFile}
           />
         );
       case 3:

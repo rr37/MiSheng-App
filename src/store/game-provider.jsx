@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { GameContext } from './game-context';
 
@@ -10,14 +10,71 @@ export const GameProvider = ({ children }) => {
   const [propData, setPropData] = useState(null);
   const [rundownData, setRundownData] = useState(null);
   const [storyData, setStoryData] = useState(null);
+  const [configData, setConfigData] = useState(null);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   // 玩家資料
+  const [gameId, setGameId] = useState(null);
+
+  useEffect(() => {
+    if (!configData) {
+      return;
+    }
+    setGameId(configData[0].id);
+    console.log(gameId);
+  }, [configData, gameId]);
+
+  const getStorageKey = (key) => (gameId ? `${gameId}_${key}` : null);
+
   const [playerMissionData, setPlayerMissionData] = useState([]);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [currentId, setCurrentId] = useState('1');
   const [currentMissionId, setCurrentMissionId] = useState('0');
   const [unlockedHints, setUnlockedHints] = useState({});
 
+  // 當 gameId 設定完成後，從 localStorage 載入數據
+  useEffect(() => {
+    if (!gameId) return;
+
+    setPlayerMissionData(
+      JSON.parse(localStorage.getItem(getStorageKey('playerMissionData'))) || []
+    );
+    setCurrentId(localStorage.getItem(getStorageKey('currentId')) || '1');
+    setCurrentMissionId(
+      localStorage.getItem(getStorageKey('currentMissionId')) || '0'
+    );
+    setUnlockedHints(
+      JSON.parse(localStorage.getItem(getStorageKey('unlockedHints'))) || {}
+    );
+  }, [gameId]);
+
+  // 當狀態改變時存入 localStorage（使用 gameId 作為 key）
+  useEffect(() => {
+    if (!gameId) return;
+    localStorage.setItem(
+      getStorageKey('playerMissionData'),
+      JSON.stringify(playerMissionData)
+    );
+  }, [playerMissionData]);
+
+  useEffect(() => {
+    if (!gameId) return;
+    localStorage.setItem(getStorageKey('currentId'), currentId);
+  }, [currentId]);
+
+  useEffect(() => {
+    if (!gameId) return;
+    localStorage.setItem(getStorageKey('currentMissionId'), currentMissionId);
+  }, [currentMissionId]);
+
+  useEffect(() => {
+    if (!gameId) return;
+    localStorage.setItem(
+      getStorageKey('unlockedHints'),
+      JSON.stringify(unlockedHints)
+    );
+  }, [unlockedHints]);
+
+  // 更新提示的開啟狀態
   const unlockHint = (missionId, hintIndex) => {
     setUnlockedHints((prev) => ({
       ...prev,
@@ -72,6 +129,8 @@ export const GameProvider = ({ children }) => {
         setRundownData,
         storyData,
         setStoryData,
+        configData,
+        setConfigData,
 
         playerMissionData,
         setPlayerMissionData,
