@@ -41,7 +41,15 @@ const MissionStart = ({ onNext, canProceed }) => {
         >
           {currentMission ? (
             <>
-              <MissionSubtitleText subtitle={currentMission.subtitle} />
+              <MissionSubtitleText
+                // 暫時性的不顯示副標題
+                subtitle={
+                  currentMission.subtitle.length <= 3
+                    ? currentMission.subtitle
+                    : ''
+                }
+              />
+
               <MissionTitleText title={currentMission.title} />
               {currentMission.description && (
                 <TalkText

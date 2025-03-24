@@ -55,7 +55,7 @@ const GameController = ({
           propData,
           rundownData,
           storyData,
-          configData
+          configData,
         ] = await Promise.all([
           loadCSVData(characterCsvFile),
           loadCSVData(hintCsvFile),
@@ -63,7 +63,7 @@ const GameController = ({
           loadCSVData(propCsvFile),
           loadCSVData(rundownCsvFile),
           loadCSVData(storyCsvFile),
-          loadCSVData(configCsvFile)
+          loadCSVData(configCsvFile),
         ]);
         setCharacterData(characterData);
         setHintData(hintData);
@@ -71,7 +71,7 @@ const GameController = ({
         setPropData(propData);
         setRundownData(rundownData);
         setStoryData(storyData);
-        setConfigData(configData)
+        setConfigData(configData);
         console.log('轉換 Csv 資料');
       } catch (error) {
         console.error('Error loading CSV files:', error);
