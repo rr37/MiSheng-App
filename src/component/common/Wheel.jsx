@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Fab, Paper, Slider } from '@mui/material';
 import OpenInFullRoundedIcon from '@mui/icons-material/OpenInFullRounded';
 import CloseFullscreenRoundedIcon from '@mui/icons-material/CloseFullscreenRounded';
@@ -13,10 +13,23 @@ const Wheel = ({
   showZoomButton,
   onToggle,
 }) => {
+  const [hasRotateImg2, setHasRotateImg2] = useState(null);
   const [angle, setAngle] = useState(180);
+  const [angle2, setAngle2] = useState(180);
   const handleSliderChange = (event, newValue) => {
     setAngle(newValue);
   };
+
+  const handleSlider2Change = (event, newValue) => {
+    setAngle2(newValue);
+  };
+
+  useEffect(() => {
+    if (!prop.rotateImg2) {
+      return;
+    }
+    setHasRotateImg2(true);
+  }, [prop.rotateImg2]);
 
   return (
     <>
@@ -136,12 +149,12 @@ const Wheel = ({
               sx={{
                 width: '100%',
                 maxWidth: '600px',
-                height: 'calc(80dvh)',
+                height: '80dvh',
                 maxHeight: '650px',
                 margin: 'auto',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-evenly',
+                justifyContent: 'space-between',
                 alignItems: 'center',
               }}
             >
@@ -154,10 +167,28 @@ const Wheel = ({
                   position: 'relative',
                 }}
               >
+                {/* 可以旋轉的第二張圖片 */}
+                {hasRotateImg2 && (
+                  <img
+                    src={`/gameFile/sjqy/img/${prop.rotateImg2}`}
+                    alt={prop.rotateImg2}
+                    style={{
+                      width: '100%',
+                      maxWidth: '600px',
+                      maxHeight: '100%',
+                      position: 'absolute',
+                      transform: `rotate(${angle2}deg)`,
+                      transition: 'transform 0.1s linear',
+                      objectFit: 'scale-down',
+                      filter: 'drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3))',
+                    }}
+                  />
+                )}
+
                 {/* 可以旋轉的那張圖片 */}
                 <img
-                  src={`/gameFile/sjqy/img/${prop.rotateImg}`}
-                  alt={prop.rotateImg}
+                  src={`/gameFile/sjqy/img/${prop.rotateImg1}`}
+                  alt={prop.rotateImg1}
                   style={{
                     width: '100%',
                     maxWidth: '600px',
@@ -179,32 +210,119 @@ const Wheel = ({
                     maxWidth: '600px',
                     maxHeight: '100%',
                     position: 'relative',
-                    transform: 'rotate(${angle}deg)',
                     objectFit: 'scale-down',
                     filter: 'drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.5))',
                   }}
                 />
               </Box>
 
-              {/* 滑桿區 */}
-              <Box
-                sx={{
-                  width: '80%',
-                  maxWidth: '480px',
-                }}
-              >
-                <Slider
-                  value={angle}
-                  onChange={handleSliderChange}
-                  aria-label="Degree"
-                  aria-labelledby="continuous-slider"
-                  color="danger"
-                  min={0}
-                  max={360}
-                  valueLabelDisplay="auto"
-                  valueLabelFormat={(value) => `${value}°`}
-                />
-              </Box>
+              {hasRotateImg2 ? (
+                // 有兩個滑桿
+                <Box
+                  sx={{
+                    width: '100%',
+                    maxWidth: '600px',
+                    position: 'absolute',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <div
+                      style={{
+                        height: '100dvw',
+                        maxHeight: '600px',
+                        padding: '6% 1%',
+                        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                        backdropFilter: 'blur(5px)',
+                        borderRadius: '0 10px 10px 0',
+                        boxSizing: 'border-box',
+                        boxShadow: '-2px 0px 6px rgba(0, 0, 0, 0.3)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Slider
+                        value={angle}
+                        onChange={handleSliderChange}
+                        aria-label="Degree"
+                        aria-labelledby="continuous-slider"
+                        color="danger"
+                        min={0}
+                        max={360}
+                        orientation="vertical"
+                        sx={{
+                          height: 300,
+                        }}
+                      />
+                      <div
+                        style={{ marginTop: 8, fontSize: 14, fontWeight: 500 }}
+                      >
+                        {angle}°
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        height: '100dvw',
+                        maxHeight: '600px',
+                        padding: '6% 1%',
+                        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                        backdropFilter: 'blur(5px)',
+                        borderRadius: '10px 0 0 10px ',
+                        boxSizing: 'border-box',
+                        boxShadow: '-2px 0px 6px rgba(0, 0, 0, 0.3)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Slider
+                        value={angle2}
+                        onChange={handleSlider2Change}
+                        aria-label="Degree"
+                        aria-labelledby="continuous-slider"
+                        color="danger"
+                        min={0}
+                        max={360}
+                        orientation="vertical"
+                        sx={{
+                          height: 300,
+                        }}
+                      />
+                      <div
+                        style={{ marginTop: 8, fontSize: 14, fontWeight: 500 }}
+                      >
+                        {angle2}°
+                      </div>
+                    </div>
+                  </Box>
+                </Box>
+              ) : (
+                // 僅有單一滑桿
+                <Box
+                  sx={{
+                    width: '80%',
+                    maxWidth: '480px',
+                  }}
+                >
+                  <Slider
+                    value={angle}
+                    onChange={handleSliderChange}
+                    aria-label="Degree"
+                    aria-labelledby="continuous-slider"
+                    color="danger"
+                    min={0}
+                    max={360}
+                    valueLabelDisplay="auto"
+                    valueLabelFormat={(value) => `${value}°`}
+                  />
+                </Box>
+              )}
 
               {/* 縮小按鈕 */}
               <Fab
