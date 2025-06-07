@@ -25,10 +25,10 @@ const Img = ({ currentRow, onNext, canProceed }) => {
         alignItems: 'center',
       }}
     >
-      {currentRow?.background_img && (
+      {currentRow?.backgroundImg && (
         <ZoomableImage
-          src={`${imgPath}/${currentRow.background_img}`}
-          alt={`${currentRow.background_img}`}
+          src={`${imgPath}/${currentRow.backgroundImg}`}
+          alt={`${currentRow.backgroundImg}`}
           borderRadius={'20px'}
           zoomInFab={'center'}
           isFullScreen={fullScreenIndex !== null}

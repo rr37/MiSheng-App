@@ -136,10 +136,10 @@ const MissionAnswerInputModel = ({ onNext, canProceed }) => {
       {/* AnswerInput model */}
 
       {/* Background-image */}
-      {currentMission?.background_img && (
+      {currentMission?.backgroundImg && (
         <Layer>
           <BackgroundLayer
-            src={`${imgPath}/${currentMission.background_img}`}
+            src={`${imgPath}/${currentMission.backgroundImg}`}
             opacity="0.9"
           />
         </Layer>

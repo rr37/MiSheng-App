@@ -28,7 +28,7 @@ const MissionItem = ({ mission, isActive, onSelect, onMultiClick }) => {
       {/* Background */}
       <Layer>
         {mission.status ? (
-          <BackgroundLayer src={`${imgPath}/${mission.background_img}`} />
+          <BackgroundLayer src={`${imgPath}/${mission.backgroundImg}`} />
         ) : (
           <Box
             sx={{
@@ -121,7 +121,7 @@ MissionItem.propTypes = {
     title: PropTypes.string,
     subtitle: PropTypes.string,
     status: PropTypes.oneOf(['solving', 'complete', 'incomplete', '']),
-    background_img: PropTypes.string,
+    backgroundImg: PropTypes.string,
   }).isRequired,
   isActive: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,

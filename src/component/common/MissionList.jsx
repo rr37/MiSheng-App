@@ -34,7 +34,7 @@ MissionList.propTypes = {
       title: PropTypes.string,
       subtitle: PropTypes.string,
       status: PropTypes.oneOf(['solving', 'complete', 'incomplete', '']),
-      background_img: PropTypes.string,
+      backgroundImg: PropTypes.string,
     })
   ),
   currentMissionId: PropTypes.string.isRequired,

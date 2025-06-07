@@ -54,7 +54,7 @@ const CustomValueInputModel = ({ currentRow, onNext, canProceed }) => {
   // 設定背景圖片
   useEffect(() => {
     setBackgroundImg(
-      currentRow?.background_img || currentMission?.background_img
+      currentRow?.backgroundImg || currentMission?.backgroundImg
     );
   }, [currentRow, currentMission]);
 
