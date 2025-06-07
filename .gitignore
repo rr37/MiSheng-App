@@ -25,5 +25,5 @@ dist-ssr
 *.sw?
 
 # gameFile
-public/gameFile/*
-!public/gameFile/.gitkeep
+src/gameFile/*
+!src/gameFile/.gitkeep

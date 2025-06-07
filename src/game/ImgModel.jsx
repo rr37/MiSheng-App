@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { GameContext } from '../store/game-context';
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import ZoomableImage from '../component/common/ZoomableImage';
@@ -6,6 +7,7 @@ import NextButton from '../component/common/NextButton';
 
 const Img = ({ currentRow, onNext, canProceed }) => {
   const [fullScreenIndex, setFullScreenIndex] = useState(null);
+  const { imgPath } = useContext(GameContext);
 
   return (
     <Box
@@ -19,13 +21,13 @@ const Img = ({ currentRow, onNext, canProceed }) => {
         // border: '1px solid red',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
         alignItems: 'center',
       }}
     >
       {currentRow?.background_img && (
         <ZoomableImage
-          src={`/gameFile/sjqy/img/${currentRow.background_img}`}
+          src={`${imgPath}/${currentRow.background_img}`}
           alt={`${currentRow.background_img}`}
           borderRadius={'20px'}
           zoomInFab={'center'}

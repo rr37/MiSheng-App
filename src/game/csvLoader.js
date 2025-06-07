@@ -6,7 +6,7 @@ export const loadCSVData = async (csvFile) => {
   return new Promise((resolve, reject) => {
     Papa.parse(csvFile, {
       header: true,
-      download: true,
+      download: false,
       complete: (result) => resolve(result.data),
       error: (error) => reject(error),
     });

@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 
 const MissionAnswerInputModel = ({ onNext, canProceed }) => {
   const {
+    imgPath,
     currentMissionId,
     missionData,
     playerMissionData,
@@ -138,7 +139,7 @@ const MissionAnswerInputModel = ({ onNext, canProceed }) => {
       {currentMission?.background_img && (
         <Layer>
           <BackgroundLayer
-            src={`/gameFile/sjqy/img/${currentMission.background_img}`}
+            src={`${imgPath}/${currentMission.background_img}`}
             opacity="0.9"
           />
         </Layer>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { GameContext } from './game-context';
 
-export const GameProvider = ({ children }) => {
+export const GameProvider = ({ children, gameFolder }) => {
   // 只需匯入一次的遊戲資料
   const [characterData, setCharacterData] = useState(null);
   const [hintData, setHintData] = useState(null);
@@ -15,6 +15,13 @@ export const GameProvider = ({ children }) => {
 
   // 玩家資料
   const [gameId, setGameId] = useState(null);
+  const [imgPath, setImgPath] = useState(null);
+
+  useEffect(() => {
+    if (gameFolder) {
+      setImgPath(`src/gameFile/${gameFolder}/img`);
+    }
+  }, [gameFolder]);
 
   useEffect(() => {
     if (!configData) {
@@ -181,6 +188,7 @@ export const GameProvider = ({ children }) => {
         updateCustomPairs,
 
         gameId,
+        imgPath,
         clearGameData,
       }}
     >
@@ -191,4 +199,5 @@ export const GameProvider = ({ children }) => {
 
 GameProvider.propTypes = {
   children: PropTypes.node.isRequired,
+  gameFolder: PropTypes.string,
 };

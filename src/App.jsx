@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Container } from '@mui/material';
 import { GameProvider } from './store/game-provider';
 import FixedBottomNavigation from './component/BottomNavigation';
@@ -8,37 +8,35 @@ import PropPage from './component/page/PropPage';
 import HintPage from './component/page/HintPage';
 import StoryPage from './component/page/StoryPage';
 import GameController from './game/GameController';
-// 遊戲檔位置
-import characterCsvFile from '/gameFile/sjqy/sjqy - character.csv';
-import hintCsvFile from '/gameFile/sjqy/sjqy - hint.csv';
-import missionCsvFile from '/gameFile/sjqy/sjqy - mission.csv';
-import propCsvFile from '/gameFile/sjqy/sjqy - prop.csv';
-import rundownCsvFile from '/gameFile/sjqy/sjqy - rundown.csv';
-import storyCsvFile from '/gameFile/sjqy/sjqy - story.csv';
-import configCsvFile from '/gameFile/sjqy/sjqy - config.csv';
+import { getGameFolders, loadGameData } from './game/gameLoader';
 
 function App() {
   const [value, setValue] = useState(2);
+  const [gameData, setGameData] = useState(null);
+  const [gameFolder, setGameFolder] = useState(null);
 
-  // 根據value顯示不同的內容
+  useEffect(() => {
+    const load = async () => {
+      const folders = getGameFolders();
+      if (folders.length === 0) return;
+      setGameFolder(folders[0]);
+      const data = await loadGameData(folders[0]); // 先載入第一個遊戲資料夾
+      setGameData(data);
+    };
+
+    load();
+  }, []);
+
   const renderMainContainer = () => {
+    if (!gameData) return <div>載入中...</div>;
+
     switch (value) {
       case 0:
         return <MissionPage />;
       case 1:
         return <PropPage />;
       case 2:
-        return (
-          <GameController
-            characterCsvFile={characterCsvFile}
-            hintCsvFile={hintCsvFile}
-            missionCsvFile={missionCsvFile}
-            propCsvFile={propCsvFile}
-            rundownCsvFile={rundownCsvFile}
-            storyCsvFile={storyCsvFile}
-            configCsvFile={configCsvFile}
-          />
-        );
+        return <GameController {...gameData} />;
       case 3:
         return <HintPage />;
       case 4:
@@ -49,13 +47,8 @@ function App() {
   };
 
   return (
-    <GameProvider>
-      <Box
-        sx={{
-          height: '100dvh',
-          // backgroundColor: '#000',
-        }}
-      >
+    <GameProvider gameFolder={gameFolder}>
+      <Box sx={{ height: '100dvh' }}>
         <Container
           maxWidth="sm"
           sx={{

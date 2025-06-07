@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { GameContext } from '../../store/game-context';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import PendingRoundedIcon from '@mui/icons-material/PendingRounded';
@@ -9,6 +11,7 @@ import BackgroundLayer from '../layer/BackgroundLayer';
 import PropTypes from 'prop-types';
 
 const MissionItem = ({ mission, isActive, onSelect, onMultiClick }) => {
+  const { imgPath } = useContext(GameContext);
   return (
     <Paper
       elevation={mission.status ? 8 : 0}
@@ -25,9 +28,7 @@ const MissionItem = ({ mission, isActive, onSelect, onMultiClick }) => {
       {/* Background */}
       <Layer>
         {mission.status ? (
-          <BackgroundLayer
-            src={`/gameFile/sjqy/img/${mission.background_img}`}
-          />
+          <BackgroundLayer src={`${imgPath}/${mission.background_img}`} />
         ) : (
           <Box
             sx={{

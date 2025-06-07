@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { GameContext } from '../../store/game-context';
 import { Avatar, Box, Stack, Typography } from '@mui/material';
 import ZoomableImage from './ZoomableImage';
 import PropTypes from 'prop-types';
 
 const HintContent = ({ hint, index }) => {
+  const { imgPath } = useContext(GameContext);
   const { speaker, avatar, text, img } = hint;
   const hasSpeaker = Boolean(speaker);
   const [fullScreenIndex, setFullScreenIndex] = useState(null);
@@ -11,11 +13,7 @@ const HintContent = ({ hint, index }) => {
   return (
     <Box sx={{ display: 'flex', alignItems: 'top' }}>
       {hasSpeaker && (
-        <Avatar
-          alt={speaker}
-          src={`/gameFile/sjqy/img/${avatar}`}
-          sx={{ mr: '8px' }}
-        />
+        <Avatar alt={speaker} src={`${imgPath}/${avatar}`} sx={{ mr: '8px' }} />
       )}
       <Stack spacing={1}>
         {hasSpeaker && (
@@ -35,7 +33,7 @@ const HintContent = ({ hint, index }) => {
         {img && (
           <ZoomableImage
             key={index}
-            src={`/gameFile/sjqy/img/${img}`}
+            src={`${imgPath}/${img}`}
             alt={`Image ${index + 1}`}
             elevation={0}
             isFullScreen={fullScreenIndex === index}

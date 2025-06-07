@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 
 const CustomValueInputModel = ({ currentRow, onNext, canProceed }) => {
   const {
+    imgPath,
     currentMissionId,
     characterData,
     missionData,
@@ -96,14 +97,14 @@ const CustomValueInputModel = ({ currentRow, onNext, canProceed }) => {
       {/* Background-image */}
       {backgroundImg && (
         <Layer>
-          <BackgroundLayer src={`/gameFile/sjqy/img/${backgroundImg}`} />
+          <BackgroundLayer src={`${imgPath}/${backgroundImg}`} />
         </Layer>
       )}
 
       {/* Character */}
       {speaker?.straight && (
         <Layer>
-          <CharacterLayer src={`/gameFile/sjqy/img/${speaker?.straight}`} />
+          <CharacterLayer src={`${imgPath}/${speaker?.straight}`} />
         </Layer>
       )}
 

@@ -12,6 +12,7 @@ import QuestionBox from '../component/feature/QuestionBox';
 
 const QuizModel = ({ currentRow }) => {
   const {
+    imgPath,
     characterData,
     missionData,
     rundownData,
@@ -79,14 +80,14 @@ const QuizModel = ({ currentRow }) => {
       {/* Background-image */}
       {backgroundImg && (
         <Layer>
-          <BackgroundLayer src={`/gameFile/sjqy/img/${backgroundImg}`} />
+          <BackgroundLayer src={`${imgPath}/${backgroundImg}`} />
         </Layer>
       )}
 
       {/* Character */}
       {speaker?.straight && (
         <Layer>
-          <CharacterLayer src={`/gameFile/sjqy/img/${speaker?.straight}`} />
+          <CharacterLayer src={`${imgPath}/${speaker?.straight}`} />
         </Layer>
       )}
 

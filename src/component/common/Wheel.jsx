@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { GameContext } from '../../store/game-context';
 import { Box, Fab, Paper, Slider } from '@mui/material';
 import OpenInFullRoundedIcon from '@mui/icons-material/OpenInFullRounded';
 import CloseFullscreenRoundedIcon from '@mui/icons-material/CloseFullscreenRounded';
@@ -13,6 +14,7 @@ const Wheel = ({
   showZoomButton,
   onToggle,
 }) => {
+  const { imgPath } = useContext(GameContext);
   const [hasRotateImg2, setHasRotateImg2] = useState(null);
   const [angle, setAngle] = useState(180);
   const [angle2, setAngle2] = useState(180);
@@ -103,7 +105,7 @@ const Wheel = ({
             </Box>
           )}
           <img
-            src={`/gameFile/sjqy/img/${prop.img}`}
+            src={`${imgPath}/${prop.img}`}
             alt={prop.img}
             style={{
               width: '100%',
@@ -170,7 +172,7 @@ const Wheel = ({
                 {/* 可以旋轉的第二張圖片 */}
                 {hasRotateImg2 && (
                   <img
-                    src={`/gameFile/sjqy/img/${prop.rotateImg2}`}
+                    src={`${imgPath}/${prop.rotateImg2}`}
                     alt={prop.rotateImg2}
                     style={{
                       width: '100%',
@@ -187,7 +189,7 @@ const Wheel = ({
 
                 {/* 可以旋轉的那張圖片 */}
                 <img
-                  src={`/gameFile/sjqy/img/${prop.rotateImg1}`}
+                  src={`${imgPath}/${prop.rotateImg1}`}
                   alt={prop.rotateImg1}
                   style={{
                     width: '100%',
@@ -203,7 +205,7 @@ const Wheel = ({
 
                 {/* 不能旋轉的那張圖片 */}
                 <img
-                  src={`/gameFile/sjqy/img/${prop.frontImg}`}
+                  src={`${imgPath}/${prop.frontImg}`}
                   alt={prop.frontImg}
                   style={{
                     width: '100%',

@@ -6,7 +6,8 @@ import ContentList from '../common/ContentList';
 import ZoomableImage from '../common/ZoomableImage';
 
 const StoryPage = () => {
-  const { missionData, storyData, currentMissionId } = useContext(GameContext);
+  const { imgPath, missionData, storyData, currentMissionId } =
+    useContext(GameContext);
   const [currentStories, setCurrentStories] = useState([]);
   const [fullScreenIndex, setFullScreenIndex] = useState(null); // 控制哪張圖全螢幕
 
@@ -35,7 +36,7 @@ const StoryPage = () => {
         renderItem={(story, index) => (
           <ZoomableImage
             key={index}
-            src={`/gameFile/sjqy/img/${story.img}`}
+            src={`${imgPath}/${story.img}`}
             alt={`Image ${index + 1}`}
             title={story.title}
             isFullScreen={fullScreenIndex === index}
