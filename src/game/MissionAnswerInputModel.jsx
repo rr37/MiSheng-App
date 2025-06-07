@@ -91,15 +91,15 @@ const MissionAnswerInputModel = ({ onNext, canProceed }) => {
 
     if (isCorrect) {
       updateMissionStatus(currentMission.id, 'complete');
-      setFeedback(currentMission.success_text);
+      setFeedback(currentMission.successText);
       setIsAnswerCorrect(true);
       setOpenDialog(true); // 打開彈出視窗
     } else if (similarKey) {
       setFeedback(similarAnswers[similarKey]);
       setOpenDialog(true);
     } else if (userAnswer.trim() === '我放棄了') {
-      currentMission.confirmGiveUp_text &&
-        setConfirmGiveUpText(currentMission.confirmGiveUp_text);
+      currentMission.confirmGiveUpText &&
+        setConfirmGiveUpText(currentMission.confirmGiveUpText);
       setOpenConfirmDialog(true); // 顯示確認放棄的對話框
     } else {
       setFeedback('答案錯誤，請再試一次。');
@@ -114,7 +114,7 @@ const MissionAnswerInputModel = ({ onNext, canProceed }) => {
 
   const confirmGiveUp = () => {
     updateMissionStatus(currentMission.id, 'complete');
-    setFeedback(currentMission.giveUp_text);
+    setFeedback(currentMission.giveUpText);
     setIsGiveUp(true);
     setIsAnswerCorrect(true);
     setUserAnswer('');

@@ -23,7 +23,7 @@ const StoryPage = () => {
       return;
     }
     const stories = storyData.filter(
-      (row) => row.mission_id === currentMission.id
+      (row) => row.missionId === currentMission.id
     );
     setCurrentStories(stories);
   }, [currentMission, storyData]);

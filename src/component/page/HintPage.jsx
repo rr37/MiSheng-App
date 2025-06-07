@@ -32,7 +32,7 @@ const HintPage = () => {
       return;
     }
     const filteredHints = hintData.filter(
-      (row) => row.mission_id === currentMission.id
+      (row) => row.missionId === currentMission.id
     );
     const updatedFilteredHints = filteredHints.map((hint) => {
       const speaker = characterData.find((char) => char.name === hint.speaker);

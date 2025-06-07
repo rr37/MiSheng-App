@@ -23,9 +23,7 @@ const PropPage = () => {
       console.log('propData 不是有效的數組！');
       return;
     }
-    const props = propData.filter(
-      (row) => row.mission_id === currentMission.id
-    );
+    const props = propData.filter((row) => row.missionId === currentMission.id);
     setCurrentProps(props);
   }, [currentMission, propData]);
 
