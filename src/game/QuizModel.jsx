@@ -42,7 +42,7 @@ const QuizModel = ({ currentRow }) => {
     } else {
       setSpeaker(null); // 沒有 speaker 時清空
     }
-  }, [currentId]);
+  }, [currentId, currentRow]);
 
   useEffect(() => {
     setBackgroundImg(
