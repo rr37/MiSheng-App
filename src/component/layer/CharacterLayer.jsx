@@ -5,10 +5,9 @@ function CharacterLayer(props) {
       src={props.src}
       style={{
         objectFit: 'contain',
-        objectPosition: 'center',
+        objectPosition: 'top',
         width: '100%',
         height: '100%',
-        top: '20%',
         position: 'relative',
       }}
     ></img>
