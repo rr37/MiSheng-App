@@ -7,7 +7,7 @@ import ZoomableImage from '../common/ZoomableImage';
 import Wheel from '../common/Wheel';
 
 const PropPage = () => {
-  const { imgPath, missionData, propData, currentMissionId } =
+  const { getImg, missionData, propData, currentMissionId } =
     useContext(GameContext);
   const [currentProps, setCurrentProps] = useState([]);
   const [fullScreenIndex, setFullScreenIndex] = useState(null); // 控制哪張圖全螢幕
@@ -36,7 +36,7 @@ const PropPage = () => {
           prop.type === 'Img' ? (
             <ZoomableImage
               key={index}
-              src={`${imgPath}/${prop.img}`}
+              src={getImg(prop.img)}
               alt={`Image ${index + 1}`}
               title={prop.title}
               isFullScreen={fullScreenIndex === index}

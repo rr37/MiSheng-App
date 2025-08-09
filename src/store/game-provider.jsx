@@ -1,6 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { GameContext } from './game-context';
+
+
+// 在模組頂層把所有 img 檔一次攔進來（打包時會生成真實 URL）
+const IMAGE_MAP = import.meta.glob(
+  '/src/gameFile/**/img/**/*.{png,jpg,jpeg,webp,svg,gif}',
+  { eager: true, as: 'url' }
+);
 
 export const GameProvider = ({ children, gameFolder }) => {
   // 只需匯入一次的遊戲資料
@@ -15,13 +22,23 @@ export const GameProvider = ({ children, gameFolder }) => {
 
   // 玩家資料
   const [gameId, setGameId] = useState(null);
-  const [imgPath, setImgPath] = useState(null);
 
-  useEffect(() => {
-    if (gameFolder) {
-      setImgPath(`src/gameFile/${gameFolder}/img`);
-    }
-  }, [gameFolder]);
+  // 用函式取圖，不再用 `src/...` 這種字串 ===
+  const getImg = useCallback(
+    (relPath) => {
+      if (!gameFolder || !relPath) return null;
+
+      // 支援子資料夾：relPath 可傳 'bg2.png' 或 'character/a.png'
+      const keyA = `/src/gameFile/${gameFolder}/img/${relPath}`;
+      const keyB = `/src/gameFile/${gameFolder}/img/${relPath.replace(
+        /^\/+/,
+        ''
+      )}`;
+
+      return IMAGE_MAP[keyA] ?? IMAGE_MAP[keyB] ?? null; // 找不到就回 null
+    },
+    [gameFolder]
+  );
 
   useEffect(() => {
     if (!configData) {
@@ -188,7 +205,7 @@ export const GameProvider = ({ children, gameFolder }) => {
         updateCustomPairs,
 
         gameId,
-        imgPath,
+        getImg,
         clearGameData,
       }}
     >

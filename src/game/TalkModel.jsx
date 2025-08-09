@@ -14,7 +14,7 @@ const Talk = ({ currentRow, onNext, canProceed }) => {
   const [speaker, setSpeaker] = useState(null);
   const [backgroundImg, setBackgroundImg] = useState(null);
   const {
-    imgPath,
+    getImg,
     characterData,
     missionData,
     rundownData,
@@ -102,14 +102,14 @@ const Talk = ({ currentRow, onNext, canProceed }) => {
       {/* Background-image */}
       {backgroundImg && (
         <Layer>
-          <BackgroundLayer src={`${imgPath}/${backgroundImg}`} />
+          <BackgroundLayer src={getImg(backgroundImg)} />
         </Layer>
       )}
 
       {/* Character */}
       {speaker?.straight && (
         <Layer>
-          <CharacterLayer src={`${imgPath}/${speaker?.straight}`} />
+          <CharacterLayer src={getImg(speaker.straight)} />
         </Layer>
       )}
 

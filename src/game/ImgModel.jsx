@@ -7,7 +7,7 @@ import NextButton from '../component/common/NextButton';
 
 const Img = ({ currentRow, onNext, canProceed }) => {
   const [fullScreenIndex, setFullScreenIndex] = useState(null);
-  const { imgPath } = useContext(GameContext);
+  const { getImg } = useContext(GameContext);
 
   return (
     <Box
@@ -27,7 +27,7 @@ const Img = ({ currentRow, onNext, canProceed }) => {
     >
       {currentRow?.backgroundImg && (
         <ZoomableImage
-          src={`${imgPath}/${currentRow.backgroundImg}`}
+          src={getImg(currentRow.backgroundImg)}
           alt={`${currentRow.backgroundImg}`}
           borderRadius={'20px'}
           zoomInFab={'center'}

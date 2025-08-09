@@ -14,7 +14,7 @@ const Wheel = ({
   showZoomButton,
   onToggle,
 }) => {
-  const { imgPath } = useContext(GameContext);
+  const { getImg } = useContext(GameContext);
   const [hasRotateImg2, setHasRotateImg2] = useState(null);
   const [angle, setAngle] = useState(180);
   const [angle2, setAngle2] = useState(180);
@@ -105,7 +105,7 @@ const Wheel = ({
             </Box>
           )}
           <img
-            src={`${imgPath}/${prop.img}`}
+            src={getImg(prop.img)}
             alt={prop.img}
             style={{
               width: '100%',
@@ -172,7 +172,7 @@ const Wheel = ({
                 {/* 可以旋轉的第二張圖片 */}
                 {hasRotateImg2 && (
                   <img
-                    src={`${imgPath}/${prop.rotateImg2}`}
+                    src={getImg(prop.rotateImg2)}
                     alt={prop.rotateImg2}
                     style={{
                       width: '100%',
@@ -189,7 +189,7 @@ const Wheel = ({
 
                 {/* 可以旋轉的那張圖片 */}
                 <img
-                  src={`${imgPath}/${prop.rotateImg1}`}
+                  src={getImg(prop.rotateImg1)}
                   alt={prop.rotateImg1}
                   style={{
                     width: '100%',
@@ -205,7 +205,7 @@ const Wheel = ({
 
                 {/* 不能旋轉的那張圖片 */}
                 <img
-                  src={`${imgPath}/${prop.frontImg}`}
+                  src={getImg(prop.frontImg)}
                   alt={prop.frontImg}
                   style={{
                     width: '100%',

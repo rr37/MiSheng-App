@@ -12,7 +12,7 @@ import AssistantDirectionRoundedIcon from '@mui/icons-material/AssistantDirectio
 import EndIconButton from '../component/common/EndIconButton';
 
 const MissionStart = ({ onNext, canProceed }) => {
-  const { imgPath, missionData, currentMissionId } = useContext(GameContext);
+  const { getImg, missionData, currentMissionId } = useContext(GameContext);
   const currentMission = missionData[currentMissionId];
 
   return (
@@ -20,7 +20,7 @@ const MissionStart = ({ onNext, canProceed }) => {
       {currentMission?.backgroundImg && (
         <Layer>
           <BackgroundLayer
-            src={`${imgPath}/${currentMission.backgroundImg}`}
+            src={getImg(currentMission.backgroundImg)}
             opacity="0.9"
           />
         </Layer>

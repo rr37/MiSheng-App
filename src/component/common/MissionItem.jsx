@@ -11,7 +11,7 @@ import BackgroundLayer from '../layer/BackgroundLayer';
 import PropTypes from 'prop-types';
 
 const MissionItem = ({ mission, isActive, onSelect, onMultiClick }) => {
-  const { imgPath } = useContext(GameContext);
+  const { getImg } = useContext(GameContext);
   return (
     <Paper
       elevation={mission.status ? 8 : 0}
@@ -28,7 +28,7 @@ const MissionItem = ({ mission, isActive, onSelect, onMultiClick }) => {
       {/* Background */}
       <Layer>
         {mission.status ? (
-          <BackgroundLayer src={`${imgPath}/${mission.backgroundImg}`} />
+          <BackgroundLayer src={getImg(mission.backgroundImg)} />
         ) : (
           <Box
             sx={{
